@@ -75,13 +75,13 @@ paths:
           description: "Validation exception"
 
 securityDefinitions:
-  api_key_as_query_parameter:
+  Query Parameter:
     type: "apiKey"
-    name: "api_key"
+    name: "X-Debbie-Auth-Token: <YOUR_VERY_SECRET_TOKEN>"
     in: "header"
-  api_key_in_header:
+  Header Parameter:
     type: "apiKey"
-    name: "API Key in header"
+    name: "authToken"
     in: "header"
 
 definitions:
