@@ -7,7 +7,7 @@ info:
   contact:
     email: "support@debbie.dk"
   x-logo:
-    url: "https://uploads-ssl.webflow.com/5e5fb31db9e1c659f815a101/5e5fb630261bd38680a0092b_Logo.svg"
+    url: "https://debbie-platform.github.io/platform-api-docs/deb-logo.svg"
 host: "petstore.swagger.io"
 basePath: "/v1"
 tags:
