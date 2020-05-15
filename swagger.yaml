@@ -35,7 +35,7 @@ paths:
         - "General"
       summary: "Upload file"
       description: "Store files like invoices and agreements by using this endpoint."
-      operationId: "Upload file"
+      operationId: "upload-file"
       consumes:
         - "application/json"
       produces:
@@ -59,7 +59,7 @@ paths:
         - "General"
       summary: "Retrieve files"
       description: "Get uploaded files with this endpoint."
-      operationId: "Get File"
+      operationId: "get-file"
       produces:
         - "contentType"
       responses:
@@ -71,7 +71,7 @@ paths:
         - "General"
       summary: "Retrieve files"
       description: "Get uploaded files with this endpoint."
-      operationId: "Get File with optional file name"
+      operationId: "get-file-with-optional-file-name"
       produces:
         - "contentType"
       responses:
@@ -83,7 +83,7 @@ paths:
         - "Cases"
       summary: "Create new case"
       description: "Upload new cases"
-      operationId: "Create Case"
+      operationId: "create-case"
       consumes:
         - "application/json"
       produces:
@@ -104,7 +104,7 @@ paths:
         - "Cases"
       summary: "How to authenticate to the platform"
       description: "Different ways to authenticate"
-      operationId: "Get Case"
+      operationId: "get-case"
       consumes:
         - "application/json"
       produces:
@@ -126,7 +126,7 @@ paths:
         - "Economy"
       summary: "Add deposit"
       description: "Add deposit to a case or without a case"
-      operationId: "Add deposit"
+      operationId: "add-deposit"
       responses:
         "405":
           description: "Invalid input"
@@ -137,7 +137,7 @@ paths:
         - "Creditors"
       summary: "Create creditor"
       description: "Create new creditor"
-      operationId: "Create Creditor"
+      operationId: "create-creditor"
       responses:
         "405":
           description: "Invalid input"
@@ -147,7 +147,7 @@ paths:
         - "Creditors"
       summary: "Get creditor"
       description: "Get creditor"
-      operationId: "Get Creditor"
+      operationId: "get-creditor"
       responses:
         "405":
           description: "Invalid input"
@@ -157,7 +157,7 @@ paths:
         - "Creditors"
       summary: "Update creditor"
       description: "Update creditor"
-      operationId: "Update Creditor"
+      operationId: "update-creditor"
       responses:
         "405":
           description: "Invalid input"
@@ -168,7 +168,7 @@ paths:
         - "Updates"
       summary: "Add update to a case"
       description: "Add an update to a case to describe it and/or to pause the case and/or remind a caseworker."
-      operationId: "New update"
+      operationId: "new-update"
       responses:
         "405":
           description: "Invalid input"
@@ -178,7 +178,7 @@ paths:
         - "Updates"
       summary: "Get update on a case"
       description: "Get all updates on a case."
-      operationId: "Get Updates On Case"
+      operationId: "get-updates-on-case"
       responses:
         "405":
           description: "Invalid input"
@@ -189,7 +189,7 @@ paths:
         - "Updates"
       summary: "Get update types"
       description: "Get all possible update types"
-      operationId: "Get Update Types"
+      operationId: "get-update-types"
       responses:
         "405":
           description: "Invalid input"
@@ -200,7 +200,7 @@ paths:
         - "Interactions"
       summary: "Create interactions"
       description: "Create notes, emails, messages and much more"
-      operationId: "Create New Interactions"
+      operationId: "create-new-interactions"
       responses:
         "405":
           description: "Invalid input"
@@ -210,7 +210,7 @@ paths:
         - "Interactions"
       summary: "Create notes, messages and much more"
       description: "Different ways to authenticate"
-      operationId: "Get Interactions On Case"
+      operationId: "get-interactions-on-case"
       responses:
         "405":
           description: "Invalid input"
@@ -221,7 +221,7 @@ paths:
         - "Webhooks"
       summary: "Create webhook"
       description: "Create new webhook"
-      operationId: "Create New Webhook"
+      operationId: "create-new-webhook"
       responses:
         "405":
           description: "Invalid input"
@@ -231,7 +231,7 @@ paths:
         - "Webhooks"
       summary: "Get webhooks"
       description: "Get webhook"
-      operationId: "Get Webhook"
+      operationId: "get-webhook"
       responses:
         "405":
           description: "Invalid input"
@@ -241,7 +241,7 @@ paths:
         - "Webhooks"
       summary: "Delete webhook"
       description: "Delete created webhook"
-      operationId: "Delete Webhook"
+      operationId: "delete-webhook"
       responses:
         "405":
           description: "Invalid input"
