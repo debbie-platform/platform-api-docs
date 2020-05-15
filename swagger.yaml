@@ -49,7 +49,7 @@ paths:
             $ref: "#/definitions/NewFile"
       responses:
         "200":
-          description: "successful operation"
+          description: "Successful operation"
           schema:
             $ref: "#/definitions/File"
 
@@ -64,7 +64,7 @@ paths:
         - "contentType"
       responses:
         "200":
-          description: "Success"
+          description: "Successful operation"
   /files/:fileId/:optionalFileName:
     get:
       tags:
@@ -73,10 +73,12 @@ paths:
       description: "Get uploaded files with this endpoint."
       operationId: "get-file-with-optional-file-name"
       produces:
-        - "contentType"
+        - "contentType of file"
       responses:
         "200":
-          description: "Success"
+          description: "Successful operation"
+        "404":
+          description: "Not found"
   /cases:
     post:
       tags:
@@ -91,45 +93,59 @@ paths:
       parameters:
         - in: "body"
           name: "body"
-          description: "Pet object that needs to be added to the store"
+          description: "New case object"
           required: true
           schema:
-            $ref: "#/definitions/File"
+            $ref: "#/definitions/NewCase"
       responses:
-        "405":
-          description: "Invalid input"
+        "200":
+          description: "Successful operation"
+
   /cases/:caseId:
     get:
       tags:
         - "Cases"
-      summary: "How to authenticate to the platform"
-      description: "Different ways to authenticate"
+      summary: "Get case"
+      description: "Get a case by caseId"
       operationId: "get-case"
-      consumes:
-        - "application/json"
       produces:
         - "application/json"
-      parameters:
-        - in: "body"
-          name: "body"
-          description: "Pet object that needs to be added to the store"
-          required: true
-          schema:
-            $ref: "#/definitions/File"
       responses:
-        "405":
-          description: "Invalid input"
+        "200":
+          description: "Successful operation"
+          schema:
+            $ref: "#/definitions/Case"
 
-  /economy:
+  /economy/:caseId:
     post:
       tags:
         - "Economy"
-      summary: "Add deposit"
-      description: "Add deposit to a case or without a case"
-      operationId: "add-deposit"
+      summary: "Add deposit or debt"
+      description: "Add voucher"
+      operationId: "add-economy"
+      parameters:
+        - in: "body"
+          name: "body"
+          description: "Bew economy object"
+          required: true
+          schema:
+            $ref: "#/definitions/NewEconomy"
       responses:
-        "405":
-          description: "Invalid input"
+        "200":
+          description: "Successful operation"
+          schema:
+            $ref: "#/definitions/Economy"
+    get:
+      tags:
+        - "Economy"
+      summary: "Get economy on case"
+      description: "Add deposit to a case or without a case"
+      operationId: "get-economy"
+      responses:
+        "200":
+          description: "Successful operation"
+          schema:
+            $ref: "#/definitions/Economy"
 
   /creditors:
     post:
@@ -138,9 +154,18 @@ paths:
       summary: "Create creditor"
       description: "Create new creditor"
       operationId: "create-creditor"
+      parameters:
+        - in: "body"
+          name: "body"
+          description: "Bew economy object"
+          required: true
+          schema:
+            $ref: "#/definitions/NewCreditor"
       responses:
-        "405":
-          description: "Invalid input"
+        "200":
+          description: "Successful operation"
+          schema:
+            $ref: "#/definitions/Creditor"
 
     get:
       tags:
@@ -149,8 +174,10 @@ paths:
       description: "Get creditor"
       operationId: "get-creditor"
       responses:
-        "405":
-          description: "Invalid input"
+        "200":
+          description: "Successful operation"
+          schema:
+            $ref: "#/definitions/Creditor"
 
     put:
       tags:
@@ -159,8 +186,8 @@ paths:
       description: "Update creditor"
       operationId: "update-creditor"
       responses:
-        "405":
-          description: "Invalid input"
+        "200":
+          description: "Successful operation"
 
   /updates/:caseId:
     post:
@@ -169,9 +196,18 @@ paths:
       summary: "Add update to a case"
       description: "Add an update to a case to describe it and/or to pause the case and/or remind a caseworker."
       operationId: "new-update"
+      parameters:
+        - in: "body"
+          name: "body"
+          description: "Bew economy object"
+          required: true
+          schema:
+            $ref: "#/definitions/NewUpdate"
       responses:
-        "405":
-          description: "Invalid input"
+        "200":
+          description: "Successful operation"
+          schema:
+            $ref: "#/definitions/Update"
 
     get:
       tags:
@@ -180,8 +216,10 @@ paths:
       description: "Get all updates on a case."
       operationId: "get-updates-on-case"
       responses:
-        "405":
-          description: "Invalid input"
+        "200":
+          description: "Successful operation"
+          schema:
+            $ref: "#/definitions/Update"
 
   /updates/types:
     get:
@@ -191,8 +229,10 @@ paths:
       description: "Get all possible update types"
       operationId: "get-update-types"
       responses:
-        "405":
-          description: "Invalid input"
+        "200":
+          description: "Successful operation"
+          schema:
+            $ref: "#/definitions/UpdateTypes"
 
   /interations/:caseId:
     post:
@@ -201,19 +241,31 @@ paths:
       summary: "Create interactions"
       description: "Create notes, emails, messages and much more"
       operationId: "create-new-interactions"
+      parameters:
+        - in: "body"
+          name: "body"
+          description: "Bew economy object"
+          required: true
+          schema:
+            $ref: "#/definitions/NewInteraction"
       responses:
-        "405":
-          description: "Invalid input"
+        "200":
+          description: "Successful operation"
+          schema:
+            $ref: "#/definitions/Interaction"
 
     get:
       tags:
         - "Interactions"
       summary: "Create notes, messages and much more"
       description: "Different ways to authenticate"
-      operationId: "get-interactions-on-case"
       responses:
-        "405":
-          description: "Invalid input"
+        "200":
+          description: "Successful operation"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Interaction"
 
   /webhooks:
     post:
@@ -222,9 +274,18 @@ paths:
       summary: "Create webhook"
       description: "Create new webhook"
       operationId: "create-new-webhook"
+      parameters:
+        - in: "body"
+          name: "body"
+          description: "New economy object"
+          required: true
+          schema:
+            $ref: "#/definitions/NewWebhook"
       responses:
-        "405":
-          description: "Invalid input"
+        "200":
+          description: "Successful operation"
+          schema:
+            $ref: "#/definitions/Webhook"
 
     get:
       tags:
@@ -233,8 +294,12 @@ paths:
       description: "Get webhook"
       operationId: "get-webhook"
       responses:
-        "405":
-          description: "Invalid input"
+        "200":
+          description: "Successful operation"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Webhook"
 
     delete:
       tags:
@@ -243,8 +308,8 @@ paths:
       description: "Delete created webhook"
       operationId: "delete-webhook"
       responses:
-        "405":
-          description: "Invalid input"
+        "200":
+          description: "Successful operation"
 
 securityDefinitions:
   Query Parameter:
@@ -257,6 +322,19 @@ securityDefinitions:
     in: "query"
 
 definitions:
+  Address:
+    type: "object"
+    properties:
+      address:
+        type: "string"
+      coAddress:
+        type: "string"
+      zipcode:
+        type: "string"
+      city:
+        type: "string"
+      country:
+        type: "string"
   NewFile:
     type: "object"
     properties:
@@ -268,6 +346,206 @@ definitions:
       contentType:
         type: "string"
   File:
+    type: "object"
+    properties:
+      fileId:
+        type: "string"
+
+  NewCase:
+    type: "object"
+    properties:
+      creditorReferenceId:
+        type: "string"
+      isCompany:
+        type: "boolean"
+      creditorId:
+        type: "string"
+      debtors:
+        type: "object"
+        properties:
+          isCompany:
+            type: "boolean"
+          name:
+            type: "string"
+          cpr:
+            type: "string"
+          cvr:
+            type: "string"
+          email:
+            type: "string"
+          phone:
+            type: "string"
+          address:
+            $ref: "#/definitions/Address"
+      caseGroupId:
+        type: "string"
+      chainId:
+        type: "string"
+      caseImportId:
+        type: "string"
+      customerTerminated:
+        type: "boolean"
+      financials:
+        type: "object"
+        properties:
+          debts:
+            type: "object"
+            properties:
+              filePath:
+                type: "string"
+
+  Case:
+    type: "object"
+    properties:
+      id:
+        type: "number"
+      exitReason:
+        type: "string"
+        enum:
+          - "Paid"
+          - "DebtorEmigrated"
+          - "Dead"
+          - "Objection"
+          - "Withdrawn"
+          - "OfferFromUs"
+          - "OfferFromDebtor"
+          - "DebtRelief"
+          - "Bankruptcy"
+          - "ForcedDissolved"
+          - "ConflictOfInterest"
+          - "NegativePayoff"
+          - "Overpayment"
+          - "Minor"
+          - "Irrecoverable"
+          - "PartiallyPaid"
+          - "CreditorUnresponsive"
+          - "ErrorCreditor"
+          - "ErrorUs"
+          - "Expiration"
+          - "Departed"
+          - "Unidentified"
+          - "AddressUnknown"
+      isCompany:
+        type: "boolean"
+      hasFoundation:
+        type: "boolean"
+      caseId:
+        type: "string"
+      createdAt:
+        type: "string"
+      ownerId:
+        type: "string"
+      caseGroup:
+        type: "string"
+      status:
+        type: "string"
+        enum:
+          - "PENDING"
+          - "VERIFIED"
+          - "CANCELED"
+          - "ENDED"
+      statusTime:
+        type: "string"
+      creditorReferenceId:
+        type: "string"
+      collectorId:
+        type: "string"
+      debtorContactId:
+        type: "string"
+      chainId:
+        type: "string"
+      alternativeContactId:
+        type: "string"
+      creditor:
+        type: "object"
+      debtors:
+        type: "object"
+      contactPerson:
+        type: "object"
+      alternativeContact:
+        type: "object"
+      collector:
+        type: "object"
+      financials:
+        type: "object"
+      paymentPlan:
+        type: "object"
+  NewEconomy:
+    type: "object"
+    properties:
+      content:
+        type: "string"
+        format: "base64"
+      fileName:
+        type: "string"
+      contentType:
+        type: "string"
+  Economy:
+    type: "object"
+    properties:
+      fileId:
+        type: "string"
+  NewUpdate:
+    type: "object"
+    properties:
+      content:
+        type: "string"
+        format: "base64"
+      fileName:
+        type: "string"
+      contentType:
+        type: "string"
+  Update:
+    type: "object"
+    properties:
+      fileId:
+        type: "string"
+  UpdateTypes:
+    type: "object"
+    properties:
+      fileId:
+        type: "string"
+  NewCreditor:
+    type: "object"
+    properties:
+      content:
+        type: "string"
+        format: "base64"
+      fileName:
+        type: "string"
+      contentType:
+        type: "string"
+  Creditor:
+    type: "object"
+    properties:
+      fileId:
+        type: "string"
+  NewInteraction:
+    type: "object"
+    properties:
+      content:
+        type: "string"
+        format: "base64"
+      fileName:
+        type: "string"
+      contentType:
+        type: "string"
+  Interaction:
+    type: "object"
+    properties:
+      fileId:
+        type: "string"
+  NewWebhook:
+    type: "object"
+    properties:
+      content:
+        type: "string"
+        format: "base64"
+      fileName:
+        type: "string"
+      contentType:
+        type: "string"
+  Webhook:
     type: "object"
     properties:
       fileId:
