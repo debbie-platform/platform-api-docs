@@ -270,7 +270,7 @@ paths:
             items:
               $ref: "#/definitions/Interaction"
 
-  /webhooks:
+  /hooks:
     post:
       tags:
         - "Webhooks"
@@ -280,7 +280,7 @@ paths:
       parameters:
         - in: "body"
           name: "body"
-          description: "New webhook"
+          description: "New economy object"
           required: true
           schema:
             $ref: "#/definitions/NewWebhook"
@@ -304,6 +304,7 @@ paths:
             items:
               $ref: "#/definitions/Webhook"
 
+  /hooks/:id:
     delete:
       tags:
         - "Webhooks"
