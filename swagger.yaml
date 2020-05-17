@@ -280,7 +280,7 @@ paths:
       parameters:
         - in: "body"
           name: "body"
-          description: "New economy object"
+          description: "New webhook object"
           required: true
           schema:
             $ref: "#/definitions/NewWebhook"
@@ -294,8 +294,8 @@ paths:
       tags:
         - "Webhooks"
       summary: "Get webhooks"
-      description: "Get webhook"
-      operationId: "get-webhook"
+      description: "Get webhooks"
+      operationId: "get-webhooks"
       responses:
         "200":
           description: "Successful operation"
