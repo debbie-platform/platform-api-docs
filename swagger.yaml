@@ -176,7 +176,9 @@ paths:
         "200":
           description: "Successful operation"
           schema:
-            $ref: "#/definitions/Creditor"
+            type: "array"
+            items:
+              $ref: "#/definitions/Creditor"
 
     put:
       tags:
