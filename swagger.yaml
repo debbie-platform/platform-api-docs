@@ -3,7 +3,6 @@ info:
   description: "The Debbie APIs is a RESTful interface, allowing you to programmatically update, add and access much of your data on the platform. It provides predictable URLs for accessing resources, and uses built-in HTTP features to receive commands and return responses. This makes it easy to communicate with third party systems."
   version: "v1.0.0"
   title: "Debbie Platform API Docs"
-  termsOfService: "https://debbie.dk/terms"
   contact:
     email: "support@debbie.dk"
   x-logo:
@@ -232,7 +231,9 @@ paths:
         "200":
           description: "Successful operation"
           schema:
-            $ref: "#/definitions/UpdateTypes"
+            type: "array"
+            items:
+              $ref: "#/definitions/UpdateType"
 
   /interations/:caseId:
     post:
@@ -335,6 +336,27 @@ definitions:
         type: "string"
       country:
         type: "string"
+
+  Account:
+    type: "object"
+    properties:
+      firstname:
+        type: "string"
+      lastname:
+        type: "string"
+      permissionLevel:
+        type: "string"
+      accountId:
+        type: "string"
+
+  Price:
+    type: "object"
+    properties:
+      amount:
+        type: "number"
+      currency:
+        type: "string"
+
   NewFile:
     type: "object"
     properties:
@@ -345,6 +367,7 @@ definitions:
         type: "string"
       contentType:
         type: "string"
+
   File:
     type: "object"
     properties:
@@ -464,92 +487,288 @@ definitions:
         type: "object"
       alternativeContact:
         type: "object"
-      collector:
-        type: "object"
       financials:
-        type: "object"
-      paymentPlan:
         type: "object"
   NewEconomy:
     type: "object"
     properties:
-      content:
+      eventType:
         type: "string"
-        format: "base64"
-      fileName:
+      caseId:
         type: "string"
-      contentType:
+      refVoucherId:
         type: "string"
+      description:
+        type: "string"
+      file:
+        $ref: "#/definitions/File"
+      referenceId:
+        type: "string"
+      typeId:
+        type: "string"
+      fromCreditor:
+        type: "boolean"
+      price:
+        $ref: "#/definitions/Price"
+      interest:
+        type: "number"
+      issueDate:
+        type: "string"
+      dueDate:
+        type: "string"
+      interestStartDate:
+        type: "string"
+      interestEndDate:
+        type: "string"
+
   Economy:
     type: "object"
     properties:
-      fileId:
+      eventType:
         type: "string"
+      voucherId:
+        type: "string"
+      caseId:
+        type: "string"
+      refVoucherId:
+        type: "string"
+      description:
+        type: "string"
+      category:
+        type: "string"
+      createdAt:
+        type: "string"
+      file:
+        $ref: "#/definitions/File"
+      referenceId:
+        type: "string"
+      typeId:
+        type: "string"
+      fromCreditor:
+        type: "boolean"
+      price:
+        $ref: "#/definitions/Price"
+      interest:
+        type: "number"
+      issueDate:
+        type: "string"
+      dueDate:
+        type: "string"
+      interestStartDate:
+        type: "string"
+      interestEndDate:
+        type: "string"
+      debtorId:
+        type: "string"
+
   NewUpdate:
     type: "object"
     properties:
-      content:
+      updateId:
         type: "string"
-        format: "base64"
-      fileName:
+      debtorId:
         type: "string"
-      contentType:
+      caseId:
         type: "string"
+      update:
+        type: "string"
+      updateTypeId:
+        type: "string"
+      pausedAt:
+        type: "string"
+      remindedAt:
+        type: "string"
+      continuedAt:
+        type: "string"
+
   Update:
     type: "object"
     properties:
-      fileId:
+      updateId:
         type: "string"
-  UpdateTypes:
+      debtorId:
+        type: "string"
+      caseId:
+        type: "string"
+      label:
+        type: "string"
+      description:
+        type: "string"
+      update:
+        type: "string"
+      createdAt:
+        type: "string"
+      updateTypeId:
+        type: "string"
+      updateTypeGroupId:
+        type: "string"
+      updateTypeGroupLabel:
+        type: "string"
+      responsiblePermissionLevel:
+        type: "string"
+      createdByAccount:
+        type: "string"
+      pausedAt:
+        type: "string"
+      remindedAt:
+        type: "string"
+      continuedAt:
+        type: "string"
+      rottensAfterMs:
+        type: "number"
+      continuedByAccount:
+        $ref: "#/definitions/Account"
+
+  UpdateType:
     type: "object"
     properties:
-      fileId:
+      updateTypeId:
         type: "string"
+      label:
+        type: "string"
+      groupId:
+        type: "string"
+      description:
+        type: "string"
+      groupLabel:
+        type: "string"
+      responsiblePermissionLevel:
+        type: "string"
+
   NewCreditor:
     type: "object"
     properties:
-      content:
+      name:
         type: "string"
-        format: "base64"
-      fileName:
+      ownerId:
         type: "string"
-      contentType:
+      defaultChainId:
         type: "string"
+      defaultCollectorId:
+        type: "string"
+
   Creditor:
     type: "object"
     properties:
-      fileId:
+      creditorId:
         type: "string"
+      name:
+        type: "string"
+      ownerId:
+        type: "string"
+      defaultChainId:
+        type: "string"
+      defaultCollectorId:
+        type: "string"
+
   NewInteraction:
     type: "object"
     properties:
-      content:
+      direction:
         type: "string"
-        format: "base64"
-      fileName:
+        enum:
+          - "Incoming"
+          - "Outgoing"
+      type:
         type: "string"
-      contentType:
+        enum:
+          - "Email"
+          - "Eboks"
+          - "SMS"
+          - "Letter"
+          - "Phone"
+          - "Note"
+          - "Personal"
+          - "ClientNote"
+          - "DebtorNote"
+          - "AutoCall"
+      state:
         type: "string"
+        enum:
+          - "UNMAPPED"
+          - "MAPPED"
+          - "HANDLED"
+          - "DELETED"
+          - "PENDING"
+          - "CANCELLED"
+          - "SENT"
+          - "QUEUED"
+      case:
+        type: "string"
+      notes:
+        type: "string"
+      templateId:
+        type: "string"
+      details:
+        type: "object"
+
   Interaction:
     type: "object"
     properties:
-      fileId:
+      id:
         type: "string"
+      direction:
+        type: "string"
+        enum:
+          - "Incoming"
+          - "Outgoing"
+      type:
+        type: "string"
+        enum:
+          - "Email"
+          - "Eboks"
+          - "SMS"
+          - "Letter"
+          - "Phone"
+          - "Note"
+          - "Personal"
+          - "ClientNote"
+          - "DebtorNote"
+          - "AutoCall"
+      state:
+        type: "string"
+        enum:
+          - "UNMAPPED"
+          - "MAPPED"
+          - "HANDLED"
+          - "DELETED"
+          - "PENDING"
+          - "CANCELLED"
+          - "SENT"
+          - "QUEUED"
+      case:
+        type: "string"
+      notes:
+        type: "string"
+      transacted:
+        type: "string"
+      handler:
+        type: "string"
+      createdAt:
+        type: "string"
+      createdByAccount:
+        type: "string"
+      templateId:
+        type: "string"
+      details:
+        type: "object"
+
   NewWebhook:
     type: "object"
     properties:
-      content:
+      endpoint:
         type: "string"
-        format: "base64"
-      fileName:
-        type: "string"
-      contentType:
-        type: "string"
+
   Webhook:
     type: "object"
     properties:
-      fileId:
+      webhookId:
         type: "string"
+      endpoint:
+        type: "string"
+      createdAt:
+        type: "string"
+
 externalDocs:
   description: "Find out more about Debbie"
   url: "https://debbie.dk"
