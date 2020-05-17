@@ -125,7 +125,7 @@ paths:
       parameters:
         - in: "body"
           name: "body"
-          description: "Bew economy object"
+          description: "New economy object"
           required: true
           schema:
             $ref: "#/definitions/NewEconomy"
@@ -156,7 +156,7 @@ paths:
       parameters:
         - in: "body"
           name: "body"
-          description: "Bew economy object"
+          description: "New creditor"
           required: true
           schema:
             $ref: "#/definitions/NewCreditor"
@@ -200,7 +200,7 @@ paths:
       parameters:
         - in: "body"
           name: "body"
-          description: "Bew economy object"
+          description: "New update object"
           required: true
           schema:
             $ref: "#/definitions/NewUpdate"
@@ -247,7 +247,7 @@ paths:
       parameters:
         - in: "body"
           name: "body"
-          description: "Bew economy object"
+          description: "Create a new interaction connected to a case."
           required: true
           schema:
             $ref: "#/definitions/NewInteraction"
@@ -261,7 +261,7 @@ paths:
       tags:
         - "Interactions"
       summary: "Create notes, messages and much more"
-      description: "Different ways to authenticate"
+      description: "Get interactions on a case."
       responses:
         "200":
           description: "Successful operation"
@@ -280,7 +280,7 @@ paths:
       parameters:
         - in: "body"
           name: "body"
-          description: "New economy object"
+          description: "New webhook"
           required: true
           schema:
             $ref: "#/definitions/NewWebhook"
@@ -315,11 +315,11 @@ paths:
           description: "Successful operation"
 
 securityDefinitions:
-  Query Parameter:
+  Header Parameter:
     type: "apiKey"
     name: "X-Debbie-Auth-Token: <YOUR_VERY_SECRET_TOKEN>"
     in: "header"
-  Header Parameter:
+  Query Parameter:
     type: "apiKey"
     name: "authToken=<YOUR_VERY_SECRET_TOKEN>"
     in: "query"
