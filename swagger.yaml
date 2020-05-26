@@ -419,6 +419,20 @@ definitions:
             properties:
               filePath:
                 type: "string"
+      opposition:
+        type: "object"
+        properties:
+          reason:
+            type: "string"
+      foundation:
+        type: "object"
+        properties:
+          fileId:
+            type: "string"
+          type:
+            type: "string"
+          date:
+            type: "string"
 
   Case:
     type: "object"
