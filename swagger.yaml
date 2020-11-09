@@ -1,7 +1,7 @@
 swagger: "2.0"
 info:
   description: "The Debbie APIs is a RESTful interface, allowing you to programmatically update, add and access much of your data on the platform. It provides predictable URLs for accessing resources, and uses built-in HTTP features to receive commands and return responses. This makes it easy to communicate with third party systems."
-  version: "v1.0.0"
+  version: "v1.2.1"
   title: "Debbie Platform API Docs"
   contact:
     email: "support@debbie.dk"
@@ -78,7 +78,7 @@ paths:
           description: "Successful operation"
         "404":
           description: "Not found"
-  /cases:
+  /:tenantId/cases:
     post:
       tags:
         - "Cases"
@@ -316,14 +316,10 @@ paths:
           description: "Successful operation"
 
 securityDefinitions:
-  Header Parameter:
-    type: "apiKey"
-    name: "X-Debbie-Auth-Token: <YOUR_VERY_SECRET_TOKEN>"
-    in: "header"
-  Query Parameter:
-    type: "apiKey"
-    name: "authToken=<YOUR_VERY_SECRET_TOKEN>"
-    in: "query"
+  Bearer:
+    type: apiKey
+    name: Authorization
+    in: header
 
 definitions:
   Address:
@@ -377,62 +373,82 @@ definitions:
       fileId:
         type: "string"
 
+  NewVoucherFile:
+    type: object
+    properties: 
+      fileName:
+        type: string
+      contentType:
+        type: string
+      fileId:
+        type: string
+
+  NewVoucher:
+    type: object
+    properties: 
+      voucherTypeId:
+        type: string
+      amount:
+        type: integer
+      referenceId:
+        type: string
+      interest:
+        type: string
+      date:
+        type: string
+      interestStartDate:
+        type: string
+      interestEndDate:
+        type: string
+      dueDate:
+        type: string
+      appendix:
+        $ref: "#/definitions/NewVoucherFile" 
+      imposedByCreditor:
+        type: boolean
+      referenceVouchers:
+        type: array
+        items:
+          $ref: "#/definitions/NewVoucher"
+
   NewCase:
     type: "object"
     properties:
-      creditorReferenceId:
-        type: "string"
-      isCompany:
-        type: "boolean"
       creditorId:
         type: "string"
-      debtors:
-        type: "object"
-        properties:
-          isCompany:
-            type: "boolean"
-          name:
-            type: "string"
-          cpr:
-            type: "string"
-          cvr:
-            type: "string"
-          email:
-            type: "string"
-          phone:
-            type: "string"
-          address:
-            $ref: "#/definitions/Address"
-      caseGroupId:
+      referenceId:
         type: "string"
       chainId:
         type: "string"
       caseImportId:
         type: "string"
-      customerTerminated:
+      isCompany:
         type: "boolean"
-      financials:
-        type: "object"
-        properties:
-          debts:
-            type: "object"
-            properties:
-              filePath:
-                type: "string"
-      opposition:
-        type: "object"
-        properties:
-          reason:
-            type: "string"
-      foundation:
-        type: "object"
-        properties:
-          fileId:
-            type: "string"
-          type:
-            type: "string"
-          date:
-            type: "string"
+      debtors:
+        type: array
+        items:
+          type: "object"
+          properties:
+            isCompany:
+              type: "boolean"
+            name:
+              type: "string"
+            cpr:
+              type: "string"
+            cvr:
+              type: "string"
+            email:
+              type: "string"
+            phone:
+              type: "string"
+            address:
+              $ref: "#/definitions/Address"
+      vouchers:
+        type: array
+        items:
+          $ref: "#/definitions/NewVoucher"
+
+
 
   Case:
     type: "object"
