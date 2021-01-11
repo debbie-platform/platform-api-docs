@@ -1,807 +1,275 @@
-swagger: "2.0"
+openapi: 3.0.1
+
 info:
-  description: "The Debbie APIs is a RESTful interface, allowing you to programmatically update, add and access much of your data on the platform. It provides predictable URLs for accessing resources, and uses built-in HTTP features to receive commands and return responses. This makes it easy to communicate with third party systems."
-  version: "v1.2.1"
-  title: "Debbie Platform API Docs"
+  title: Debbie Platform API Docs
+  description: The Debbie APIs is a RESTful interface, allowing you to programmatically
+    update, add and access your data on the platform. It provides predictable URLs
+    for accessing resources, and uses built-in HTTP features to receive commands and
+    return responses. This makes it easy to communicate with third party systems.
   contact:
-    email: "support@debbie.dk"
+    email: support@debbie.dk
+  version: v0.1.0
   x-logo:
-    url: "https://debbie-platform.github.io/platform-api-docs/deb-logo.svg"
-host: "api.debbieapp.com"
-
-basePath: "/v1"
-tags:
-  - name: "General"
-    description: "The API fundamentals"
-  - name: "Cases"
-    description: "Everything about cases"
-  - name: "Economy"
-    description: "Everything about economy"
-  - name: "Creditors"
-    description: "Create and update creditors"
-  - name: "Updates"
-    description: "Update case"
-  - name: "Interactions"
-    description: "Create notes and messages"
-  - name: "Webhooks"
-    description: "Register new webhooks and delete them"
-schemes:
-  - "https"
-paths:
-  /files:
-    post:
-      tags:
-        - "General"
-      summary: "Upload file"
-      description: "Store files like invoices and agreements by using this endpoint."
-      operationId: "upload-file"
-      consumes:
-        - "application/json"
-      produces:
-        - "application/json"
-      parameters:
-        - in: "body"
-          name: "body"
-          description: "Data for the file"
-          required: true
-          schema:
-            $ref: "#/definitions/NewFile"
-      responses:
-        "200":
-          description: "Successful operation"
-          schema:
-            $ref: "#/definitions/File"
-
-  /files/:fileId:
-    get:
-      tags:
-        - "General"
-      summary: "Retrieve files"
-      description: "Get uploaded files with this endpoint."
-      operationId: "get-file"
-      produces:
-        - "contentType"
-      responses:
-        "200":
-          description: "Successful operation"
-  /files/:fileId/:optionalFileName:
-    get:
-      tags:
-        - "General"
-      summary: "Retrieve files"
-      description: "Get uploaded files with this endpoint."
-      operationId: "get-file-with-optional-file-name"
-      produces:
-        - "contentType of file"
-      responses:
-        "200":
-          description: "Successful operation"
-        "404":
-          description: "Not found"
-  /:tenantId/cases:
-    post:
-      tags:
-        - "Cases"
-      summary: "Create new case"
-      description: "Upload new cases"
-      operationId: "create-case"
-      consumes:
-        - "application/json"
-      produces:
-        - "application/json"
-      parameters:
-        - in: "body"
-          name: "body"
-          description: "New case object"
-          required: true
-          schema:
-            $ref: "#/definitions/NewCase"
-      responses:
-        "200":
-          description: "Successful operation"
-
-  /cases/:caseId:
-    get:
-      tags:
-        - "Cases"
-      summary: "Get case"
-      description: "Get a case by caseId"
-      operationId: "get-case"
-      produces:
-        - "application/json"
-      responses:
-        "200":
-          description: "Successful operation"
-          schema:
-            $ref: "#/definitions/Case"
-
-  /economy/:caseId:
-    post:
-      tags:
-        - "Economy"
-      summary: "Add deposit or debt"
-      description: "Add voucher"
-      operationId: "add-economy"
-      parameters:
-        - in: "body"
-          name: "body"
-          description: "New economy object"
-          required: true
-          schema:
-            $ref: "#/definitions/NewEconomy"
-      responses:
-        "200":
-          description: "Successful operation"
-          schema:
-            $ref: "#/definitions/Economy"
-    get:
-      tags:
-        - "Economy"
-      summary: "Get economy on case"
-      description: "Add deposit to a case or without a case"
-      operationId: "get-economy"
-      responses:
-        "200":
-          description: "Successful operation"
-          schema:
-            $ref: "#/definitions/Economy"
-
-  /creditors:
-    post:
-      tags:
-        - "Creditors"
-      summary: "Create creditor"
-      description: "Create new creditor"
-      operationId: "create-creditor"
-      parameters:
-        - in: "body"
-          name: "body"
-          description: "New creditor"
-          required: true
-          schema:
-            $ref: "#/definitions/NewCreditor"
-      responses:
-        "200":
-          description: "Successful operation"
-          schema:
-            $ref: "#/definitions/Creditor"
-
-    get:
-      tags:
-        - "Creditors"
-      summary: "Get creditor"
-      description: "Get creditor"
-      operationId: "get-creditor"
-      responses:
-        "200":
-          description: "Successful operation"
-          schema:
-            type: "array"
-            items:
-              $ref: "#/definitions/Creditor"
-
-    put:
-      tags:
-        - "Creditors"
-      summary: "Update creditor"
-      description: "Update creditor"
-      operationId: "update-creditor"
-      responses:
-        "200":
-          description: "Successful operation"
-
-  /updates/:caseId:
-    post:
-      tags:
-        - "Updates"
-      summary: "Add update to a case"
-      description: "Add an update to a case to describe it and/or to pause the case and/or remind a caseworker."
-      operationId: "new-update"
-      parameters:
-        - in: "body"
-          name: "body"
-          description: "New update object"
-          required: true
-          schema:
-            $ref: "#/definitions/NewUpdate"
-      responses:
-        "200":
-          description: "Successful operation"
-          schema:
-            $ref: "#/definitions/Update"
-
-    get:
-      tags:
-        - "Updates"
-      summary: "Get update on a case"
-      description: "Get all updates on a case."
-      operationId: "get-updates-on-case"
-      responses:
-        "200":
-          description: "Successful operation"
-          schema:
-            $ref: "#/definitions/Update"
-
-  /updates/types:
-    get:
-      tags:
-        - "Updates"
-      summary: "Get update types"
-      description: "Get all possible update types"
-      operationId: "get-update-types"
-      responses:
-        "200":
-          description: "Successful operation"
-          schema:
-            type: "array"
-            items:
-              $ref: "#/definitions/UpdateType"
-
-  /interations/:caseId:
-    post:
-      tags:
-        - "Interactions"
-      summary: "Create interactions"
-      description: "Create notes, emails, messages and much more"
-      operationId: "create-new-interactions"
-      parameters:
-        - in: "body"
-          name: "body"
-          description: "Create a new interaction connected to a case."
-          required: true
-          schema:
-            $ref: "#/definitions/NewInteraction"
-      responses:
-        "200":
-          description: "Successful operation"
-          schema:
-            $ref: "#/definitions/Interaction"
-
-    get:
-      tags:
-        - "Interactions"
-      summary: "Create notes, messages and much more"
-      description: "Get interactions on a case."
-      responses:
-        "200":
-          description: "Successful operation"
-          schema:
-            type: "array"
-            items:
-              $ref: "#/definitions/Interaction"
-
-  /hooks:
-    post:
-      tags:
-        - "Webhooks"
-      summary: "Create webhook"
-      description: "Create new webhook"
-      operationId: "create-new-webhook"
-      parameters:
-        - in: "body"
-          name: "body"
-          description: "New webhook object"
-          required: true
-          schema:
-            $ref: "#/definitions/NewWebhook"
-      responses:
-        "200":
-          description: "Successful operation"
-          schema:
-            $ref: "#/definitions/Webhook"
-
-    get:
-      tags:
-        - "Webhooks"
-      summary: "Get webhooks"
-      description: "Get webhooks"
-      operationId: "get-webhooks"
-      responses:
-        "200":
-          description: "Successful operation"
-          schema:
-            type: "array"
-            items:
-              $ref: "#/definitions/Webhook"
-
-  /hooks/:id:
-    delete:
-      tags:
-        - "Webhooks"
-      summary: "Delete webhook"
-      description: "Delete created webhook"
-      operationId: "delete-webhook"
-      responses:
-        "200":
-          description: "Successful operation"
-
-securityDefinitions:
-  Bearer:
-    type: apiKey
-    name: Authorization
-    in: header
-
-definitions:
-  Address:
-    type: "object"
-    properties:
-      address:
-        type: "string"
-      coAddress:
-        type: "string"
-      zipcode:
-        type: "string"
-      city:
-        type: "string"
-      country:
-        type: "string"
-
-  Account:
-    type: "object"
-    properties:
-      firstname:
-        type: "string"
-      lastname:
-        type: "string"
-      permissionLevel:
-        type: "string"
-      accountId:
-        type: "string"
-
-  Price:
-    type: "object"
-    properties:
-      amount:
-        type: "number"
-      currency:
-        type: "string"
-
-  NewFile:
-    type: "object"
-    properties:
-      content:
-        type: "string"
-        format: "base64"
-      fileName:
-        type: "string"
-      contentType:
-        type: "string"
-
-  File:
-    type: "object"
-    properties:
-      fileId:
-        type: "string"
-
-  NewVoucherFile:
-    type: object
-    properties: 
-      fileName:
-        type: string
-      contentType:
-        type: string
-      fileId:
-        type: string
-
-  NewVoucher:
-    type: object
-    properties: 
-      voucherTypeId:
-        type: string
-      amount:
-        type: integer
-      referenceId:
-        type: string
-      interest:
-        type: string
-      date:
-        type: string
-      interestStartDate:
-        type: string
-      interestEndDate:
-        type: string
-      dueDate:
-        type: string
-      appendix:
-        $ref: "#/definitions/NewVoucherFile" 
-      imposedByCreditor:
-        type: boolean
-      referenceVouchers:
-        type: array
-        items:
-          $ref: "#/definitions/NewVoucher"
-
-  NewCase:
-    type: "object"
-    properties:
-      creditorId:
-        type: "string"
-      referenceId:
-        type: "string"
-      chainId:
-        type: "string"
-      caseImportId:
-        type: "string"
-      isCompany:
-        type: "boolean"
-      debtors:
-        type: array
-        items:
-          type: "object"
-          properties:
-            isCompany:
-              type: "boolean"
-            name:
-              type: "string"
-            cpr:
-              type: "string"
-            cvr:
-              type: "string"
-            email:
-              type: "string"
-            phone:
-              type: "string"
-            address:
-              $ref: "#/definitions/Address"
-      vouchers:
-        type: array
-        items:
-          $ref: "#/definitions/NewVoucher"
-
-
-
-  Case:
-    type: "object"
-    properties:
-      id:
-        type: "number"
-      exitReason:
-        type: "string"
-        enum:
-          - "Paid"
-          - "DebtorEmigrated"
-          - "Dead"
-          - "Objection"
-          - "Withdrawn"
-          - "OfferFromUs"
-          - "OfferFromDebtor"
-          - "DebtRelief"
-          - "Bankruptcy"
-          - "ForcedDissolved"
-          - "ConflictOfInterest"
-          - "NegativePayoff"
-          - "Overpayment"
-          - "Minor"
-          - "Irrecoverable"
-          - "PartiallyPaid"
-          - "CreditorUnresponsive"
-          - "ErrorCreditor"
-          - "ErrorUs"
-          - "Expiration"
-          - "Departed"
-          - "Unidentified"
-          - "AddressUnknown"
-      isCompany:
-        type: "boolean"
-      hasFoundation:
-        type: "boolean"
-      caseId:
-        type: "string"
-      createdAt:
-        type: "string"
-      ownerId:
-        type: "string"
-      caseGroup:
-        type: "string"
-      status:
-        type: "string"
-        enum:
-          - "PENDING"
-          - "VERIFIED"
-          - "CANCELED"
-          - "ENDED"
-      statusTime:
-        type: "string"
-      creditorReferenceId:
-        type: "string"
-      collectorId:
-        type: "string"
-      debtorContactId:
-        type: "string"
-      chainId:
-        type: "string"
-      alternativeContactId:
-        type: "string"
-      creditor:
-        type: "object"
-      debtors:
-        type: "object"
-      contactPerson:
-        type: "object"
-      alternativeContact:
-        type: "object"
-      financials:
-        type: "object"
-  NewEconomy:
-    type: "object"
-    properties:
-      eventType:
-        type: "string"
-      caseId:
-        type: "string"
-      refVoucherId:
-        type: "string"
-      description:
-        type: "string"
-      file:
-        $ref: "#/definitions/File"
-      referenceId:
-        type: "string"
-      typeId:
-        type: "string"
-      fromCreditor:
-        type: "boolean"
-      price:
-        $ref: "#/definitions/Price"
-      interest:
-        type: "number"
-      issueDate:
-        type: "string"
-      dueDate:
-        type: "string"
-      interestStartDate:
-        type: "string"
-      interestEndDate:
-        type: "string"
-
-  Economy:
-    type: "object"
-    properties:
-      eventType:
-        type: "string"
-      voucherId:
-        type: "string"
-      caseId:
-        type: "string"
-      refVoucherId:
-        type: "string"
-      description:
-        type: "string"
-      category:
-        type: "string"
-      createdAt:
-        type: "string"
-      file:
-        $ref: "#/definitions/File"
-      referenceId:
-        type: "string"
-      typeId:
-        type: "string"
-      fromCreditor:
-        type: "boolean"
-      price:
-        $ref: "#/definitions/Price"
-      interest:
-        type: "number"
-      issueDate:
-        type: "string"
-      dueDate:
-        type: "string"
-      interestStartDate:
-        type: "string"
-      interestEndDate:
-        type: "string"
-      debtorId:
-        type: "string"
-
-  NewUpdate:
-    type: "object"
-    properties:
-      updateId:
-        type: "string"
-      debtorId:
-        type: "string"
-      caseId:
-        type: "string"
-      update:
-        type: "string"
-      updateTypeId:
-        type: "string"
-      pausedAt:
-        type: "string"
-      remindedAt:
-        type: "string"
-      continuedAt:
-        type: "string"
-
-  Update:
-    type: "object"
-    properties:
-      updateId:
-        type: "string"
-      debtorId:
-        type: "string"
-      caseId:
-        type: "string"
-      label:
-        type: "string"
-      description:
-        type: "string"
-      update:
-        type: "string"
-      createdAt:
-        type: "string"
-      updateTypeId:
-        type: "string"
-      updateTypeGroupId:
-        type: "string"
-      updateTypeGroupLabel:
-        type: "string"
-      responsiblePermissionLevel:
-        type: "string"
-      createdByAccount:
-        type: "string"
-      pausedAt:
-        type: "string"
-      remindedAt:
-        type: "string"
-      continuedAt:
-        type: "string"
-      rottensAfterMs:
-        type: "number"
-      continuedByAccount:
-        $ref: "#/definitions/Account"
-
-  UpdateType:
-    type: "object"
-    properties:
-      updateTypeId:
-        type: "string"
-      label:
-        type: "string"
-      groupId:
-        type: "string"
-      description:
-        type: "string"
-      groupLabel:
-        type: "string"
-      responsiblePermissionLevel:
-        type: "string"
-
-  NewCreditor:
-    type: "object"
-    properties:
-      name:
-        type: "string"
-      ownerId:
-        type: "string"
-      defaultChainId:
-        type: "string"
-      defaultCollectorId:
-        type: "string"
-
-  Creditor:
-    type: "object"
-    properties:
-      creditorId:
-        type: "string"
-      name:
-        type: "string"
-      ownerId:
-        type: "string"
-      defaultChainId:
-        type: "string"
-      defaultCollectorId:
-        type: "string"
-
-  NewInteraction:
-    type: "object"
-    properties:
-      direction:
-        type: "string"
-        enum:
-          - "Incoming"
-          - "Outgoing"
-      type:
-        type: "string"
-        enum:
-          - "Email"
-          - "Eboks"
-          - "SMS"
-          - "Letter"
-          - "Phone"
-          - "Note"
-          - "Personal"
-          - "ClientNote"
-          - "DebtorNote"
-          - "AutoCall"
-      state:
-        type: "string"
-        enum:
-          - "UNMAPPED"
-          - "MAPPED"
-          - "HANDLED"
-          - "DELETED"
-          - "PENDING"
-          - "CANCELLED"
-          - "SENT"
-          - "QUEUED"
-      case:
-        type: "string"
-      notes:
-        type: "string"
-      templateId:
-        type: "string"
-      details:
-        type: "object"
-
-  Interaction:
-    type: "object"
-    properties:
-      id:
-        type: "string"
-      direction:
-        type: "string"
-        enum:
-          - "Incoming"
-          - "Outgoing"
-      type:
-        type: "string"
-        enum:
-          - "Email"
-          - "Eboks"
-          - "SMS"
-          - "Letter"
-          - "Phone"
-          - "Note"
-          - "Personal"
-          - "ClientNote"
-          - "DebtorNote"
-          - "AutoCall"
-      state:
-        type: "string"
-        enum:
-          - "UNMAPPED"
-          - "MAPPED"
-          - "HANDLED"
-          - "DELETED"
-          - "PENDING"
-          - "CANCELLED"
-          - "SENT"
-          - "QUEUED"
-      case:
-        type: "string"
-      notes:
-        type: "string"
-      transacted:
-        type: "string"
-      handler:
-        type: "string"
-      createdAt:
-        type: "string"
-      createdByAccount:
-        type: "string"
-      templateId:
-        type: "string"
-      details:
-        type: "object"
-
-  NewWebhook:
-    type: "object"
-    properties:
-      endpoint:
-        type: "string"
-
-  Webhook:
-    type: "object"
-    properties:
-      webhookId:
-        type: "string"
-      endpoint:
-        type: "string"
-      createdAt:
-        type: "string"
+    url: https://debbie-platform.github.io/platform-api-docs/deb-logo.svg
 
 externalDocs:
-  description: "Find out more about Debbie"
-  url: "https://debbie.dk"
+  description: Find out more about Debbie
+  url: https://debbie.dk
+
+servers:
+  - url: https://api.debbiecollect.com/api
+
+tags:
+  - name: Cases
+    description: Endpoints for interating with cases
+  - name: "Voucher Type Ids"
+    description: |
+      ### Hovedstol:
+      | Type | id |
+      | --- | --- |
+      | Faktura          | eb41e58e-fccf-419d-a771-cd5027fe6e87 |
+      | Kreditnota       | ef2cdc50-230f-4046-b1af-0f9c498dddd3 |
+      | Opgørelse        | 42385ae0-6846-425c-a793-8d47a3b190b5 |
+      | Acontofaktura    | 2d101b6e-74f9-4a4d-9f8e-c7abe2264da0 |
+      | Gældsbrev        | bf61f462-6d3c-42e8-a99a-852d4a664926 |
+
+      ### Omkostninger:
+      | Type | id |
+      | --- | --- |
+      | Inkassoomkostning        | 07960de4-303d-4793-92da-3a8cfd5da1a1 |
+      | Inkassogebyr             | 4c3ccbbf-0651-45b2-b37b-4fe736acfd7e |
+      | Rykkergebyr              | 3e51bf87-3c8f-4dd5-abd5-69417d113c89 |
+      | Kompensationsgebyr       | ed3e3d61-e1bc-4ee2-9166-adf2c41a2bbf |
+
+      ### Renter:
+      | Type | id |
+      | --- | --- |
+      | Procesrente               | ca4af363-9925-436c-83d6-23b3db6ed5d2 |
+      | Fastrente                 | 299dc393-1b71-4950-860f-8fb485036722 |
+      | Årlig rente               | 37db68dd-80be-40c7-8d2d-3619c793107f |
+
+      ### Transaktioner:
+      | Type | id |
+      | --- | --- |
+      | Indbetaling               | c51f2f6a-8081-45ef-b52d-5e0569fdf12e |
+      | Udbetaling                | 11a8c26e-fe31-4092-adf5-431dc96e8a27 |"
+
+
+
+paths:
+  /v1/{tenantId}/cases:
+    post:
+      tags:
+      - Cases
+      summary: Create new case
+      description: Create new case allows the api consumer to create new cases
+      operationId: create-case
+      parameters:
+        - in: path
+          name: tenantId
+          schema:
+            type: string
+            format: uuid
+          required: true
+          description: Id of the tenant the case is being created for
+      requestBody:
+        description: New case object
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewCase'
+            example:
+              referenceId: Your id
+              creditorId: debbie creditor uuid
+              isCompany: false
+              debtors:
+              - isCompany: false
+                name: Jane Doe
+                cpr: '1234567890'
+                email: jane@example.com
+                phone: '88888888'
+                address:
+                  address: Byvej 2A, 1. tv 0012, Tune
+                  coAddress:
+                  city: Roskilde
+                  zipcode: '4000'
+                  country: Danmark
+              vouchers:
+              - referenceId: Fakt. 123456
+                voucherTypeId: eb41e58e-fccf-419d-a771-cd5027fe6e87
+                amount: -259900
+                imposedByCreditor: true
+                date: '2020-05-01 00:00:00.000+01'
+                dueDate: '2020-05-08 00:00:00.000+01'
+                referenceVouchers:
+                - interestStartDate: '2020-06-01 00:00:00.000+01'
+                  amount: 0
+                  imposedByCreditor: false
+                  voucherTypeId: ca4af363-9925-436c-83d6-23b3db6ed5d2
+                  date: '2020-06-01 00:00:00.000+01'
+                - voucherTypeId: 3e51bf87-3c8f-4dd5-abd5-69417d113c89
+                  amount: -10000
+                  imposedByCreditor: true
+                  date: '2020-05-28 00:00:00.000+01'
+                - voucherTypeId: 3e51bf87-3c8f-4dd5-abd5-69417d113c89
+                  amount: -10000
+                  imposedByCreditor: true
+                  date: '2020-06-07 00:00:00.000+01'
+
+        required: true
+      responses:
+        200:
+          description: Successful operation
+          content: {}
+        401:
+          $ref: "#/components/responses/UnauthorizedError"
+        422:
+          description: Invalid input data
+          content: {}
+      x-codegen-request-body-name: body
+
+components:
+  schemas:
+
+    Address:
+      type: object
+      properties:
+        address:
+          type: string
+          description: The street name and number of the address
+        coAddress:
+          type: string
+        zipcode:
+          type: string
+        city:
+          type: string
+        country:
+          type: string
+      required:
+        - address
+        - zipcode
+        - city
+
+    NewVoucherFile:
+      type: object
+      properties:
+        fileName:
+          type: string
+        contentType:
+          type: string
+        fileId:
+          type: string
+          format: uuid
+      required:
+        - fileName
+        - contentType
+        - fileId
+
+    NewVoucher:
+      type: object
+      properties:
+        voucherTypeId:
+          type: string
+          format: uuid
+          description: An id for the voucher type. A list of ids can be found in the Voucher Type Ids chapter.
+        amount:
+          type: integer
+        referenceId:
+          type: string
+        interest:
+          type: string
+        date:
+          type: string
+        interestStartDate:
+          type: string
+        interestEndDate:
+          type: string
+        dueDate:
+          type: string
+        appendix:
+          $ref: '#/components/schemas/NewVoucherFile'
+        imposedByCreditor:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+        referenceVouchers:
+          type: array
+          items:
+            $ref: '#/components/schemas/NewVoucher'
+      required:
+        - voucherTypeId
+        - amount
+        - date
+        - imposedByCreditor
+    NewCase:
+      type: object
+      properties:
+        creditorId:
+          type: string
+          format: uuid
+          description: Id of the creditor which the case belongs to
+        referenceId:
+          type: string
+        chainId:
+          type: string
+          format: uuid
+          description: Id of the chain the case is to go through
+        caseImportId:
+          type: string
+          format: uuid
+        isCompany:
+          type: boolean
+          description: Does the case concern a company
+        debtors:
+          type: array
+          items:
+            type: object
+            properties:
+              isCompany:
+                type: boolean
+              name:
+                type: string
+              cpr:
+                type: string
+                description: The cpr number of a debtor, only used when debtor is a person.
+              cvr:
+                type: string
+                description: The cvr number of a debtor, only used when debtor is a company.
+              email:
+                type: string
+              phone:
+                type: string
+              address:
+                $ref: '#/components/schemas/Address'
+                description: The debtors address
+            required:
+              - isCompany
+              - name
+        vouchers:
+          type: array
+          items:
+            $ref: '#/components/schemas/NewVoucher'
+      required:
+        - creditorId
+        - referenceId
+        - isCompany
+        - debtors
+        - vouchers
+
+  
+  responses:
+    UnauthorizedError:
+      description: Access token missing or invalid
+
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: 'Authentication with an API key kan be done by using a bearer token
+        in the Authorization header. This is done using the following format ''Authorization:
+        Bearer {token}''.'
+
+security:
+  - bearerAuth: []
