@@ -8,7 +8,7 @@ info:
     return responses. This makes it easy to communicate with third party systems.
   contact:
     email: support@debbie.dk
-  version: v1.0.0
+  version: v0.1.0
   x-logo:
     url: https://debbie-platform.github.io/platform-api-docs/deb-logo.svg
 
@@ -17,7 +17,7 @@ externalDocs:
   url: https://debbie.dk
 
 servers:
-  - url: https://api.debbiecollect.com/
+  - url: https://api.debbiecollect.com/api
 
 tags:
   - name: Cases
