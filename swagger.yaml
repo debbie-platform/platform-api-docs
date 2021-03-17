@@ -177,7 +177,8 @@ components:
         referenceId:
           type: string
         interest:
-          type: string
+          type: number
+          description: Used when the voucher is yearly interest to specify the interest rate. The number is in decimal, for example 0.1 would be an interest rate of 10%.
         date:
           type: string
         interestStartDate:
@@ -188,8 +189,10 @@ components:
           type: string
         appendix:
           $ref: '#/components/schemas/NewVoucherFile'
+          description: The appendix is for pdf copies or similar for a voucher.
         imposedByCreditor:
           type: boolean
+          description: Used to signify whether the voucher is imposed by the creditor (as opposed to the collector).
         tags:
           type: array
           items:
