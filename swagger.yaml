@@ -21,7 +21,9 @@ servers:
 
 tags:
   - name: Cases
-    description: Endpoints for interating with cases
+    description: Endpoints for interacting with cases
+  - name: Files
+    description: Endpoints for interacting with files
   - name: "Voucher Type Ids"
     description: |
       ### Hovedstol:
@@ -127,9 +129,62 @@ paths:
           description: Invalid input data
           content: {}
       x-codegen-request-body-name: body
+  
+  /v1/{tenantId}/files:
+    post:
+      tags:
+      - Files
+      summary: Create new file
+      description: Create new file allows the api consumer to create new files
+      operationId: create-file
+      parameters:
+        - in: path
+          name: tenantId
+          schema:
+            type: string
+            format: uuid
+          required: true
+          description: Id of the tenant the file is being created for
+      requestBody:
+        description: New file object
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewFile'
+            example:
+              content: "Base64 encoded file content"
+              contentType: "application/pdf"
+              name: "file.pdf"
+
+        required: true
+      responses:
+        200:
+          description: Successful operation
+          content: {}
+        401:
+          $ref: "#/components/responses/UnauthorizedError"
+        422:
+          description: Invalid input data
+          content: {}
+      x-codegen-request-body-name: body
 
 components:
   schemas:
+    NewFile:
+      type: object
+      properties:
+        content:
+          type: string
+          description: Base64 encoded file content
+        contentType:
+          type: string
+          description: The content type of the file
+        name:
+          type: string
+          description: The name of the file
+      required:
+        - content
+        - contentType
 
     Address:
       type: object
