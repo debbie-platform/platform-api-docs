@@ -2,7 +2,8 @@ openapi: 3.0.1
 
 info:
   title: Debbie Platform API Docs
-  description: The Debbie APIs is a RESTful interface, allowing you to programmatically
+  description:
+    The Debbie APIs is a RESTful interface, allowing you to programmatically
     update, add and access your data on the platform. It provides predictable URLs
     for accessing resources, and uses built-in HTTP features to receive commands and
     return responses. This makes it easy to communicate with third party systems.
@@ -22,6 +23,8 @@ servers:
 tags:
   - name: Cases
     description: Endpoints for interacting with cases
+  - name: Creditors
+    description: Endpoints for interacting with creditors
   - name: Files
     description: Endpoints for interacting with files
   - name: "Voucher Type Ids"
@@ -56,13 +59,11 @@ tags:
       | Indbetaling               | c51f2f6a-8081-45ef-b52d-5e0569fdf12e |
       | Udbetaling                | 11a8c26e-fe31-4092-adf5-431dc96e8a27 |"
 
-
-
 paths:
   /v1/{tenantId}/cases:
     post:
       tags:
-      - Cases
+        - Cases
       summary: Create new case
       description: Create new case allows the api consumer to create new cases
       operationId: create-case
@@ -79,44 +80,44 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/NewCase'
+              $ref: "#/components/schemas/NewCase"
             example:
               referenceId: Your id
               creditorId: debbie creditor uuid
               isCompany: false
               debtors:
-              - isCompany: false
-                name: Jane Doe
-                cpr: '1234567890'
-                email: jane@example.com
-                phone: '88888888'
-                address:
-                  address: Byvej 2A, 1. tv 0012, Tune
-                  coAddress:
-                  city: Roskilde
-                  zipcode: '4000'
-                  country: Danmark
+                - isCompany: false
+                  name: Jane Doe
+                  cpr: "1234567890"
+                  email: jane@example.com
+                  phone: "88888888"
+                  address:
+                    address: Byvej 2A, 1. tv 0012, Tune
+                    coAddress:
+                    city: Roskilde
+                    zipcode: "4000"
+                    country: Danmark
               vouchers:
-              - referenceId: Fakt. 123456
-                voucherTypeId: eb41e58e-fccf-419d-a771-cd5027fe6e87
-                amount: -259900
-                imposedByCreditor: true
-                date: '2020-05-01 00:00:00.000+01'
-                dueDate: '2020-05-08 00:00:00.000+01'
-                referenceVouchers:
-                - interestStartDate: '2020-06-01 00:00:00.000+01'
-                  amount: 0
-                  imposedByCreditor: false
-                  voucherTypeId: ca4af363-9925-436c-83d6-23b3db6ed5d2
-                  date: '2020-06-01 00:00:00.000+01'
-                - voucherTypeId: 3e51bf87-3c8f-4dd5-abd5-69417d113c89
-                  amount: -10000
+                - referenceId: Fakt. 123456
+                  voucherTypeId: eb41e58e-fccf-419d-a771-cd5027fe6e87
+                  amount: -259900
                   imposedByCreditor: true
-                  date: '2020-05-28 00:00:00.000+01'
-                - voucherTypeId: 3e51bf87-3c8f-4dd5-abd5-69417d113c89
-                  amount: -10000
-                  imposedByCreditor: true
-                  date: '2020-06-07 00:00:00.000+01'
+                  date: "2020-05-01 00:00:00.000+01"
+                  dueDate: "2020-05-08 00:00:00.000+01"
+                  referenceVouchers:
+                    - interestStartDate: "2020-06-01 00:00:00.000+01"
+                      amount: 0
+                      imposedByCreditor: false
+                      voucherTypeId: ca4af363-9925-436c-83d6-23b3db6ed5d2
+                      date: "2020-06-01 00:00:00.000+01"
+                    - voucherTypeId: 3e51bf87-3c8f-4dd5-abd5-69417d113c89
+                      amount: -10000
+                      imposedByCreditor: true
+                      date: "2020-05-28 00:00:00.000+01"
+                    - voucherTypeId: 3e51bf87-3c8f-4dd5-abd5-69417d113c89
+                      amount: -10000
+                      imposedByCreditor: true
+                      date: "2020-06-07 00:00:00.000+01"
 
         required: true
       responses:
@@ -129,11 +130,119 @@ paths:
           description: Invalid input data
           content: {}
       x-codegen-request-body-name: body
-  
+
+  /v1/{tenantId}/creditors:
+    post:
+      tags:
+        - Creditors
+      summary: Create new creditor
+      description: Create new creditor allows the api consumer to create new creditors
+      operationId: create-creditor
+      parameters:
+        - in: path
+          name: tenantId
+          schema:
+            type: string
+            format: uuid
+          required: true
+          description: Id of the tenant the creditor is being created for
+      requestBody:
+        description: New creditor object
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/NewCreditor"
+            example:
+              acquisitionResponsibleId: 9409b6d8-cde5-45f1-b8e1-e756847a7077
+              contactId: bb71f936-c60c-4ad7-82f6-eddca673d30f
+              caseworkerContactId: 9409b6d8-cde5-45f1-b8e1-e756847a7077
+              notes: Note to self (and my colleagues).
+              name: John Doe's Factories
+              defaultCollectorId: f6700acf-edf6-4ef7-8e39-fa5f45d20c0d
+              defaultChainId: 3057ca58-d39d-48ec-9d79-c45182b92ca0
+              aksEnabled: true
+              vatRegistered: true
+              centralRegisterId: DK40125949
+              isCompany: true
+              state: ACTIVE
+              id: My reference
+              selfCollection: false
+        required: true
+      responses:
+        200:
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                example:
+                  creditorId: 56e93ac4-a89d-422a-b2da-5ed5a052477d
+        401:
+          $ref: "#/components/responses/UnauthorizedError"
+        422:
+          description: Invalid input data
+          content: {}
+      x-codegen-request-body-name: body
+
+  /v1/{tenantId}/creditors/{creditorId}:
+    get:
+      tags:
+        - Creditors
+      summary: Get creditor
+      description: Get a creditor
+      operationId: get-creditor
+      parameters:
+        - in: path
+          name: tenantId
+          schema:
+            type: string
+            format: uuid
+          required: true
+          description: Id of the tenant the creditor is being created for
+        - in: path
+          name: tenantId
+          schema:
+            type: string
+            format: uuid
+          required: true
+          description: Id of the tenant the creditor is related to
+      responses:
+        200:
+          description: Successful operation
+          content: 
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Creditor"
+              example:
+                acquisitionResponsibleId: 9409b6d8-cde5-45f1-b8e1-e756847a7077
+                contactId: bb71f936-c60c-4ad7-82f6-eddca673d30f
+                caseworkerContactId: 9409b6d8-cde5-45f1-b8e1-e756847a7077
+                notes: Note to self (and my colleagues).
+                name: John Doe's Factories
+                defaultCollectorId: f6700acf-edf6-4ef7-8e39-fa5f45d20c0d
+                defaultChainId: 3057ca58-d39d-48ec-9d79-c45182b92ca0
+                aksEnabled: true
+                vatRegistered: true
+                centralRegisterId: DK40125949
+                isCompany: true
+                state: ACTIVE
+                id: My reference
+                selfCollection: false
+                experianClientId: 125134
+                creditorId: a087de99-19aa-4f40-9883-fa4b20f3dff1
+                debtorFAQ: Frequently asked questions
+                defaultClientChainId: 3057ca58-d39d-48ec-9d79-c45182b92ca0
+                defaultConnectorId: 9860cf1a-b4d9-4d4e-a085-298c4781eca0
+        401:
+          $ref: "#/components/responses/UnauthorizedError"
+        422:
+          description: Invalid input data
+          content: {}
+      x-codegen-request-body-name: body
+
   /v1/{tenantId}/files:
     post:
       tags:
-      - Files
+        - Files
       summary: Create new file
       description: Create new file allows the api consumer to create new files
       operationId: create-file
@@ -150,7 +259,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/NewFile'
+              $ref: "#/components/schemas/NewFile"
             example:
               content: "Base64 encoded file content"
               contentType: "application/pdf"
@@ -243,7 +352,7 @@ components:
         dueDate:
           type: string
         appendix:
-          $ref: '#/components/schemas/NewVoucherFile'
+          $ref: "#/components/schemas/NewVoucherFile"
           description: The appendix is for pdf copies or similar for a voucher.
         imposedByCreditor:
           type: boolean
@@ -255,7 +364,7 @@ components:
         referenceVouchers:
           type: array
           items:
-            $ref: '#/components/schemas/NewVoucher'
+            $ref: "#/components/schemas/NewVoucher"
       required:
         - voucherTypeId
         - amount
@@ -300,7 +409,7 @@ components:
               phone:
                 type: string
               address:
-                $ref: '#/components/schemas/Address'
+                $ref: "#/components/schemas/Address"
                 description: The debtors address
             required:
               - isCompany
@@ -308,15 +417,147 @@ components:
         vouchers:
           type: array
           items:
-            $ref: '#/components/schemas/NewVoucher'
+            $ref: "#/components/schemas/NewVoucher"
       required:
         - creditorId
         - referenceId
         - isCompany
         - debtors
         - vouchers
+    
+    NewCreditor:
+      type: object
+      properties:
+        acquisitionResponsibleId:
+          type: string
+          format: uuid
+          description: Id of the user who is responsible for the acquisition of the creditor.
+        contactId:
+          type: string
+          format: uuid
+          description: Id of the client user who is case responsible.
+        caseworkerContactId:
+          type: string
+          format: uuid
+          description: Id of the caseworker user who is case responsible.
+        notes:
+          type: string
+          description: Creditor notes.
+        name:
+          type: string
+          description: Name of the creditor.
+        defaultCollectorId:
+          type: string
+          format: uuid
+          description: Id of the default collector.
+        defaultChainId:
+          type: string
+          format: uuid
+          description: Id of the default chain.
+        defaultClientChainId:
+          type: string
+          format: uuid
+          description: Id of the default client chain.
+        aksEnabled:
+          type: boolean
+          description: Whether Experian AKS is enabled or not.
+        vatRegistered:
+          type: boolean
+          description: Whether the creditor is vat registered or not.
+        isCompany:
+          type: boolean
+          description: Whether the creditor is a company.
+        selfCollection:
+          type: boolean
+          description: Whether the creditor is collecting for themselves or not.
+        centralRegisterId:
+          type: string
+          description: Central register id. For example "DK40125949"
+        state:
+          type: string
+          enum: [LEAD,SIGNED_ON,ACTIVE,CANCELLED]
+          description: The state of the creditor
+        id:
+          type: string
+          description: If for your internal systems. For example your ERP id.
+      required:
+        - name
+        - defaultCollectorId
+        - defaultChainId
+        - isCompany
 
-  
+    Creditor:
+      type: object
+      properties:
+        acquisitionResponsibleId:
+          type: string
+          format: uuid
+          description: Id of the user who is responsible for the acquisition of the creditor.
+        contactId:
+          type: string
+          format: uuid
+          description: Id of the client user who is case responsible.
+        caseworkerContactId:
+          type: string
+          format: uuid
+          description: Id of the caseworker user who is case responsible.
+        aksEnabled:
+          type: boolean
+          description: Whether Experian AKS is enabled or not.
+        centralRegisterId:
+          type: string
+          format: uuid
+          description: Central register id. For example "DK40125949".
+        creditorId:
+          type: string
+          format: uuid
+          description: Id for the Creditor.
+        debtorFAQ:
+          type: string
+          description: A FAQ for the debtor web.
+        defaultChainId:
+          type: string
+          format: uuid
+          description: Id of the default chain.
+        defaultClientChainId:
+          type: string
+          format: uuid
+          description: Id of the default client chain.
+        defaultCollectorId:
+          type: string
+          format: uuid
+          description: Id of the default collector.
+        defaultConnectorId:
+          type: string
+          format: uuid
+          description: Id for the default connector.
+        experianClientId:
+          type: string
+          description: Experian client identifier.
+        id:
+          type: string
+          description: If for your internal systems. For example your ERP id.
+        isCompany:
+          type: boolean
+          description: Whether the creditor is a company.
+        name:
+          type: string
+          description: Name of the creditor.
+        notes:
+          type: string
+          description: Creditor notes.
+        selfCollection:
+          type: boolean
+          description: Whether the creditor is collecting for themselves or not.
+        state:
+          type: string
+          enum: [LEAD,SIGNED_ON,ACTIVE,CANCELLED]
+          description: The state of the creditor
+        vatRegistered:
+          type: string
+          format: uuid
+          description: Whether the creditor is vat registered or not.
+
   responses:
     UnauthorizedError:
       description: Access token missing or invalid
@@ -325,9 +566,10 @@ components:
     bearerAuth:
       type: http
       scheme: bearer
-      description: 'Authentication with an API key kan be done by using a bearer token
-        in the Authorization header. This is done using the following format ''Authorization:
-        Bearer {token}''.'
+      description:
+        "Authentication with an API key kan be done by using a bearer token
+        in the Authorization header. This is done using the following format 'Authorization:
+        Bearer {token}'."
 
 security:
   - bearerAuth: []
