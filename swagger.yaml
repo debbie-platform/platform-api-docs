@@ -167,6 +167,10 @@ paths:
               state: ACTIVE
               id: My reference
               selfCollection: false
+              bankAccountDetails:
+                type: DANISH
+                registrationNumber: '1234'
+                accountNumber: '00012345678'
         required: true
       responses:
         200:
