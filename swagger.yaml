@@ -85,7 +85,7 @@ paths:
               referenceId: Your id
               creditorId: debbie creditor uuid
               isCompany: false
-              currecny: EUR
+              currency: EUR
               debtors:
                 - isCompany: false
                   name: Jane Doe
@@ -391,7 +391,8 @@ components:
           description: Id of the chain the case is to go through
         currency:
           type: string
-          format: uuid
+          enum: [DKK,SEK,NOK,USD,EUR,GBP,CHF]
+          description: Currency
         isCompany:
           type: boolean
           description: Does the case concern a company
@@ -416,7 +417,6 @@ components:
                 type: string
               lang:
                 type: string
-                enum: [DKK,SEK,NOK,USD,EUR,GBP,CHF]
                 description: The language of the debtor
               address:
                 $ref: "#/components/schemas/Address"
