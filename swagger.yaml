@@ -85,12 +85,14 @@ paths:
               referenceId: Your id
               creditorId: debbie creditor uuid
               isCompany: false
+              currecny: EUR
               debtors:
                 - isCompany: false
                   name: Jane Doe
                   cpr: "1234567890"
                   email: jane@example.com
                   phone: "88888888"
+                  lang: "da"
                   address:
                     address: Byvej 2A, 1. tv 0012, Tune
                     coAddress:
@@ -387,7 +389,7 @@ components:
           type: string
           format: uuid
           description: Id of the chain the case is to go through
-        caseImportId:
+        currency:
           type: string
           format: uuid
         isCompany:
@@ -412,6 +414,10 @@ components:
                 type: string
               phone:
                 type: string
+              lang:
+                type: string
+                enum: [DKK,SEK,NOK,USD,EUR,GBP,CHF]
+                description: The language of the debtor
               address:
                 $ref: "#/components/schemas/Address"
                 description: The debtors address
