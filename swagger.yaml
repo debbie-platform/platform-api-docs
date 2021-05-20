@@ -167,7 +167,7 @@ paths:
 
         required: true
       responses:
-        200:
+        204:
           description: Successful operation
           content: {}
         401:
