@@ -466,7 +466,7 @@ paths:
               email: john.doe123@example.com
               phone:
                 locale: '45'
-                number: '20764443'
+                number: '12345678'
               username: john.doe123@example.com
               firstName: John
               lastName: Doe
@@ -477,6 +477,168 @@ paths:
               tenant:
                 role: client
                 scopes: []
+              creditors:
+                - id: 8275e7fa-c43b-4787-a61d-1815390f7686
+                  scopes: []
+        required: true
+      responses:
+        200:
+          description: Successful operation
+          content: {}
+        401:
+          $ref: "#/components/responses/UnauthorizedError"
+        409:
+          $ref: "#/components/responses/ConflictError"
+        422:
+          description: Invalid input data
+          content: {}
+      x-codegen-request-body-name: body
+    get:
+      tags:
+        - Users
+      summary: Get users
+      description: Get all users on tenant
+      operationId: get-users
+      parameters:
+        - in: path
+          name: tenantId
+          schema:
+            type: string
+            format: uuid
+          required: true
+          description: Id of the tenant the update is related to
+      responses:
+        200:
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                example:
+                  type: array
+                  items:
+                    $ref: "#/components/schemas/User"
+        401:
+          $ref: "#/components/responses/UnauthorizedError"
+        409:
+          $ref: "#/components/responses/ConflictError"
+        422:
+          description: Invalid input data
+          content: {}
+      x-codegen-request-body-name: body
+
+  /iam/{tenantId}/users/search:
+    post:
+      tags:
+        - Users
+      summary: Search users
+      description: Search all users
+      operationId: search-users
+      parameters:
+        - in: path
+          name: tenantId
+          schema:
+            type: string
+            format: uuid
+          required: true
+          description: Id of the tenant the update is related to
+        - in: query
+          name: q
+          schema:
+            type: string
+          required: true
+          description: Your search query. For example the email of the user.
+      responses:
+        200:
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                example:
+                  type: array
+                  items:
+                    $ref: "#/components/schemas/User"
+        401:
+          $ref: "#/components/responses/UnauthorizedError"
+        409:
+          $ref: "#/components/responses/ConflictError"
+        422:
+          description: Invalid input data
+          content: {}
+      x-codegen-request-body-name: body
+  
+  /iam/{tenantId}/users/{userId}:
+    get:
+      tags:
+        - Users
+      summary: Get a user
+      description: Get a single user
+      operationId: get-user
+      parameters:
+        - in: path
+          name: tenantId
+          schema:
+            type: string
+            format: uuid
+          required: true
+          description: Id of the tenant the update is related to
+        - in: path
+          name: userId
+          schema:
+            type: string
+            format: uuid
+          required: true
+          description: Id of the user
+      responses:
+        200:
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                example:
+                  $ref: "#/components/schemas/User"
+        401:
+          $ref: "#/components/responses/UnauthorizedError"
+        409:
+          $ref: "#/components/responses/ConflictError"
+        422:
+          description: Invalid input data
+          content: {}
+      x-codegen-request-body-name: body
+    patch:
+      tags:
+        - Users
+      summary: Patch a user
+      description: Patch a single user
+      operationId: patch-user
+      parameters:
+        - in: path
+          name: tenantId
+          schema:
+            type: string
+            format: uuid
+          required: true
+          description: Id of the tenant the update is related to
+        - in: path
+          name: userId
+          schema:
+            type: string
+            format: uuid
+          required: true
+          description: Id of the user
+      requestBody:
+        description: Patch user object
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PatchUser"
+            example:
+              phone:
+                locale: '45'
+                number: '12345678'
+              firstName: John
+              lastName: Doe
+              emailPreferences:
+                todoNotifications: true
               creditors:
                 - id: 8275e7fa-c43b-4787-a61d-1815390f7686
                   scopes: []
@@ -967,9 +1129,13 @@ components:
           type: string
           description: Date where the update should be continued
 
-    NewUser:
+    User:
       type: object
       properties:
+        id:
+          type: string
+          format: uuid
+          description: The users' email. The email should be unique.
         email:
           type: string
           description: The users' email. The email should be unique.
@@ -988,7 +1154,7 @@ components:
           description: The users' role.
         sendInvite:
           type: boolean
-          description: Weather or not to send an invite to the user.
+          description: Wether or not to send an invite to the user.
         emailPreferences:
           type: object
           description: Email preferences
@@ -1015,6 +1181,73 @@ components:
           properties:
             id:
               type: string
+              format: uuid
+              description: Creditor id.
+            scopes:
+              type: array
+              description: Array of scopes.
+              items:
+                type: string
+        phone:
+          type: object
+          description: The users' phone number with locale
+          properties:
+            number:
+              type: string
+              description: The users' phone number. For example 12345678.
+            locale:
+              type: string
+              description: The users' phone locale. For example 45.
+
+    NewUser:
+      type: object
+      properties:
+        email:
+          type: string
+          description: The users' email. The email should be unique.
+        username:
+          type: string
+          description: The users' username. The username should be unique. You can use the email.
+        firstName:
+          type: string
+          description: The users' first name.
+        lastName:
+          type: string
+          description: The users' last name.
+        role:
+          type: string
+          enum: [client,caseworker,admin]
+          description: The users' role.
+        sendInvite:
+          type: boolean
+          description: Wether or not to send an invite to the user.
+        emailPreferences:
+          type: object
+          description: Email preferences
+          properties:
+            todoNotifications:
+              type: boolean
+              description: Enable or disable todo notifications
+        tenant:
+          type: object
+          description: Define the relation to the tenant.
+          properties:
+            role:
+              type: string
+              enum: [client,caseworker,admin]
+              description: The users' role.
+            scopes:
+              type: array
+              description: Array of scopes.
+              items:
+                type: string
+        creditors:
+          type: object
+          description: Define relations to creditors.
+          properties:
+            id:
+              type: string
+              format: uuid
               description: Creditor id.
             scopes:
               type: array
@@ -1039,6 +1272,49 @@ components:
         - role
         - tenant
         - creditors
+
+    PatchUser:
+      type: object
+      properties:
+        email:
+          type: string
+          description: The users' email. The email should be unique.
+        firstName:
+          type: string
+          description: The users' first name.
+        lastName:
+          type: string
+          description: The users' last name.
+        emailPreferences:
+          type: object
+          description: Email preferences
+          properties:
+            todoNotifications:
+              type: boolean
+              description: Enable or disable todo notifications
+        creditors:
+          type: object
+          description: Define relations to creditors.
+          properties:
+            id:
+              type: string
+              format: uuid
+              description: Creditor id.
+            scopes:
+              type: array
+              description: Array of scopes.
+              items:
+                type: string
+        phone:
+          type: object
+          description: The users' phone number with locale
+          properties:
+            number:
+              type: string
+              description: The users' phone number. For example 12345678.
+            locale:
+              type: string
+              description: The users' phone locale. For example 45.
 
   responses:
     UnauthorizedError:
