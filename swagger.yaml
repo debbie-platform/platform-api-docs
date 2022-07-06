@@ -34,7 +34,7 @@ tags:
   - name: Economy
     description: Endpoints for interacting with economy
   - name: "Webhooks"
-    description: "Debbie provides a range of webhooks. To try them out please visit Debbie Caseworker and navigate to Settings --> Developers --> Webhooks."
+    description: "Debbie provides a range of webhooks. To try them out please visit Debbie Caseworker and navigate to Settings → Developers → Webhooks."
   - name: "Voucher Type Ids"
     description: |
       ### Principals:
@@ -923,7 +923,7 @@ components:
       description:
         "Authentication with an API key kan be done by using a bearer token
         in the Authorization header. This is done using the following format 'Authorization:
-        Bearer {token}'. The API token can both be issued and revoked directly from the platform. Please go to Settings --> Developers --> API. Name the API token and associate your needed scopes."
+        Bearer {token}'. The API token can both be issued and revoked directly from the platform. Please go to Settings → Developers → API. Name the API token and associate your needed scopes."
 
 security:
   - bearerAuth: []
