@@ -351,6 +351,94 @@ paths:
           content: {}
       x-codegen-request-body-name: body
 
+  /v1/{tenantId}/updates:
+    post:
+      tags:
+        - Updates
+      summary: Create new update
+      description: Create new update allows the api consumer to create new updates
+      operationId: create-update
+      parameters:
+        - in: path
+          name: tenantId
+          schema:
+            type: string
+            format: uuid
+          required: true
+          description: Id of the tenant the update is related to
+      requestBody:
+        description: New update object
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/NewUpdate"
+            example:
+              referenceId: 9409b6d8-cde5-45f1-b8e1-e756847a7077
+              updateTypeId: a49c6124-fb23-4976-8400-9afd9018bc85
+              update: Eventuelt tekst til brugeren kan indtastes her
+              remindedAt: "2020-05-01 00:00:00.000+01"
+        required: true
+      responses:
+        200:
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                example:
+                  creditorId: 56e93ac4-a89d-422a-b2da-5ed5a052477d
+        401:
+          $ref: "#/components/responses/UnauthorizedError"
+        422:
+          description: Invalid input data
+          content: {}
+      x-codegen-request-body-name: body
+
+  /v1/{tenantId}/updates/{updateId}:
+    patch:
+      tags:
+        - Updates
+      summary: Patch update
+      description: Patch an existing update
+      operationId: patch-update
+      parameters:
+        - in: path
+          name: tenantId
+          schema:
+            type: string
+            format: uuid
+          required: true
+          description: Id of the tenant the update is related to
+        - in: path
+          name: updateId
+          schema:
+            type: string
+            format: uuid
+          required: true
+          description: Id of the update
+      requestBody:
+        description: Patch update object
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PatchUpdate"
+            example:
+              continuedAt: "2020-05-01 00:00:00.000+01"
+        required: true
+      responses:
+        200:
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                example:
+                  creditorId: 56e93ac4-a89d-422a-b2da-5ed5a052477d
+        401:
+          $ref: "#/components/responses/UnauthorizedError"
+        422:
+          description: Invalid input data
+          content: {}
+      x-codegen-request-body-name: body
+
   /v1/{tenantId}/files:
     post:
       tags:
@@ -789,6 +877,40 @@ components:
           type: string
           format: uuid
           description: Whether the creditor is vat registered or not.
+
+    NewUpdate:
+      type: object
+      properties:
+        referenceId:
+          type: string
+          format: uuid
+          description: The updates' reference. Typically a caseId.
+        updateTypeId:
+          type: string
+          format: uuid
+          description: The id of the type. An overview of type id's can be found under settings ind the Debbie Caseworker platform.
+        update:
+          type: string
+          description: A note attached to the update.
+        remindedAt:
+          type: string
+          description: When should the user get notified about the update? Defaults to now.
+        pausedAt:
+          type: string
+          description: When should the case be paused? Defaults to now.
+        continuedAt:
+          type: string
+          description: When should the update be continued? Default to null.
+      required:
+        - referenceId
+        - updateTypeId
+
+    PatchUpdate:
+      type: object
+      properties:
+        continuedAt:
+          type: string
+          description: When should the update be continued?
 
   responses:
     UnauthorizedError:
