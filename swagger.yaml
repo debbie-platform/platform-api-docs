@@ -35,35 +35,34 @@ tags:
     description: "Debbie provides a range of webhooks. To try them out please visit Debbie Caseworker and navigate to Settings --> Developers --> Webhooks"
   - name: "Voucher Type Ids"
     description: |
-      ### Hovedstol:
+      ### Principals:
       | Type | id |
       | --- | --- |
-      | Faktura          | eb41e58e-fccf-419d-a771-cd5027fe6e87 |
-      | Kreditnota       | ef2cdc50-230f-4046-b1af-0f9c498dddd3 |
-      | Opgørelse        | 42385ae0-6846-425c-a793-8d47a3b190b5 |
-      | Acontofaktura    | 2d101b6e-74f9-4a4d-9f8e-c7abe2264da0 |
-      | Gældsbrev        | bf61f462-6d3c-42e8-a99a-852d4a664926 |
+      | Invoice (Faktura)          | eb41e58e-fccf-419d-a771-cd5027fe6e87 |
+      | Credit note (Kreditnota)       | ef2cdc50-230f-4046-b1af-0f9c498dddd3 |
+      | Final statement (Opgørelse)        | 42385ae0-6846-425c-a793-8d47a3b190b5 |
+      | On account invoice (Acontofaktura)    | 2d101b6e-74f9-4a4d-9f8e-c7abe2264da0 |
+      | Loan (Gældsbrev)        | bf61f462-6d3c-42e8-a99a-852d4a664926 |
 
-      ### Omkostninger:
+      ### Costs:
       | Type | id |
       | --- | --- |
-      | Inkassoomkostning        | 07960de4-303d-4793-92da-3a8cfd5da1a1 |
-      | Inkassogebyr             | 4c3ccbbf-0651-45b2-b37b-4fe736acfd7e |
-      | Rykkergebyr              | 3e51bf87-3c8f-4dd5-abd5-69417d113c89 |
-      | Kompensationsgebyr       | ed3e3d61-e1bc-4ee2-9166-adf2c41a2bbf |
+      | Collection cost (Inkassoomkostning)        | 07960de4-303d-4793-92da-3a8cfd5da1a1 |
+      | Collection fee (Inkassogebyr)             | 4c3ccbbf-0651-45b2-b37b-4fe736acfd7e |
+      | Reminder fee (Rykkergebyr)              | 3e51bf87-3c8f-4dd5-abd5-69417d113c89 |
+      | Compensation cost (Kompensationsgebyr)       | ed3e3d61-e1bc-4ee2-9166-adf2c41a2bbf |
 
-      ### Renter:
+      ### Interests:
       | Type | id |
       | --- | --- |
-      | Procesrente               | ca4af363-9925-436c-83d6-23b3db6ed5d2 |
-      | Fastrente                 | 299dc393-1b71-4950-860f-8fb485036722 |
-      | Årlig rente               | 37db68dd-80be-40c7-8d2d-3619c793107f |
+      | DK interest (Procesrente)               | ca4af363-9925-436c-83d6-23b3db6ed5d2 |
+      | Fixed interest (Fastrente)                 | 299dc393-1b71-4950-860f-8fb485036722 |
+      | Yearly interest (Årlig rente)               | 37db68dd-80be-40c7-8d2d-3619c793107f |
 
-      ### Transaktioner:
+      ### Transactions:
       | Type | id |
       | --- | --- |
-      | Indbetaling               | c51f2f6a-8081-45ef-b52d-5e0569fdf12e |
-      | Udbetaling                | 11a8c26e-fe31-4092-adf5-431dc96e8a27 |"
+      | Deposit (Indbetaling)               | c51f2f6a-8081-45ef-b52d-5e0569fdf12e |
 
 paths:
   /v1/{tenantId}/cases:
