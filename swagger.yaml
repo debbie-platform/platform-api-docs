@@ -320,30 +320,7 @@ paths:
       responses:
         200:
           description: Successful operation
-          content: 
-            application/json:
-              schema:
-                $ref: "#/components/schemas/PatchCreditor"
-              example:
-                acquisitionResponsibleId: 9409b6d8-cde5-45f1-b8e1-e756847a7077
-                contactId: bb71f936-c60c-4ad7-82f6-eddca673d30f
-                caseworkerContactId: 9409b6d8-cde5-45f1-b8e1-e756847a7077
-                notes: Note to self (and my colleagues).
-                name: John Doe's Factories
-                defaultCollectorId: f6700acf-edf6-4ef7-8e39-fa5f45d20c0d
-                defaultChainId: 3057ca58-d39d-48ec-9d79-c45182b92ca0
-                aksEnabled: true
-                vatRegistered: true
-                centralRegisterId: DK40125949
-                isCompany: true
-                state: ACTIVE
-                id: My reference
-                selfCollection: false
-                experianClientId: 125134
-                creditorId: a087de99-19aa-4f40-9883-fa4b20f3dff1
-                debtorFAQ: <p>Frequently asked questions</p>
-                defaultClientChainId: 3057ca58-d39d-48ec-9d79-c45182b92ca0
-                defaultConnectorId: 9860cf1a-b4d9-4d4e-a085-298c4781eca0
+          content: {}
         401:
           $ref: "#/components/responses/UnauthorizedError"
         422:
@@ -427,6 +404,7 @@ paths:
       responses:
         200:
           description: Successful operation
+          content: {}
         401:
           $ref: "#/components/responses/UnauthorizedError"
         422:
