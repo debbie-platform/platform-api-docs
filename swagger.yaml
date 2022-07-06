@@ -375,7 +375,7 @@ paths:
             example:
               referenceId: 9409b6d8-cde5-45f1-b8e1-e756847a7077
               updateTypeId: a49c6124-fb23-4976-8400-9afd9018bc85
-              update: Eventuelt tekst til brugeren kan indtastes her
+              update: Optional text to the users can be included here
               remindedAt: "2020-05-01 00:00:00.000+01"
         required: true
       responses:
