@@ -254,14 +254,14 @@ paths:
             type: string
             format: uuid
           required: true
-          description: Id of the tenant the creditor is being created for
+          description: Id of the tenant the creditor is related to
         - in: path
-          name: tenantId
+          name: creditorId
           schema:
             type: string
             format: uuid
           required: true
-          description: Id of the tenant the creditor is related to
+          description: Id of the creditor
       responses:
         200:
           description: Successful operation
@@ -296,12 +296,67 @@ paths:
           content: {}
       x-codegen-request-body-name: body
 
+    patch:
+      tags:
+        - Creditors
+      summary: Patch creditor
+      description: Patch a creditor
+      operationId: patch-creditor
+      parameters:
+        - in: path
+          name: tenantId
+          schema:
+            type: string
+            format: uuid
+          required: true
+          description: Id of the tenant the creditor is related to
+        - in: path
+          name: creditorId
+          schema:
+            type: string
+            format: uuid
+          required: true
+          description: Id of the creditor
+      responses:
+        200:
+          description: Successful operation
+          content: 
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PatchCreditor"
+              example:
+                acquisitionResponsibleId: 9409b6d8-cde5-45f1-b8e1-e756847a7077
+                contactId: bb71f936-c60c-4ad7-82f6-eddca673d30f
+                caseworkerContactId: 9409b6d8-cde5-45f1-b8e1-e756847a7077
+                notes: Note to self (and my colleagues).
+                name: John Doe's Factories
+                defaultCollectorId: f6700acf-edf6-4ef7-8e39-fa5f45d20c0d
+                defaultChainId: 3057ca58-d39d-48ec-9d79-c45182b92ca0
+                aksEnabled: true
+                vatRegistered: true
+                centralRegisterId: DK40125949
+                isCompany: true
+                state: ACTIVE
+                id: My reference
+                selfCollection: false
+                experianClientId: 125134
+                creditorId: a087de99-19aa-4f40-9883-fa4b20f3dff1
+                debtorFAQ: <p>Frequently asked questions</p>
+                defaultClientChainId: 3057ca58-d39d-48ec-9d79-c45182b92ca0
+                defaultConnectorId: 9860cf1a-b4d9-4d4e-a085-298c4781eca0
+        401:
+          $ref: "#/components/responses/UnauthorizedError"
+        422:
+          description: Invalid input data
+          content: {}
+      x-codegen-request-body-name: body
+
   /v1/{tenantId}/files:
     post:
       tags:
         - Files
-      summary: Create new file
-      description: Create new file allows the api consumer to create new files
+      summary: Upload file
+      description: Upload file allows the api consumer to upload files
       operationId: create-file
       parameters:
         - in: path
@@ -575,7 +630,7 @@ components:
           description: Central register id. For example "DK40125949"
         state:
           type: string
-          enum: [LEAD,SIGNED_ON,ACTIVE,CANCELLED]
+          enum: [LEAD,SIGNED_ON,ACTIVE,CANCELLED,CEASED]
           description: The state of the creditor
         id:
           type: string
@@ -585,6 +640,83 @@ components:
         - defaultCollectorId
         - defaultChainId
         - isCompany
+    
+    PatchCreditor:
+      type: object
+      properties:
+        address:
+          $ref: "#/components/schemas/Address"
+          description: The creditors' address
+        referenceId:
+          type: string
+          format: uuid
+          description: Id of the client user who is case responsible.
+        contactId:
+          type: string
+          format: uuid
+          description: Id of the client user who is case responsible.
+        acquisitionResponsibleId:
+          type: string
+          format: uuid
+          description: Id of the client user who is case responsible.
+        caseworkerContactId:
+          type: string
+          format: uuid
+          description: Id of the caseworker user who is case responsible.
+        notes:
+          type: string
+          description: Creditor notes.
+        erpLink:
+          type: string
+          description: Link to creditors' ERP system ( https://example.com?id={{caseReferenceId}}&test ).
+        name:
+          type: string
+          description: Name of the creditor.
+        defaultCollectorId:
+          type: string
+          format: uuid
+          description: Id of the default collector.
+        defaultChainId:
+          type: string
+          format: uuid
+          description: Id of the default chain.
+        defaultClientChainId:
+          type: string
+          format: uuid
+          description: Id of the default client chain.
+        defaultConnectorId:
+          type: string
+          format: uuid
+          description: Id of the default billing model.
+        defaultDunningConnectorId:
+          type: string
+          format: uuid
+          description: Id of the default dunning billing model.
+        experianClientId:
+          type: string
+          description: Experian client id.
+        debtorFAQ:
+          type: string
+          description: Frequently asked questions (shown in debtor web).
+        aksEnabled:
+          type: boolean
+          description: Whether Experian AKS is enabled or not.
+        vatRegistered:
+          type: boolean
+          description: Whether the creditor is vat registered or not.
+        isCompany:
+          type: boolean
+          description: Whether the creditor is a company.
+        selfCollection:
+          type: boolean
+          description: Whether the creditor is collecting for themselves or not.
+        centralRegisterId:
+          type: string
+          description: Central register id. For example "DK40125949"
+        state:
+          type: string
+          enum: [LEAD,SIGNED_ON,ACTIVE,CANCELLED,CEASED]
+          description: The state of the creditor
 
     Creditor:
       type: object
@@ -651,7 +783,7 @@ components:
           description: Whether the creditor is collecting for themselves or not.
         state:
           type: string
-          enum: [LEAD,SIGNED_ON,ACTIVE,CANCELLED]
+          enum: [LEAD,SIGNED_ON,ACTIVE,CANCELLED,CEASED]
           description: The state of the creditor
         vatRegistered:
           type: string
