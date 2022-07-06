@@ -327,6 +327,37 @@ paths:
           content: {}
       x-codegen-request-body-name: body
 
+  /v1/files/{fileId}/{fileName}:
+    get:
+      tags:
+        - Files
+      summary: Get file
+      description: Get file by fileId
+      operationId: get-file
+      parameters:
+        - in: path
+          name: fileId
+          schema:
+            type: string
+            format: uuid
+          required: true
+          description: Id of the file
+        - in: path
+          name: fileName
+          schema:
+            type: string
+          description: Name of the file. Can be anything and is not required.
+      responses:
+        200:
+          description: Successful operation
+          content: {}
+        401:
+          $ref: "#/components/responses/UnauthorizedError"
+        422:
+          description: Invalid input data
+          content: {}
+      x-codegen-request-body-name: body
+
 components:
   schemas:
     NewFile:
