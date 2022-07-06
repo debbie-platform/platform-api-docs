@@ -455,7 +455,7 @@ paths:
             type: string
             format: uuid
           required: true
-          description: Id of the tenant the update is related to
+          description: Id of the tenant
       requestBody:
         description: Create new user object
         content:
@@ -506,7 +506,7 @@ paths:
             type: string
             format: uuid
           required: true
-          description: Id of the tenant the update is related to
+          description: Id of the tenant
       responses:
         200:
           description: Successful operation
@@ -539,7 +539,7 @@ paths:
             type: string
             format: uuid
           required: true
-          description: Id of the tenant the update is related to
+          description: Id of the tenant
         - in: query
           name: q
           schema:
@@ -578,7 +578,7 @@ paths:
             type: string
             format: uuid
           required: true
-          description: Id of the tenant the update is related to
+          description: Id of the tenant
         - in: path
           name: userId
           schema:
@@ -614,7 +614,7 @@ paths:
             type: string
             format: uuid
           required: true
-          description: Id of the tenant the update is related to
+          description: Id of the tenant
         - in: path
           name: userId
           schema:
@@ -645,6 +645,66 @@ paths:
         200:
           description: Successful operation
           content: {}
+        401:
+          $ref: "#/components/responses/UnauthorizedError"
+        409:
+          $ref: "#/components/responses/ConflictError"
+        422:
+          description: Invalid input data
+          content: {}
+      x-codegen-request-body-name: body
+
+  /collection-engine/v1/{tenantId}/economy/deposits/direct/{creditorId}/{caseReferenceId}:
+    post:
+      tags:
+        - Economy
+      summary: Register a deposit paid directly to the creditor
+      description: Register a payment paid directly to the creditor
+      operationId: direct-deposits
+      parameters:
+        - in: path
+          name: tenantId
+          schema:
+            type: string
+            format: uuid
+          required: true
+          description: Id of the tenant
+        - in: path
+          name: creditorId
+          schema:
+            type: string
+            format: uuid
+          required: true
+          description: Id of the creditor
+        - in: path
+          name: caseReferenceId
+          schema:
+            type: string
+            format: uuid
+          required: true
+          description: Id of the case
+      requestBody:
+        description: Direct deposit object
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DirectDeposit"
+            example:
+              currency: DKK
+              amount: 100000,
+              referenceId: D12412347
+              text: J.no. 1234
+              date: "2020-05-28 00:00:00.000+01"
+        required: true
+      responses:
+        200:
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/DirectDepositResponse"
         401:
           $ref: "#/components/responses/UnauthorizedError"
         409:
@@ -780,6 +840,7 @@ components:
           description: An id for the voucher type. A list of ids can be found in the Voucher Type Ids chapter.
         amount:
           type: integer
+          description: Amount in base currency. For example 1€ should be sent as 100.
         referenceId:
           type: string
         interest:
@@ -1313,6 +1374,45 @@ components:
             locale:
               type: string
               description: The users' phone locale. For example 45.
+
+    DirectDeposit:
+      type: object
+      properties:
+        currency:
+          type: string
+          enum: [DKK,SEK,NOK,USD,EUR,GBP,CHF]
+          description: Currency of the transaction. Required to match the currency on the case.
+        amount:
+          type: integer
+          description: Amount in base currency. For example 1€ should be sent as 100.
+        referenceId:
+          type: string
+          description: Your optional reference id of the deposit
+        text:
+          type: string
+          description: An optional text field. Can be information about the deposit like source, method etc.
+        date:
+          type: string
+          description: Date of the deposit.
+    
+    DirectDepositResponse:
+      type: object
+      properties:
+        amount:
+          type: integer
+          description: Amount in base currency. For example 1€ should be sent as 100.
+        caseReferenceId:
+          type: string
+          description: Your reference to the case
+        caseId:
+          type: string
+          description: The caseId.
+        creditorId:
+          type: string
+          description: The creditorId.
+        voucherId:
+          type: string
+          description: The voucherId.
 
   responses:
     UnauthorizedError:
