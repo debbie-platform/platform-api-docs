@@ -32,7 +32,7 @@ tags:
   - name: Files
     description: Endpoints for interacting with files
   - name: "Webhooks"
-    description: "Debbie provides a range of webhooks. To try them out please visit Debbie Caseworker and navigate to Settings --> Developers --> Webhooks"
+    description: "Debbie provides a range of webhooks. To try them out please visit Debbie Caseworker and navigate to Settings --> Developers --> Webhooks."
   - name: "Voucher Type Ids"
     description: |
       ### Principals:
