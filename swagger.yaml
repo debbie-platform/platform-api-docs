@@ -514,9 +514,10 @@ paths:
             application/json:
               schema:
                 example:
-                  type: array
-                  items:
-                    $ref: "#/components/schemas/User"
+                  users:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/User"
         401:
           $ref: "#/components/responses/UnauthorizedError"
         409:
