@@ -334,7 +334,7 @@ paths:
           content: {}
       x-codegen-request-body-name: body
 
-  /v1/files/{fileId}/{fileName}:
+  /files/{fileId}/{fileName}:
     get:
       tags:
         - Files
