@@ -67,7 +67,7 @@ tags:
       | Deposit (Indbetaling)               | c51f2f6a-8081-45ef-b52d-5e0569fdf12e |
 
 paths:
-  /v1/{tenantId}/cases:
+  /collection-engine/v1/{tenantId}/cases:
     post:
       tags:
         - Cases
@@ -140,7 +140,7 @@ paths:
           content: {}
       x-codegen-request-body-name: body
 
-  /v1/{tenantId}/cases/{id}:
+  /collection-engine/v1/{tenantId}/cases/{id}:
     patch:
       tags:
         - Cases
@@ -184,7 +184,7 @@ paths:
           content: {}
       x-codegen-request-body-name: body
 
-  /v1/{tenantId}/creditors:
+  /collection-engine/v1/{tenantId}/creditors:
     post:
       tags:
         - Creditors
@@ -235,12 +235,14 @@ paths:
                   creditorId: 56e93ac4-a89d-422a-b2da-5ed5a052477d
         401:
           $ref: "#/components/responses/UnauthorizedError"
+        409:
+          $ref: "#/components/responses/ConflictError"
         422:
           description: Invalid input data
           content: {}
       x-codegen-request-body-name: body
 
-  /v1/{tenantId}/creditors/{creditorId}:
+  /collection-engine/v1/{tenantId}/creditors/{creditorId}:
     get:
       tags:
         - Creditors
@@ -355,7 +357,7 @@ paths:
           content: {}
       x-codegen-request-body-name: body
 
-  /v1/{tenantId}/updates:
+  /collection-engine/v1/{tenantId}/updates:
     post:
       tags:
         - Updates
@@ -397,7 +399,7 @@ paths:
           content: {}
       x-codegen-request-body-name: body
 
-  /v1/{tenantId}/updates/{updateId}:
+  /collection-engine/v1/{tenantId}/updates/{updateId}:
     patch:
       tags:
         - Updates
@@ -434,6 +436,59 @@ paths:
           content: {}
         401:
           $ref: "#/components/responses/UnauthorizedError"
+        422:
+          description: Invalid input data
+          content: {}
+      x-codegen-request-body-name: body
+  
+  /iam/{tenantId}/users:
+    post:
+      tags:
+        - Users
+      summary: Create new user
+      description: Create a user
+      operationId: create-user
+      parameters:
+        - in: path
+          name: tenantId
+          schema:
+            type: string
+            format: uuid
+          required: true
+          description: Id of the tenant the update is related to
+      requestBody:
+        description: Create new user object
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/NewUser"
+            example:
+              email: john.doe123@example.com
+              phone:
+                locale: '45'
+                number: '20764443'
+              username: john.doe123@example.com
+              firstName: John
+              lastName: Doe
+              role: client
+              sendInvite: true
+              emailPreferences:
+                todoNotifications: true
+              tenant:
+                role: client
+                scopes: []
+              creditors:
+                - id: 8275e7fa-c43b-4787-a61d-1815390f7686
+                  scopes: []
+        required: true
+      responses:
+        200:
+          description: Successful operation
+          content: {}
+        401:
+          $ref: "#/components/responses/UnauthorizedError"
+        409:
+          $ref: "#/components/responses/ConflictError"
         422:
           description: Invalid input data
           content: {}
@@ -912,9 +967,84 @@ components:
           type: string
           description: Date where the update should be continued
 
+    NewUser:
+      type: object
+      properties:
+        email:
+          type: string
+          description: The users' email. The email should be unique.
+        username:
+          type: string
+          description: The users' username. The username should be unique. You can use the email.
+        firstName:
+          type: string
+          description: The users' first name.
+        lastName:
+          type: string
+          description: The users' last name.
+        role:
+          type: string
+          enum: [client,caseworker,admin]
+          description: The users' role.
+        sendInvite:
+          type: boolean
+          description: Weather or not to send an invite to the user.
+        emailPreferences:
+          type: object
+          description: Email preferences
+          properties:
+            todoNotifications:
+              type: boolean
+              description: Enable or disable todo notifications
+        tenant:
+          type: object
+          description: Define the relation to the tenant.
+          properties:
+            role:
+              type: string
+              enum: [client,caseworker,admin]
+              description: The users' role.
+            scopes:
+              type: array
+              description: Array of scopes.
+              items:
+                type: string
+        creditors:
+          type: object
+          description: Define relations to creditors.
+          properties:
+            id:
+              type: string
+              description: Creditor id.
+            scopes:
+              type: array
+              description: Array of scopes.
+              items:
+                type: string
+        phone:
+          type: object
+          description: The users' phone number with locale
+          properties:
+            number:
+              type: string
+              description: The users' phone number. For example 12345678.
+            locale:
+              type: string
+              description: The users' phone locale. For example 45.
+      required:
+        - email
+        - username
+        - firstName
+        - lastName
+        - role
+        - tenant
+        - creditors
+
   responses:
     UnauthorizedError:
       description: Access token missing or invalid
+    ConflictError:
+      description: Conflict
 
   securitySchemes:
     bearerAuth:
