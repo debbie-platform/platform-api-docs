@@ -632,6 +632,7 @@ paths:
               phone:
                 locale: '45'
                 number: '12345678'
+              email: john.doe@example.com
               firstName: John
               lastName: Doe
               emailPreferences:
