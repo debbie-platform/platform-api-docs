@@ -346,15 +346,11 @@ paths:
           name: fileName
           schema:
             type: string
-          description: Name of the file. Can be anything and is not required.
+          required: true
+          description: Name of the file. Can be anything and can also be omitted.
       responses:
         200:
           description: Successful operation
-          content: {}
-        401:
-          $ref: "#/components/responses/UnauthorizedError"
-        422:
-          description: Invalid input data
           content: {}
       x-codegen-request-body-name: body
 
