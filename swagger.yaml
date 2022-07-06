@@ -385,7 +385,7 @@ paths:
             application/json:
               schema:
                 example:
-                  creditorId: 56e93ac4-a89d-422a-b2da-5ed5a052477d
+                  updateId: 56e93ac4-a89d-422a-b2da-5ed5a052477d
         401:
           $ref: "#/components/responses/UnauthorizedError"
         422:
@@ -427,11 +427,6 @@ paths:
       responses:
         200:
           description: Successful operation
-          content:
-            application/json:
-              schema:
-                example:
-                  creditorId: 56e93ac4-a89d-422a-b2da-5ed5a052477d
         401:
           $ref: "#/components/responses/UnauthorizedError"
         422:
@@ -888,7 +883,7 @@ components:
         updateTypeId:
           type: string
           format: uuid
-          description: The id of the type. An overview of type id's can be found under settings ind the Debbie Caseworker platform.
+          description: The id of the type. An overview of type id's can be found under settings in Debbie Caseworker.
         update:
           type: string
           description: A note attached to the update.
@@ -910,7 +905,7 @@ components:
       properties:
         continuedAt:
           type: string
-          description: When should the update be continued?
+          description: Date where the update should be continued
 
   responses:
     UnauthorizedError:
