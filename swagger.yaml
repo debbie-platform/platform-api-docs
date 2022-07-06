@@ -781,7 +781,7 @@ components:
           format: uuid
           description: Id of the default dunning billing model.
         experianClientId:
-          type: string
+          type: integer
           description: Experian client id.
         debtorFAQ:
           type: string
