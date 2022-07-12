@@ -808,7 +808,7 @@ paths:
       tags:
         - Links
       summary: Payment link
-      description: Generate a link to get access to the payment page from your PSP.
+      description: Generate a link to get access to the payment page from your PSP
       operationId: links-payment
       parameters:
         - in: path
