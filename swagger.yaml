@@ -33,6 +33,8 @@ tags:
     description: Endpoints for interacting with files
   - name: Economy
     description: Endpoints for interacting with economy
+  - name: Links
+    description: Endpoints for generating links
   - name: "Webhooks"
     description: "Debbie provides a range of webhooks. To try them out please visit Debbie Caseworker and navigate to Settings → Developers → Webhooks."
   - name: "Voucher Type Ids"
@@ -680,7 +682,6 @@ paths:
           name: caseReferenceId
           schema:
             type: string
-            format: uuid
           required: true
           description: Id of the case
       requestBody:
@@ -705,6 +706,144 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/DirectDepositResponse"
+        401:
+          $ref: "#/components/responses/UnauthorizedError"
+        409:
+          $ref: "#/components/responses/ConflictError"
+        422:
+          description: Invalid input data
+          content: {}
+      x-codegen-request-body-name: body
+
+  /collection-engine/v1/{tenantId}/links/{creditorId}/{caseReferenceId}/debtor-web:
+    get:
+      tags:
+        - Links
+      summary: Debtor web link
+      description: Generate a link to get access to the debtor web
+      operationId: links-debtor-web
+      parameters:
+        - in: path
+          name: tenantId
+          schema:
+            type: string
+            format: uuid
+          required: true
+          description: Id of the tenant
+        - in: path
+          name: creditorId
+          schema:
+            type: string
+            format: uuid
+          required: true
+          description: Id of the creditor
+        - in: path
+          name: caseReferenceId
+          schema:
+            type: string
+          required: true
+          description: Id of the case
+      responses:
+        200:
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/LinkResponse"
+        401:
+          $ref: "#/components/responses/UnauthorizedError"
+        409:
+          $ref: "#/components/responses/ConflictError"
+        422:
+          description: Invalid input data
+          content: {}
+      x-codegen-request-body-name: body
+
+  /collection-engine/v1/{tenantId}/links/{creditorId}/{caseReferenceId}/payment-plan:
+    get:
+      tags:
+        - Links
+      summary: Payment plan link
+      description: Generate a link to get access to the payment plan creation
+      operationId: links-payment-plan
+      parameters:
+        - in: path
+          name: tenantId
+          schema:
+            type: string
+            format: uuid
+          required: true
+          description: Id of the tenant
+        - in: path
+          name: creditorId
+          schema:
+            type: string
+            format: uuid
+          required: true
+          description: Id of the creditor
+        - in: path
+          name: caseReferenceId
+          schema:
+            type: string
+          required: true
+          description: Id of the case
+      responses:
+        200:
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/LinkResponse"
+        401:
+          $ref: "#/components/responses/UnauthorizedError"
+        409:
+          $ref: "#/components/responses/ConflictError"
+        422:
+          description: Invalid input data
+          content: {}
+      x-codegen-request-body-name: body
+
+  /collection-engine/v1/{tenantId}/links/{creditorId}/{caseReferenceId}/payment:
+    get:
+      tags:
+        - Links
+      summary: Payment link
+      description: Generate a link to get access to the payment page from your PSP.
+      operationId: links-payment
+      parameters:
+        - in: path
+          name: tenantId
+          schema:
+            type: string
+            format: uuid
+          required: true
+          description: Id of the tenant
+        - in: path
+          name: creditorId
+          schema:
+            type: string
+            format: uuid
+          required: true
+          description: Id of the creditor
+        - in: path
+          name: caseReferenceId
+          schema:
+            type: string
+          required: true
+          description: Id of the case
+      responses:
+        200:
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/LinkResponse"
         401:
           $ref: "#/components/responses/UnauthorizedError"
         409:
@@ -1413,6 +1552,13 @@ components:
         voucherId:
           type: string
           description: The voucherId.
+    
+    LinkResponse:
+      type: object
+      properties:
+        url:
+          type: string
+          description: Link to the site
 
   responses:
     UnauthorizedError:
