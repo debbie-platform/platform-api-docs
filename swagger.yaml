@@ -185,6 +185,52 @@ paths:
           description: Invalid input data
           content: {}
       x-codegen-request-body-name: body
+    get:
+      tags:
+        - Cases
+      summary: Get a case
+      description: Get a case by id
+      operationId: get-case
+      parameters:
+        - in: path
+          name: tenantId
+          schema:
+            type: string
+            format: uuid
+          required: true
+          description: Id of the tenant the case belongs to
+        - in: path
+          name: id
+          schema:
+            type: string
+            format: uuid
+          required: true
+          description: Id the case to be retrieved
+      responses:
+        200:
+          description: Successful operation
+          content: 
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GetCase"
+              example:
+                id: 123456
+                caseId: 268b30d2-e895-42b9-8a38-2451a87e19b2
+                status: PENDING
+                statusTime: 2022-04-19T07:30:21.070Z
+                exitReason: null
+                createdAt: 2022-04-19T07:30:21.070Z
+                creditorId: 29654f0c-d424-41e4-9eec-85bef089eaf9
+                isCompany: false
+                migratedId: null,
+                type: TENANT
+                tenantId: 59f52305-00e0-4983-b5f1-43594b39b81f
+        401:
+          $ref: "#/components/responses/UnauthorizedError"
+        422:
+          description: Invalid input data
+          content: {}
+      x-codegen-request-body-name: body
 
   /collection-engine/v1/{tenantId}/creditors:
     post:
@@ -1076,6 +1122,48 @@ components:
           type: string
           enum: ['PAID', 'CREDITOR_ERROR']
           description: Used to provide a reason when the status is changed to ended
+    
+    GetCase:
+      type: object
+      properties:
+        status:
+          type: string
+          enum: ['PENDING', 'VERIFIED', 'ENDED', 'CANCELLED']
+          description: The case status
+        type:
+          type: string
+          enum: ['TENANT', 'CLIENT']
+          description: The case type
+        id:
+          type: number
+          description: Case sequential id
+        caseId:
+          type: string
+          format: uuid
+          description: Id of case
+        statusTime:
+          type: string
+          description: Time og last status change
+        exitReason:
+          type: string
+          description: Reason of case end or cancel
+        createdAt:
+          type: string
+          description: Case created at
+        creditorId:
+          type: string
+          format: uuid
+          description: Id of the case' creditor
+        tenantId:
+          type: string
+          format: uuid
+          description: Id of the case' tenant
+        isCompany:
+          type: boolean
+          description: Whether the case is a company.
+        migratedId:
+          type: string
+          description: Id from last system if the case is migrated
     
     NewCreditor:
       type: object
