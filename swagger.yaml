@@ -205,7 +205,7 @@ paths:
             type: string
             format: uuid
           required: true
-          description: Id the case to be retrieved
+          description: Id of the case to be retrieved
       responses:
         200:
           description: Successful operation
