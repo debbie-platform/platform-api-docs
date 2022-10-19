@@ -209,7 +209,7 @@ paths:
       responses:
         200:
           description: Successful operation
-          content: 
+          content:
             application/json:
               schema:
                 $ref: "#/components/schemas/GetCase"
@@ -270,8 +270,8 @@ paths:
               selfCollection: false
               bankAccountDetails:
                 type: DANISH
-                registrationNumber: '1234'
-                accountNumber: '00012345678'
+                registrationNumber: "1234"
+                accountNumber: "00012345678"
         required: true
       responses:
         200:
@@ -315,7 +315,7 @@ paths:
       responses:
         200:
           description: Successful operation
-          content: 
+          content:
             application/json:
               schema:
                 $ref: "#/components/schemas/Creditor"
@@ -488,7 +488,7 @@ paths:
           description: Invalid input data
           content: {}
       x-codegen-request-body-name: body
-  
+
   /iam/{tenantId}/users:
     post:
       tags:
@@ -513,8 +513,8 @@ paths:
             example:
               email: john.doe123@example.com
               phone:
-                locale: '45'
-                number: '12345678'
+                locale: "45"
+                number: "12345678"
               username: john.doe123@example.com
               firstName: John
               lastName: Doe
@@ -611,7 +611,7 @@ paths:
           description: Invalid input data
           content: {}
       x-codegen-request-body-name: body
-  
+
   /iam/{tenantId}/users/{userId}:
     get:
       tags:
@@ -678,8 +678,8 @@ paths:
               $ref: "#/components/schemas/PatchUser"
             example:
               phone:
-                locale: '45'
-                number: '12345678'
+                locale: "45"
+                number: "12345678"
               email: john.doe@example.com
               firstName: John
               lastName: Doe
@@ -752,6 +752,67 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/DirectDepositResponse"
+        401:
+          $ref: "#/components/responses/UnauthorizedError"
+        409:
+          $ref: "#/components/responses/ConflictError"
+        422:
+          description: Invalid input data
+          content: {}
+      x-codegen-request-body-name: body
+
+  /collection-engine/v1/{tenantId}/economy/vouchers/{creditorId}/{caseReferenceId}:
+    post:
+      tags:
+        - Economy
+      summary: Add voucher to case
+      description: Add a voucher to a case by caseReferenceId
+      operationId: add-voucher
+      parameters:
+        - in: path
+          name: tenantId
+          schema:
+            type: string
+            format: uuid
+          required: true
+          description: Id of the tenant
+        - in: path
+          name: creditorId
+          schema:
+            type: string
+            format: uuid
+          required: true
+          description: Id of the creditor
+        - in: path
+          name: caseReferenceId
+          schema:
+            type: string
+          required: true
+          description: Id of the case
+      requestBody:
+        description: Direct deposit object
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/NewVoucher"
+            example:
+              voucherTypeId: eb41e58e-fccf-419d-a771-cd5027fe6e87
+              imposedByCreditor: true
+              currency: DKK
+              amount: 100000,
+              referenceId: D12412347
+              text: J.no. 1234
+              date: "2020-05-28 00:00:00.000+01"
+        required: true
+      responses:
+        200:
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/NewVoucherResponse"
         401:
           $ref: "#/components/responses/UnauthorizedError"
         409:
@@ -1067,7 +1128,7 @@ components:
           description: Id of the chain the case is to go through
         currency:
           type: string
-          enum: [DKK,SEK,NOK,USD,EUR,GBP,CHF]
+          enum: [DKK, SEK, NOK, USD, EUR, GBP, CHF]
           description: Currency
         isCompany:
           type: boolean
@@ -1110,29 +1171,29 @@ components:
         - isCompany
         - debtors
         - vouchers
-    
+
     UpdateCase:
       type: object
       properties:
         status:
           type: string
-          enum: ['PENDING', 'VERIFIED', 'ENDED']
+          enum: ["PENDING", "VERIFIED", "ENDED"]
           description: The updated status of the case
         reason:
           type: string
-          enum: ['PAID', 'CREDITOR_ERROR']
+          enum: ["PAID", "CREDITOR_ERROR"]
           description: Used to provide a reason when the status is changed to ended
-    
+
     GetCase:
       type: object
       properties:
         status:
           type: string
-          enum: ['PENDING', 'VERIFIED', 'ENDED', 'CANCELLED']
+          enum: ["PENDING", "VERIFIED", "ENDED", "CANCELLED"]
           description: The case status
         type:
           type: string
-          enum: ['TENANT', 'CLIENT']
+          enum: ["TENANT", "CLIENT"]
           description: The case type
         id:
           type: number
@@ -1164,7 +1225,7 @@ components:
         migratedId:
           type: string
           description: Id from last system if the case is migrated
-    
+
     NewCreditor:
       type: object
       properties:
@@ -1215,7 +1276,7 @@ components:
           description: Central register id. For example "DK40125949"
         state:
           type: string
-          enum: [LEAD,SIGNED_ON,ACTIVE,CANCELLED,CEASED]
+          enum: [LEAD, SIGNED_ON, ACTIVE, CANCELLED, CEASED]
           description: The state of the creditor
         id:
           type: string
@@ -1225,7 +1286,7 @@ components:
         - defaultCollectorId
         - defaultChainId
         - isCompany
-    
+
     PatchCreditor:
       type: object
       properties:
@@ -1300,7 +1361,7 @@ components:
           description: Central register id. For example "DK40125949"
         state:
           type: string
-          enum: [LEAD,SIGNED_ON,ACTIVE,CANCELLED,CEASED]
+          enum: [LEAD, SIGNED_ON, ACTIVE, CANCELLED, CEASED]
           description: The state of the creditor
 
     Creditor:
@@ -1368,7 +1429,7 @@ components:
           description: Whether the creditor is collecting for themselves or not.
         state:
           type: string
-          enum: [LEAD,SIGNED_ON,ACTIVE,CANCELLED,CEASED]
+          enum: [LEAD, SIGNED_ON, ACTIVE, CANCELLED, CEASED]
           description: The state of the creditor
         vatRegistered:
           type: string
@@ -1430,7 +1491,7 @@ components:
           description: The users' last name.
         role:
           type: string
-          enum: [client,caseworker,admin]
+          enum: [client, caseworker, admin]
           description: The users' role.
         sendInvite:
           type: boolean
@@ -1448,7 +1509,7 @@ components:
           properties:
             role:
               type: string
-              enum: [client,caseworker,admin]
+              enum: [client, caseworker, admin]
               description: The users' role.
             scopes:
               type: array
@@ -1496,7 +1557,7 @@ components:
           description: The users' last name.
         role:
           type: string
-          enum: [client,caseworker,admin]
+          enum: [client, caseworker, admin]
           description: The users' role.
         sendInvite:
           type: boolean
@@ -1514,7 +1575,7 @@ components:
           properties:
             role:
               type: string
-              enum: [client,caseworker,admin]
+              enum: [client, caseworker, admin]
               description: The users' role.
             scopes:
               type: array
@@ -1601,7 +1662,7 @@ components:
       properties:
         currency:
           type: string
-          enum: [DKK,SEK,NOK,USD,EUR,GBP,CHF]
+          enum: [DKK, SEK, NOK, USD, EUR, GBP, CHF]
           description: Currency of the transaction. Required to match the currency on the case.
         amount:
           type: integer
@@ -1615,7 +1676,7 @@ components:
         date:
           type: string
           description: Date of the deposit.
-    
+
     DirectDepositResponse:
       type: object
       properties:
@@ -1634,7 +1695,54 @@ components:
         voucherId:
           type: string
           description: The voucherId.
-    
+
+    NewVoucher:
+      type: object
+      properties:
+        voucherTypeId:
+          type: string
+          description: Id of the voucher type. A list of ids can be found in the Voucher Type Ids chapter.
+        currency:
+          type: string
+          enum: [DKK, SEK, NOK, USD, EUR, GBP, CHF]
+          description: Currency of the transaction. Required to match the currency on the case.
+        amount:
+          type: integer
+          description: Amount in base currency. For example 1€ should be sent as 100.
+        referenceId:
+          type: string
+          description: Your optional reference id of the voucher.
+        imposedByCreditor:
+          type: boolean
+          description: Weather the voucher is imposed by creditor or collector
+        text:
+          type: string
+          description: An optional text field. Can be information about the voucher like source, method etc.
+        date:
+          type: string
+          description: Date of the voucher.
+        referenceVouchers:
+          type: array
+          description: Vouchers related to this voucher.
+          items:
+            $ref: "#/components/schemas/NewVoucher"
+      required:
+        - voucherTypeId
+        - currency
+        - amount
+        - imposedByCreditor
+        - date
+
+    NewVoucherResponse:
+      type: object
+      properties:
+        caseId:
+          type: string
+          description: The caseId.
+        voucherId:
+          type: string
+          description: The voucherId.
+
     LinkResponse:
       type: object
       properties:
