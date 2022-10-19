@@ -729,7 +729,7 @@ paths:
           schema:
             type: string
           required: true
-          description: Id of the case
+          description: Reference id of the case
       requestBody:
         description: Direct deposit object
         content:
@@ -788,7 +788,7 @@ paths:
           schema:
             type: string
           required: true
-          description: Id of the case
+          description: Reference id of the case
       requestBody:
         description: Direct deposit object
         content:
@@ -849,7 +849,7 @@ paths:
           schema:
             type: string
           required: true
-          description: Id of the case
+          description: Reference id of the case
       responses:
         200:
           description: Successful operation
@@ -893,7 +893,7 @@ paths:
           schema:
             type: string
           required: true
-          description: Id of the case
+          description: Reference id of the case
       responses:
         200:
           description: Successful operation
@@ -937,7 +937,7 @@ paths:
           schema:
             type: string
           required: true
-          description: Id of the case
+          description: Reference id of the case
       responses:
         200:
           description: Successful operation
