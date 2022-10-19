@@ -1696,43 +1696,6 @@ components:
           type: string
           description: The voucherId.
 
-    NewVoucher:
-      type: object
-      properties:
-        voucherTypeId:
-          type: string
-          description: Id of the voucher type. A list of ids can be found in the Voucher Type Ids chapter.
-        currency:
-          type: string
-          enum: [DKK, SEK, NOK, USD, EUR, GBP, CHF]
-          description: Currency of the transaction. Required to match the currency on the case.
-        amount:
-          type: integer
-          description: Amount in base currency. For example 1€ should be sent as 100.
-        referenceId:
-          type: string
-          description: Your optional reference id of the voucher.
-        imposedByCreditor:
-          type: boolean
-          description: Weather the voucher is imposed by creditor or collector
-        text:
-          type: string
-          description: An optional text field. Can be information about the voucher like source, method etc.
-        date:
-          type: string
-          description: Date of the voucher.
-        referenceVouchers:
-          type: array
-          description: Vouchers related to this voucher.
-          items:
-            $ref: "#/components/schemas/NewVoucher"
-      required:
-        - voucherTypeId
-        - currency
-        - amount
-        - imposedByCreditor
-        - date
-
     NewVoucherResponse:
       type: object
       properties:
