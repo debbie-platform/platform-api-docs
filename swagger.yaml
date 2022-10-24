@@ -738,7 +738,7 @@ paths:
               $ref: "#/components/schemas/DirectDeposit"
             example:
               currency: DKK
-              amount: 100000,
+              amount: 100000
               referenceId: D12412347
               text: J.no. 1234
               date: "2020-05-28 00:00:00.000+01"
