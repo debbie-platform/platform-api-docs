@@ -1180,7 +1180,7 @@ components:
           description: The updated status of the case
         reason:
           type: string
-          enum: ["PAID", "CREDITOR_ERROR"]
+          enum: ["PAID", "ERROR_CREDITOR"]
           description: Used to provide a reason when the status is changed to ended
 
     GetCase:
