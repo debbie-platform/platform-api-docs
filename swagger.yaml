@@ -1182,6 +1182,12 @@ components:
           type: string
           enum: ["PAID", "ERROR_CREDITOR"]
           description: Used to provide a reason when the status is changed to ended
+        isCompany:
+          type: boolean
+          description: Used to indicate whether the entity is a company (true) or private (false)
+        leaveDebtor:
+          type: boolean
+          description: Used to indicate whether the debtors should be unaffected or not when updating isCompany
 
     GetCase:
       type: object
