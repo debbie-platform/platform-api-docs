@@ -1176,18 +1176,15 @@ components:
       properties:
         status:
           type: string
-          enum: ["PENDING", "VERIFIED", "ENDED"]
+          enum: ["VERIFIED", "ENDED"]
           description: The updated status of the case
         reason:
           type: string
-          enum: ["PAID", "ERROR_CREDITOR"]
+          enum: ["ERROR_US", "WITHDRAWN", "ERROR_CREDITOR", "DEAD", "BANKRUPTCY", "OBJECTION", "PAID", "PARTIALLY_PAID", "OVERPAYMENT", "EXPIRATION", "IRRECOVERABLE", "TRANSFERRED", "UNIDENTIFIED", "OFFER_FROM_US", "OFFER_FROM_DEBTOR", "FORCED_DISSOLVED", "NEGATIVE_PAYOFF", "DEPARTED", "CREDITOR_UNRESPONSIVE", "MERGED", "FIRE_AND_FORGET", "SMALL_CASE_NOT_WANTED", "ADDRESS_UNKNOWN", "DEBT_RELIEF", "CONFLICT_OF_INTEREST", "MINOR", "DELETED"]
           description: Used to provide a reason when the status is changed to ended
         isCompany:
           type: boolean
           description: Used to indicate whether the entity is a company (true) or private (false)
-        leaveDebtor:
-          type: boolean
-          description: Used to indicate whether the debtors should be unaffected or not when updating isCompany
 
     GetCase:
       type: object
