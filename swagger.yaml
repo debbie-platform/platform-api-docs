@@ -1121,6 +1121,8 @@ components:
           description: Id of the creditor which the case belongs to
         referenceId:
           type: string
+        migratedId:
+          type: string
         chainId:
           type: string
           format: uuid
@@ -1180,7 +1182,36 @@ components:
           description: The updated status of the case
         reason:
           type: string
-          enum: ["ERROR_US", "WITHDRAWN", "ERROR_CREDITOR", "DEAD", "BANKRUPTCY", "OBJECTION", "PAID", "PARTIALLY_PAID", "OVERPAYMENT", "EXPIRATION", "IRRECOVERABLE", "TRANSFERRED", "UNIDENTIFIED", "OFFER_FROM_US", "OFFER_FROM_DEBTOR", "FORCED_DISSOLVED", "NEGATIVE_PAYOFF", "DEPARTED", "CREDITOR_UNRESPONSIVE", "MERGED", "FIRE_AND_FORGET", "SMALL_CASE_NOT_WANTED", "ADDRESS_UNKNOWN", "DEBT_RELIEF", "CONFLICT_OF_INTEREST", "MINOR", "DELETED"]
+          enum:
+            [
+              "ERROR_US",
+              "WITHDRAWN",
+              "ERROR_CREDITOR",
+              "DEAD",
+              "BANKRUPTCY",
+              "OBJECTION",
+              "PAID",
+              "PARTIALLY_PAID",
+              "OVERPAYMENT",
+              "EXPIRATION",
+              "IRRECOVERABLE",
+              "TRANSFERRED",
+              "UNIDENTIFIED",
+              "OFFER_FROM_US",
+              "OFFER_FROM_DEBTOR",
+              "FORCED_DISSOLVED",
+              "NEGATIVE_PAYOFF",
+              "DEPARTED",
+              "CREDITOR_UNRESPONSIVE",
+              "MERGED",
+              "FIRE_AND_FORGET",
+              "SMALL_CASE_NOT_WANTED",
+              "ADDRESS_UNKNOWN",
+              "DEBT_RELIEF",
+              "CONFLICT_OF_INTEREST",
+              "MINOR",
+              "DELETED",
+            ]
           description: Used to provide a reason when the status is changed to ended
         isCompany:
           type: boolean
