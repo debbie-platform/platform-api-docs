@@ -1055,6 +1055,20 @@ components:
         - zipcode
         - city
 
+    NewProperty:
+      type: object
+      properties:
+        handle:
+          type: string
+        data:
+          type: object
+          properties:
+            text:
+              type: string
+      required:
+        - handle
+        - data
+
     NewVoucherFile:
       type: object
       properties:
@@ -1166,6 +1180,10 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/NewVoucher"
+        properties:
+          type: array
+          items:
+            $ref: "#/components/schemas/NewProperty"
       required:
         - creditorId
         - referenceId
