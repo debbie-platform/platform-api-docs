@@ -100,7 +100,9 @@ paths:
                   name: Jane Doe
                   cpr: "1234567890"
                   email: jane@example.com
-                  phone: "88888888"
+                  phone:
+                    locale: 47
+                    number: 88888888
                   lang: "da"
                   address:
                     address: Byvej 2A, 1. tv 0012, Tune
@@ -1166,7 +1168,15 @@ components:
               email:
                 type: string
               phone:
-                type: string
+                type: object
+                description: The users' phone number with locale
+                properties:
+                  number:
+                    type: string
+                    description: The users' phone number. For example 12345678.
+                  locale:
+                    type: string
+                    description: The users' phone locale. For example 45.
               lang:
                 type: string
                 description: The language of the debtor
