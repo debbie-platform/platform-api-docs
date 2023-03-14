@@ -101,8 +101,8 @@ paths:
                   cpr: "1234567890"
                   email: jane@example.com
                   phone:
-                    locale: 47
-                    number: 88888888
+                    locale: "47"
+                    number: "88888888"
                   lang: "da"
                   address:
                     address: Byvej 2A, 1. tv 0012, Tune
