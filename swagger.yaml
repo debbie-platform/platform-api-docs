@@ -1238,6 +1238,7 @@ components:
               "DEBT_RELIEF",
               "CONFLICT_OF_INTEREST",
               "MINOR",
+              "NO_DEBT",
               "DELETED",
             ]
           description: Used to provide a reason when the status is changed to ended
