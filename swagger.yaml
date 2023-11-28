@@ -1319,7 +1319,9 @@ components:
                     description: The debtors address
                 required:
                   - name
-                  - lang
+            required:
+              - relation
+              - lang
       required:
         - isCompany
         - users
