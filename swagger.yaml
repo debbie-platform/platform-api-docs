@@ -263,7 +263,6 @@ paths:
                 zipcode: "1411"
                 country: Danmark
               centralRegisterId: DK40125949
-              contactId: 0ad12ba5-2b10-4808-9ec3-6e8c7c20047d
               defaultTenantWorkflowId: 3057ca58-d39d-48ec-9d79-c45182b92ca0
               id: My reference
               isCompany: true
