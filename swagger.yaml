@@ -265,6 +265,8 @@ paths:
               referenceId: "123"
               users:
                 contact: true
+                lang: da
+                relation: debtor
                 details:
                   name: Hans Hansen
                   email: example@debbie.dk
@@ -278,8 +280,6 @@ paths:
                     zipcode: "1411"
                   cpr: "1209981919"
                   cvr: null
-                lang: da
-                relation: debtor
 
         required: true
       responses:
@@ -1265,26 +1265,6 @@ components:
         - debtors
         - vouchers
 
-    # isCompany: false
-    # referenceId: "123"
-    # users:
-    contact: true
-    details:
-      name: Hans Hansen
-      email: example@debbie.dk
-      phone:
-        locale: "45"
-        number: "12345678"
-      address:
-        address: Applebys Plads 7, 1.
-        coAddress: null
-        city: København K
-        zipcode: "1411"
-      cpr: "1209981919"
-      cvr: null
-    lang: da
-    relation: debtor
-
     NewCustomer:
       type: object
       properties:
@@ -1302,34 +1282,41 @@ components:
               contact:
                 type: boolean
                 description: If the user should be the contact person on cases
-              name:
-                type: string
-                description: Name of the user
-              cpr:
-                type: string
-                description: The cpr number of a user, only used when user is a person.
-              cvr:
-                type: string
-                description: The cvr number of a user, only used when user is a company.
-              email:
-                type: string
-                description: The email of the user
-              phone:
-                type: object
-                description: The users' phone number with locale
-                properties:
-                  number:
-                    type: string
-                    description: The users' phone number. For example 12345678.
-                  locale:
-                    type: string
-                    description: The users' phone locale. For example 45.
               lang:
                 $ref: "#/components/schemas/Language"
                 description: The language of the debtor
-              address:
-                $ref: "#/components/schemas/Address"
-                description: The debtors address
+              relation:
+                type: string
+                enum: ["debtor", "alternative-contact"]
+                description: User relation to customer
+              details:
+                type: object
+                properties:
+                  name:
+                    type: string
+                    description: Name of the user
+                  cpr:
+                    type: string
+                    description: The cpr number of a user, only used when user is a person.
+                  cvr:
+                    type: string
+                    description: The cvr number of a user, only used when user is a company.
+                  email:
+                    type: string
+                    description: The email of the user
+                  phone:
+                    type: object
+                    description: The users' phone number with locale
+                    properties:
+                      number:
+                        type: string
+                        description: The users' phone number. For example 12345678.
+                      locale:
+                        type: string
+                        description: The users' phone locale. For example 45.
+                  address:
+                    $ref: "#/components/schemas/Address"
+                    description: The debtors address
             required:
               - name
               - lang
