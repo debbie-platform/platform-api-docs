@@ -93,25 +93,10 @@ paths:
             schema:
               $ref: "#/components/schemas/NewCase"
             example:
-              referenceId: Your id
-              creditorId: debbie creditor uuid
+              creditorId: 245ac5f9-2795-4a91-8201-cb762dc88f70
               isCompany: false
               currency: EUR
-              debtors:
-                - isCompany: false
-                  name: Jane Doe
-                  cpr: "1234567890"
-                  email: jane@example.com
-                  phone:
-                    locale: "47"
-                    number: "88888888"
-                  lang: "da"
-                  address:
-                    address: Applebys Pl. 7, 1.
-                    coAddress:
-                    city: København K
-                    zipcode: "1411"
-                    country: Danmark
+              customerId: a7fcf07c-74f2-40d9-8ea6-e67b07b14ca4
               vouchers:
                 - referenceId: Fakt. 123456
                   voucherTypeId: eb41e58e-fccf-419d-a771-cd5027fe6e87
@@ -138,7 +123,10 @@ paths:
       responses:
         200:
           description: Successful operation
-          content: {}
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CaseCreated"
         401:
           $ref: "#/components/responses/UnauthorizedError"
         422:
@@ -1203,8 +1191,6 @@ components:
           type: string
           format: uuid
           description: Id of the creditor which the case belongs to
-        referenceId:
-          type: string
         migratedId:
           type: string
         currency:
@@ -1214,42 +1200,6 @@ components:
         isCompany:
           type: boolean
           description: Is the case a company
-        debtors:
-          type: array
-          items:
-            type: object
-            properties:
-              isCompany:
-                type: boolean
-              name:
-                type: string
-              cpr:
-                type: string
-                description: The cpr number of a debtor, only used when debtor is a person.
-              cvr:
-                type: string
-                description: The cvr number of a debtor, only used when debtor is a company.
-              email:
-                type: string
-              phone:
-                type: object
-                description: The users' phone number with locale
-                properties:
-                  number:
-                    type: string
-                    description: The users' phone number. For example 12345678.
-                  locale:
-                    type: string
-                    description: The users' phone locale. For example 45.
-              lang:
-                type: string
-                description: The language of the debtor
-              address:
-                $ref: "#/components/schemas/Address"
-                description: The debtors address
-            required:
-              - isCompany
-              - name
         vouchers:
           type: array
           items:
@@ -1260,10 +1210,23 @@ components:
             $ref: "#/components/schemas/NewProperty"
       required:
         - creditorId
-        - referenceId
         - isCompany
-        - debtors
+        - customerId
         - vouchers
+
+    CaseCreated:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Id of the case
+        caseSeqId:
+          type: number
+          description: Debbies sequential id of the case
+      required:
+        - id
+        - caseSeqId
 
     NewCustomer:
       type: object
