@@ -261,7 +261,7 @@ paths:
                 contact: true
                 details: 
                   name: Hans Hansen
-                  email: "example@debbie.dk"
+                  email: example@debbie.dk
                   phone:
                     locale: "45"
                     number: "12345678"
@@ -272,7 +272,6 @@ paths:
                     zipcode: "1411"
                   cpr: "1209981919"
                   cvr: null
-                  email: "example@debbie.dk"
                 lang: da
                 relation: debtor
 
