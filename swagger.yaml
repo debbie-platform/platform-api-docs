@@ -264,6 +264,7 @@ paths:
                 zipcode: "1411"
                 country: Danmark
               notes: Note to self (and my colleagues).
+              erpLink: https://example.com?id={{caseReferenceId}}&test
 
               acquisitionResponsibleId: 9409b6d8-cde5-45f1-b8e1-e756847a7077
               contactId: bb71f936-c60c-4ad7-82f6-eddca673d30f
@@ -1315,6 +1316,9 @@ components:
         notes:
           type: string
           description: Creditor notes.
+        erpLink:
+          type: string
+          description: Link to creditors' ERP system ( https://example.com?id={{caseReferenceId}}&test ).
         acquisitionResponsibleId:
           type: string
           format: uuid
