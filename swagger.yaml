@@ -279,8 +279,10 @@ paths:
           content:
             application/json:
               schema:
+                $ref: "#/components/schemas/CreditorCreated"
                 example:
-                  creditorId: 56e93ac4-a89d-422a-b2da-5ed5a052477d
+                  reference: My reference
+                  id: f4b55785-113f-4cb5-b80e-0cff43411124
         401:
           $ref: "#/components/responses/UnauthorizedError"
         409:
@@ -1321,6 +1323,20 @@ components:
         - name
         - isCompany
 
+    CreditorCreated:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Id of the creditor
+        reference:
+          type: string
+          description: Self choosen reference for the creditor
+      required:
+        - id
+        - reference
+
     PatchCreditor:
       type: object
       properties:
@@ -1356,22 +1372,14 @@ components:
           type: string
           format: uuid
           description: Id of the default collector.
-        defaultChainId:
+        defaultTenantWorkflowId:
           type: string
           format: uuid
           description: Id of the default chain.
-        defaultClientChainId:
-          type: string
-          format: uuid
-          description: Id of the default client chain.
         defaultConnectorId:
           type: string
           format: uuid
           description: Id of the default billing model.
-        defaultDunningConnectorId:
-          type: string
-          format: uuid
-          description: Id of the default dunning billing model.
         experianClientId:
           type: integer
           description: Experian client id.
