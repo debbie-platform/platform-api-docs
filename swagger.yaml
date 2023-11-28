@@ -233,7 +233,7 @@ paths:
           $ref: "#/components/responses/UnprocessableContent"
       x-codegen-request-body-name: body
 
-/collection-engine/v1/{tenantId}/customers:
+  /collection-engine/v1/{tenantId}/customers:
     post:
       tags:
         - Customers
@@ -259,7 +259,7 @@ paths:
               referenceId: "123"
               users:
                 contact: true
-                details: 
+                details:
                   name: Hans Hansen
                   email: example@debbie.dk
                   phone:
@@ -285,7 +285,6 @@ paths:
         422:
           $ref: "#/components/responses/UnprocessableContent"
       x-codegen-request-body-name: body
-
 
   /collection-engine/v1/{tenantId}/creditors:
     post:
@@ -1259,7 +1258,7 @@ components:
         - isCompany
         - debtors
         - vouchers
-    
+
     NewCustomer:
       type: object
       properties:
