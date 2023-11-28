@@ -1213,7 +1213,7 @@ components:
           description: Currency
         isCompany:
           type: boolean
-          description: Does the case concern a company
+          description: Is the case a company
         debtors:
           type: array
           items:
@@ -1264,42 +1264,56 @@ components:
         - isCompany
         - debtors
         - vouchers
+
+    # isCompany: false
+    # referenceId: "123"
+    # users:
+    contact: true
+    details:
+      name: Hans Hansen
+      email: example@debbie.dk
+      phone:
+        locale: "45"
+        number: "12345678"
+      address:
+        address: Applebys Plads 7, 1.
+        coAddress: null
+        city: København K
+        zipcode: "1411"
+      cpr: "1209981919"
+      cvr: null
+    lang: da
+    relation: debtor
 
     NewCustomer:
       type: object
       properties:
-        creditorId:
-          type: string
-          format: uuid
-          description: Id of the creditor which the case belongs to
-        referenceId:
-          type: string
-        migratedId:
-          type: string
-        currency:
-          type: string
-          enum: [DKK, SEK, NOK, USD, EUR, GBP, CHF]
-          description: Currency
         isCompany:
           type: boolean
-          description: Does the case concern a company
-        debtors:
+          description: Is the customer a company
+        referenceId:
+          type: string
+          description: Creditors' reference id for the customer
+        users:
           type: array
           items:
             type: object
             properties:
-              isCompany:
+              contact:
                 type: boolean
+                description: If the user should be the contact person on cases
               name:
                 type: string
+                description: Name of the user
               cpr:
                 type: string
-                description: The cpr number of a debtor, only used when debtor is a person.
+                description: The cpr number of a user, only used when user is a person.
               cvr:
                 type: string
-                description: The cvr number of a debtor, only used when debtor is a company.
+                description: The cvr number of a user, only used when user is a company.
               email:
                 type: string
+                description: The email of the user
               phone:
                 type: object
                 description: The users' phone number with locale
@@ -1311,29 +1325,17 @@ components:
                     type: string
                     description: The users' phone locale. For example 45.
               lang:
-                type: string
+                $ref: "#/components/schemas/Language"
                 description: The language of the debtor
               address:
                 $ref: "#/components/schemas/Address"
                 description: The debtors address
             required:
-              - isCompany
               - name
-        vouchers:
-          type: array
-          items:
-            $ref: "#/components/schemas/NewVoucher"
-        properties:
-          type: array
-          items:
-            $ref: "#/components/schemas/NewProperty"
+              - lang
       required:
-        - creditorId
-        - referenceId
         - isCompany
-        - debtors
-        - vouchers
-
+        - users
     UpdateCase:
       type: object
       properties:
@@ -1882,6 +1884,183 @@ components:
         date:
           type: string
           description: Date of the deposit.
+
+    Language:
+      type: string
+      enum:
+        [
+          bm,
+          ba,
+          eu,
+          be,
+          bn,
+          bh,
+          bi,
+          bs,
+          br,
+          bg,
+          my,
+          ca,
+          ch,
+          ce,
+          ny,
+          zh,
+          cv,
+          kw,
+          co,
+          cr,
+          hr,
+          cs,
+          da,
+          dv,
+          nl,
+          dz,
+          en,
+          eo,
+          et,
+          ee,
+          fo,
+          fj,
+          fi,
+          fr,
+          ff,
+          gl,
+          ka,
+          de,
+          el,
+          gn,
+          gu,
+          ht,
+          ha,
+          he,
+          hz,
+          hi,
+          ho,
+          hu,
+          ia,
+          id,
+          ie,
+          ga,
+          ig,
+          ik,
+          io,
+          is,
+          it,
+          iu,
+          ja,
+          jv,
+          kl,
+          kn,
+          kr,
+          ks,
+          kk,
+          km,
+          ki,
+          rw,
+          ky,
+          kv,
+          kg,
+          ko,
+          ku,
+          kj,
+          la,
+          lb,
+          lg,
+          li,
+          ln,
+          lo,
+          lt,
+          lu,
+          lv,
+          gv,
+          mk,
+          mg,
+          ms,
+          ml,
+          mt,
+          mi,
+          mr,
+          mh,
+          mn,
+          na,
+          nv,
+          nd,
+          ne,
+          ng,
+          nb,
+          nn,
+          no,
+          ii,
+          nr,
+          oc,
+          oj,
+          cu,
+          om,
+          or,
+          os,
+          pa,
+          pi,
+          fa,
+          pl,
+          ps,
+          pt,
+          qu,
+          rm,
+          rn,
+          ro,
+          ru,
+          sa,
+          sc,
+          sd,
+          se,
+          sm,
+          sg,
+          sr,
+          gd,
+          sn,
+          si,
+          sk,
+          sl,
+          so,
+          st,
+          es,
+          su,
+          sw,
+          ss,
+          sv,
+          ta,
+          te,
+          tg,
+          th,
+          ti,
+          bo,
+          tk,
+          tl,
+          tn,
+          to,
+          tr,
+          ts,
+          tt,
+          tw,
+          ty,
+          ug,
+          uk,
+          ur,
+          uz,
+          ve,
+          vi,
+          vo,
+          wa,
+          cy,
+          wo,
+          fy,
+          xh,
+          yi,
+          yo,
+          za,
+          zu,
+        ]
+      description: Language.
 
     DirectDepositResponse:
       type: object
