@@ -23,6 +23,8 @@ servers:
 tags:
   - name: Cases
     description: Endpoints for interacting with cases
+  - name: Customers
+    description: Endpoints for interacting with customers
   - name: Creditors
     description: Endpoints for interacting with creditors
   - name: Updates
@@ -230,6 +232,61 @@ paths:
         422:
           $ref: "#/components/responses/UnprocessableContent"
       x-codegen-request-body-name: body
+
+/collection-engine/v1/{tenantId}/customers:
+    post:
+      tags:
+        - Customers
+      summary: Create new customer
+      description: Create new customer allows the api consumer to create a customer related to a creditor
+      operationId: create-customer
+      parameters:
+        - in: path
+          name: tenantId
+          schema:
+            type: string
+            format: uuid
+          required: true
+          description: Id of the tenant the case is being created for
+      requestBody:
+        description: New customer object
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/NewCustomer"
+            example:
+              isCompany: false
+              referenceId: "123"
+              users:
+                contact: true
+                details: 
+                  name: Hans Hansen
+                  email: "example@debbie.dk"
+                  phone:
+                    locale: "45"
+                    number: "12345678"
+                  address:
+                    address: Applebys Plads 7, 1.
+                    coAddress: null
+                    city: København K
+                    zipcode: "1411"
+                  cpr: "1209981919"
+                  cvr: null
+                  email: "example@debbie.dk"
+                lang: da
+                relation: debtor
+
+        required: true
+      responses:
+        200:
+          description: Successful operation
+          content: {}
+        401:
+          $ref: "#/components/responses/UnauthorizedError"
+        422:
+          $ref: "#/components/responses/UnprocessableContent"
+      x-codegen-request-body-name: body
+
 
   /collection-engine/v1/{tenantId}/creditors:
     post:
@@ -1136,6 +1193,75 @@ components:
         - date
         - imposedByCreditor
     NewCase:
+      type: object
+      properties:
+        creditorId:
+          type: string
+          format: uuid
+          description: Id of the creditor which the case belongs to
+        referenceId:
+          type: string
+        migratedId:
+          type: string
+        currency:
+          type: string
+          enum: [DKK, SEK, NOK, USD, EUR, GBP, CHF]
+          description: Currency
+        isCompany:
+          type: boolean
+          description: Does the case concern a company
+        debtors:
+          type: array
+          items:
+            type: object
+            properties:
+              isCompany:
+                type: boolean
+              name:
+                type: string
+              cpr:
+                type: string
+                description: The cpr number of a debtor, only used when debtor is a person.
+              cvr:
+                type: string
+                description: The cvr number of a debtor, only used when debtor is a company.
+              email:
+                type: string
+              phone:
+                type: object
+                description: The users' phone number with locale
+                properties:
+                  number:
+                    type: string
+                    description: The users' phone number. For example 12345678.
+                  locale:
+                    type: string
+                    description: The users' phone locale. For example 45.
+              lang:
+                type: string
+                description: The language of the debtor
+              address:
+                $ref: "#/components/schemas/Address"
+                description: The debtors address
+            required:
+              - isCompany
+              - name
+        vouchers:
+          type: array
+          items:
+            $ref: "#/components/schemas/NewVoucher"
+        properties:
+          type: array
+          items:
+            $ref: "#/components/schemas/NewProperty"
+      required:
+        - creditorId
+        - referenceId
+        - isCompany
+        - debtors
+        - vouchers
+    
+    NewCustomer:
       type: object
       properties:
         creditorId:
