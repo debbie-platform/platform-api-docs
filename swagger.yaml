@@ -140,8 +140,7 @@ paths:
         401:
           $ref: "#/components/responses/UnauthorizedError"
         422:
-          description: Invalid input data
-          content: {}
+          $ref: "#/components/responses/UnprocessableContent"
       x-codegen-request-body-name: body
 
   /collection-engine/v1/{tenantId}/cases/{id}:
@@ -184,8 +183,7 @@ paths:
         401:
           $ref: "#/components/responses/UnauthorizedError"
         422:
-          description: Invalid input data
-          content: {}
+          $ref: "#/components/responses/UnprocessableContent"
       x-codegen-request-body-name: body
     get:
       tags:
@@ -230,8 +228,7 @@ paths:
         401:
           $ref: "#/components/responses/UnauthorizedError"
         422:
-          description: Invalid input data
-          content: {}
+          $ref: "#/components/responses/UnprocessableContent"
       x-codegen-request-body-name: body
 
   /collection-engine/v1/{tenantId}/creditors:
@@ -259,21 +256,22 @@ paths:
               acquisitionResponsibleId: 9409b6d8-cde5-45f1-b8e1-e756847a7077
               contactId: bb71f936-c60c-4ad7-82f6-eddca673d30f
               caseworkerContactId: 9409b6d8-cde5-45f1-b8e1-e756847a7077
-              notes: Note to self (and my colleagues).
-              name: John Doe's Factories
-              defaultCollectorId: f6700acf-edf6-4ef7-8e39-fa5f45d20c0d
-              defaultChainId: 3057ca58-d39d-48ec-9d79-c45182b92ca0
-              aksEnabled: true
-              vatRegistered: true
+              address: null
               centralRegisterId: DK40125949
-              isCompany: true
-              state: ACTIVE
+              contactId: null
+              defaultTenantWorkflowId: 3057ca58-d39d-48ec-9d79-c45182b92ca0
               id: My reference
-              selfCollection: false
+              isCompany: true
+              name: John Doe's Factories
+              state: ACTIVE
+              vatRegistered: true
+              notes: Note to self (and my colleagues).
+              aksEnabled: true
               bankAccountDetails:
                 type: DANISH
                 registrationNumber: "1234"
                 accountNumber: "00012345678"
+              selfCollection: false
         required: true
       responses:
         200:
@@ -288,8 +286,7 @@ paths:
         409:
           $ref: "#/components/responses/ConflictError"
         422:
-          description: Invalid input data
-          content: {}
+          $ref: "#/components/responses/UnprocessableContent"
       x-codegen-request-body-name: body
 
   /collection-engine/v1/{tenantId}/creditors/{creditorId}:
@@ -344,8 +341,7 @@ paths:
         401:
           $ref: "#/components/responses/UnauthorizedError"
         422:
-          description: Invalid input data
-          content: {}
+          $ref: "#/components/responses/UnprocessableContent"
       x-codegen-request-body-name: body
 
     patch:
@@ -403,8 +399,7 @@ paths:
         401:
           $ref: "#/components/responses/UnauthorizedError"
         422:
-          description: Invalid input data
-          content: {}
+          $ref: "#/components/responses/UnprocessableContent"
       x-codegen-request-body-name: body
 
   /collection-engine/v1/{tenantId}/updates:
@@ -445,8 +440,7 @@ paths:
         401:
           $ref: "#/components/responses/UnauthorizedError"
         422:
-          description: Invalid input data
-          content: {}
+          $ref: "#/components/responses/UnprocessableContent"
       x-codegen-request-body-name: body
 
   /collection-engine/v1/{tenantId}/updates/{updateId}:
@@ -487,8 +481,7 @@ paths:
         401:
           $ref: "#/components/responses/UnauthorizedError"
         422:
-          description: Invalid input data
-          content: {}
+          $ref: "#/components/responses/UnprocessableContent"
       x-codegen-request-body-name: body
 
   /iam/{tenantId}/users:
@@ -540,8 +533,7 @@ paths:
         409:
           $ref: "#/components/responses/ConflictError"
         422:
-          description: Invalid input data
-          content: {}
+          $ref: "#/components/responses/UnprocessableContent"
       x-codegen-request-body-name: body
     get:
       tags:
@@ -571,8 +563,7 @@ paths:
         409:
           $ref: "#/components/responses/ConflictError"
         422:
-          description: Invalid input data
-          content: {}
+          $ref: "#/components/responses/UnprocessableContent"
       x-codegen-request-body-name: body
 
   /iam/{tenantId}/users/search:
@@ -610,8 +601,7 @@ paths:
         409:
           $ref: "#/components/responses/ConflictError"
         422:
-          description: Invalid input data
-          content: {}
+          $ref: "#/components/responses/UnprocessableContent"
       x-codegen-request-body-name: body
 
   /iam/{tenantId}/users/{userId}:
@@ -648,8 +638,7 @@ paths:
         409:
           $ref: "#/components/responses/ConflictError"
         422:
-          description: Invalid input data
-          content: {}
+          $ref: "#/components/responses/UnprocessableContent"
       x-codegen-request-body-name: body
     patch:
       tags:
@@ -700,8 +689,7 @@ paths:
         409:
           $ref: "#/components/responses/ConflictError"
         422:
-          description: Invalid input data
-          content: {}
+          $ref: "#/components/responses/UnprocessableContent"
       x-codegen-request-body-name: body
 
   /collection-engine/v1/{tenantId}/economy/deposits/direct/{creditorId}/{caseReferenceId}:
@@ -759,8 +747,7 @@ paths:
         409:
           $ref: "#/components/responses/ConflictError"
         422:
-          description: Invalid input data
-          content: {}
+          $ref: "#/components/responses/UnprocessableContent"
       x-codegen-request-body-name: body
 
   /collection-engine/v1/{tenantId}/economy/vouchers/{creditorId}/{caseReferenceId}:
@@ -819,8 +806,7 @@ paths:
         409:
           $ref: "#/components/responses/ConflictError"
         422:
-          description: Invalid input data
-          content: {}
+          $ref: "#/components/responses/UnprocessableContent"
       x-codegen-request-body-name: body
 
   /collection-engine/v1/{tenantId}/links/{creditorId}/{caseReferenceId}/debtor-web:
@@ -863,8 +849,7 @@ paths:
         409:
           $ref: "#/components/responses/ConflictError"
         422:
-          description: Invalid input data
-          content: {}
+          $ref: "#/components/responses/UnprocessableContent"
       x-codegen-request-body-name: body
 
   /collection-engine/v1/{tenantId}/links/{creditorId}/{caseReferenceId}/payment-plan:
@@ -907,8 +892,7 @@ paths:
         409:
           $ref: "#/components/responses/ConflictError"
         422:
-          description: Invalid input data
-          content: {}
+          $ref: "#/components/responses/UnprocessableContent"
       x-codegen-request-body-name: body
 
   /collection-engine/v1/{tenantId}/links/{creditorId}/{caseReferenceId}/payment:
@@ -951,8 +935,7 @@ paths:
         409:
           $ref: "#/components/responses/ConflictError"
         422:
-          description: Invalid input data
-          content: {}
+          $ref: "#/components/responses/UnprocessableContent"
       x-codegen-request-body-name: body
 
   /v1/{tenantId}/files:
@@ -989,8 +972,7 @@ paths:
         401:
           $ref: "#/components/responses/UnauthorizedError"
         422:
-          description: Invalid input data
-          content: {}
+          $ref: "#/components/responses/UnprocessableContent"
       x-codegen-request-body-name: body
 
   /files/{fileId}/{fileName}:
@@ -1309,18 +1291,10 @@ components:
         name:
           type: string
           description: Name of the creditor.
-        defaultCollectorId:
-          type: string
-          format: uuid
-          description: Id of the default collector.
-        defaultChainId:
+        defaultTenantWorkflowId:
           type: string
           format: uuid
           description: Id of the default chain.
-        defaultClientChainId:
-          type: string
-          format: uuid
-          description: Id of the default client chain.
         aksEnabled:
           type: boolean
           description: Whether Experian AKS is enabled or not.
@@ -1345,8 +1319,6 @@ components:
           description: If for your internal systems. For example your ERP id.
       required:
         - name
-        - defaultCollectorId
-        - defaultChainId
         - isCompany
 
     PatchCreditor:
@@ -1778,6 +1750,8 @@ components:
   responses:
     UnauthorizedError:
       description: Access token missing or invalid
+    UnprocessableContent:
+      description: Unable to process the contained instructions.
     ConflictError:
       description: Conflict
 
