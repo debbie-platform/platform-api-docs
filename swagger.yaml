@@ -248,6 +248,12 @@ paths:
             format: uuid
           required: true
           description: Id of the tenant the case is being created for
+        - in: query
+          name: creditorId
+          schema:
+            type: string
+          required: true
+          description: Creditor id that the customer is related to
       requestBody:
         description: New customer object
         content:
@@ -279,7 +285,10 @@ paths:
       responses:
         200:
           description: Successful operation
-          content: {}
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CustomerCreated"
         401:
           $ref: "#/components/responses/UnauthorizedError"
         422:
@@ -342,9 +351,6 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/CreditorCreated"
-                example:
-                  reference: My reference
-                  id: f4b55785-113f-4cb5-b80e-0cff43411124
         401:
           $ref: "#/components/responses/UnauthorizedError"
         409:
@@ -1488,6 +1494,16 @@ components:
       required:
         - id
         - reference
+
+    CustomerCreated:
+      type: object
+      properties:
+        customerId:
+          type: string
+          format: uuid
+          description: Id of the customer
+      required:
+        - customerId
 
     PatchCreditor:
       type: object
