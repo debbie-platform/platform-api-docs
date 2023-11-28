@@ -105,10 +105,10 @@ paths:
                     number: "88888888"
                   lang: "da"
                   address:
-                    address: Byvej 2A, 1. tv 0012, Tune
+                    address: Applebys Pl. 7, 1.
                     coAddress:
-                    city: Roskilde
-                    zipcode: "4000"
+                    city: København K
+                    zipcode: "1411"
                     country: Danmark
               vouchers:
                 - referenceId: Fakt. 123456
@@ -256,9 +256,14 @@ paths:
               acquisitionResponsibleId: 9409b6d8-cde5-45f1-b8e1-e756847a7077
               contactId: bb71f936-c60c-4ad7-82f6-eddca673d30f
               caseworkerContactId: 9409b6d8-cde5-45f1-b8e1-e756847a7077
-              address: null
+              address:
+                address: Applebys Pl. 7, 1.
+                coAddress:
+                city: København K
+                zipcode: "1411"
+                country: Danmark
               centralRegisterId: DK40125949
-              contactId: null
+              contactId: 0ad12ba5-2b10-4808-9ec3-6e8c7c20047d
               defaultTenantWorkflowId: 3057ca58-d39d-48ec-9d79-c45182b92ca0
               id: My reference
               isCompany: true
