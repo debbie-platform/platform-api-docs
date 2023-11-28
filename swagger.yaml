@@ -1317,9 +1317,9 @@ components:
                   address:
                     $ref: "#/components/schemas/Address"
                     description: The debtors address
-            required:
-              - name
-              - lang
+                required:
+                  - name
+                  - lang
       required:
         - isCompany
         - users
