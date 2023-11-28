@@ -1146,10 +1146,6 @@ components:
           type: string
         migratedId:
           type: string
-        chainId:
-          type: string
-          format: uuid
-          description: Id of the chain the case is to go through
         currency:
           type: string
           enum: [DKK, SEK, NOK, USD, EUR, GBP, CHF]
@@ -1334,7 +1330,7 @@ components:
         defaultTenantWorkflowId:
           type: string
           format: uuid
-          description: Id of the default chain.
+          description: Id of the default workflow.
         state:
           type: string
           enum: [LEAD, SIGNED_ON, ACTIVE, CANCELLED, CEASED]
@@ -1407,7 +1403,7 @@ components:
         defaultTenantWorkflowId:
           type: string
           format: uuid
-          description: Id of the default chain.
+          description: Id of the default workflow.
         defaultConnectorId:
           type: string
           format: uuid
@@ -1467,14 +1463,10 @@ components:
         debtorFAQ:
           type: string
           description: A FAQ for the debtor web.
-        defaultChainId:
+        defaultTenantWorkflowId:
           type: string
           format: uuid
-          description: Id of the default chain.
-        defaultClientChainId:
-          type: string
-          format: uuid
-          description: Id of the default client chain.
+          description: Id of the default workflow.
         defaultCollectorId:
           type: string
           format: uuid
