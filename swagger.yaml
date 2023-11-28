@@ -1294,35 +1294,6 @@ components:
           type: string
           description: Id from last system if the case is migrated
 
-
-              id: My reference
-              name: John Doe's Factories
-              centralRegisterId: DK40125949
-              isCompany: true
-              address:
-                address: Applebys Pl. 7, 1.
-                coAddress:
-                city: København K
-                zipcode: "1411"
-                country: Danmark
-              notes: Note to self (and my colleagues).
-
-              acquisitionResponsibleId: 9409b6d8-cde5-45f1-b8e1-e756847a7077
-              contactId: bb71f936-c60c-4ad7-82f6-eddca673d30f
-              caseworkerContactId: 9409b6d8-cde5-45f1-b8e1-e756847a7077
-
-              defaultTenantWorkflowId: 3057ca58-d39d-48ec-9d79-c45182b92ca0
-              state: ACTIVE
-              vatRegistered: true
-              aksEnabled: true
-              bankAccountDetails:
-                type: DANISH
-                registrationNumber: "1234"
-                accountNumber: "00012345678"
-              selfCollection: false
-
-
-
     NewCreditor:
       type: object
       properties:
