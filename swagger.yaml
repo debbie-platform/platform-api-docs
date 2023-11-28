@@ -253,23 +253,25 @@ paths:
             schema:
               $ref: "#/components/schemas/NewCreditor"
             example:
-              acquisitionResponsibleId: 9409b6d8-cde5-45f1-b8e1-e756847a7077
-              contactId: bb71f936-c60c-4ad7-82f6-eddca673d30f
-              caseworkerContactId: 9409b6d8-cde5-45f1-b8e1-e756847a7077
+              id: My reference
+              name: John Doe's Factories
+              centralRegisterId: DK40125949
+              isCompany: true
               address:
                 address: Applebys Pl. 7, 1.
                 coAddress:
                 city: København K
                 zipcode: "1411"
                 country: Danmark
-              centralRegisterId: DK40125949
+              notes: Note to self (and my colleagues).
+
+              acquisitionResponsibleId: 9409b6d8-cde5-45f1-b8e1-e756847a7077
+              contactId: bb71f936-c60c-4ad7-82f6-eddca673d30f
+              caseworkerContactId: 9409b6d8-cde5-45f1-b8e1-e756847a7077
+
               defaultTenantWorkflowId: 3057ca58-d39d-48ec-9d79-c45182b92ca0
-              id: My reference
-              isCompany: true
-              name: John Doe's Factories
               state: ACTIVE
               vatRegistered: true
-              notes: Note to self (and my colleagues).
               aksEnabled: true
               bankAccountDetails:
                 type: DANISH
@@ -1045,6 +1047,22 @@ components:
         - zipcode
         - city
 
+    BankAccountDetails:
+      type: object
+      properties:
+        type:
+          type: string
+          enum: [DANISH]
+          description: Type of bank account details
+        registrationNumber:
+          type: string
+        accountNumber:
+          type: string
+      required:
+        - type
+        - registrationNumber
+        - accountNumber
+
     NewProperty:
       type: object
       properties:
@@ -1276,9 +1294,56 @@ components:
           type: string
           description: Id from last system if the case is migrated
 
+
+              id: My reference
+              name: John Doe's Factories
+              centralRegisterId: DK40125949
+              isCompany: true
+              address:
+                address: Applebys Pl. 7, 1.
+                coAddress:
+                city: København K
+                zipcode: "1411"
+                country: Danmark
+              notes: Note to self (and my colleagues).
+
+              acquisitionResponsibleId: 9409b6d8-cde5-45f1-b8e1-e756847a7077
+              contactId: bb71f936-c60c-4ad7-82f6-eddca673d30f
+              caseworkerContactId: 9409b6d8-cde5-45f1-b8e1-e756847a7077
+
+              defaultTenantWorkflowId: 3057ca58-d39d-48ec-9d79-c45182b92ca0
+              state: ACTIVE
+              vatRegistered: true
+              aksEnabled: true
+              bankAccountDetails:
+                type: DANISH
+                registrationNumber: "1234"
+                accountNumber: "00012345678"
+              selfCollection: false
+
+
+
     NewCreditor:
       type: object
       properties:
+        id:
+          type: string
+          description: Id from your internal systems. For example your ERP creditor id.
+        name:
+          type: string
+          description: Name of the creditor.
+        centralRegisterId:
+          type: string
+          description: Central register id. For example "DK40125949"
+        isCompany:
+          type: boolean
+          description: Whether the creditor is a company.
+        address:
+          $ref: "#/components/schemas/Address"
+          description: The creditors' address
+        notes:
+          type: string
+          description: Creditor notes.
         acquisitionResponsibleId:
           type: string
           format: uuid
@@ -1291,38 +1356,26 @@ components:
           type: string
           format: uuid
           description: Id of the caseworker user who is case responsible.
-        notes:
-          type: string
-          description: Creditor notes.
-        name:
-          type: string
-          description: Name of the creditor.
         defaultTenantWorkflowId:
           type: string
           format: uuid
           description: Id of the default chain.
-        aksEnabled:
-          type: boolean
-          description: Whether Experian AKS is enabled or not.
-        vatRegistered:
-          type: boolean
-          description: Whether the creditor is vat registered or not.
-        isCompany:
-          type: boolean
-          description: Whether the creditor is a company.
-        selfCollection:
-          type: boolean
-          description: Whether the creditor is collecting for themselves or not.
-        centralRegisterId:
-          type: string
-          description: Central register id. For example "DK40125949"
         state:
           type: string
           enum: [LEAD, SIGNED_ON, ACTIVE, CANCELLED, CEASED]
           description: The state of the creditor
-        id:
-          type: string
-          description: If for your internal systems. For example your ERP id.
+        vatRegistered:
+          type: boolean
+          description: Whether the creditor is vat registered or not.
+        aksEnabled:
+          type: boolean
+          description: Whether Experian AKS is enabled or not.
+        bankAccountDetails:
+          $ref: "#/components/schemas/BankAccountDetails"
+          description: The creditors' bank account
+        selfCollection:
+          type: boolean
+          description: Whether the creditor is collecting for themselves or not.
       required:
         - name
         - isCompany
@@ -1336,7 +1389,7 @@ components:
           description: Id of the creditor
         reference:
           type: string
-          description: Self choosen reference for the creditor
+          description: Id from your internal systems. For example your ERP creditor id.
       required:
         - id
         - reference
@@ -1460,7 +1513,7 @@ components:
           description: Experian client identifier.
         id:
           type: string
-          description: If for your internal systems. For example your ERP id.
+          description: Id for your internal systems. For example your ERP creditor id.
         isCompany:
           type: boolean
           description: Whether the creditor is a company.
