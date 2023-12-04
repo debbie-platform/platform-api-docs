@@ -1191,6 +1191,10 @@ components:
           type: string
           format: uuid
           description: Id of the creditor which the case belongs to
+        customerId:
+          type: string
+          format: uuid
+          description: Id of the customer which the case belongs to
         migratedId:
           type: string
         currency:
@@ -1288,6 +1292,7 @@ components:
       required:
         - isCompany
         - users
+        - referenceId
     UpdateCase:
       type: object
       properties:
