@@ -99,6 +99,10 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Permissions"
+              example:
+                scopes:
+                  - "read:cases"
+                  - "write:cases"
         401:
           $ref: "#/components/responses/UnauthorizedError"
         422:
