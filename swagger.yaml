@@ -21,6 +21,8 @@ servers:
   - url: https://api.debbiecollect.com
 
 tags:
+  - name: Authorization
+    description: Endpoints for interacting with authorization
   - name: Cases
     description: Endpoints for interacting with cases
   - name: Customers
@@ -73,6 +75,33 @@ tags:
       | Deposit (Indbetaling)               | c51f2f6a-8081-45ef-b52d-5e0569fdf12e |
 
 paths:
+  /iam/auth/permissions:
+    get:
+      tags:
+        - Authorization
+      summary: Get scopes
+      description: Scopes that the bearer token has access to
+      operationId: get-auth-permissions
+
+      requestBody:
+        description: Empty json body
+        content:
+          application/json:
+            schema:
+            example:
+      responses:
+        200:
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CaseCreated"
+        401:
+          $ref: "#/components/responses/UnauthorizedError"
+        422:
+          $ref: "#/components/responses/UnprocessableContent"
+      x-codegen-request-body-name: body
+
   /collection-engine/v1/{tenantId}/cases:
     post:
       tags:
