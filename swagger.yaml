@@ -35,6 +35,8 @@ tags:
     description: Endpoints for interacting with files
   - name: Economy
     description: Endpoints for interacting with economy
+  - name: Case vouchers
+    description: Endpoints for interacting with case vouchers
   - name: Links
     description: Endpoints for generating links
   - name: "Webhooks"
@@ -867,6 +869,58 @@ paths:
           $ref: "#/components/responses/UnprocessableContent"
       x-codegen-request-body-name: body
 
+/v1/{tenantId}/case-vouchers/{caseId}:
+    post:
+      tags:
+        - Case vouchers
+      summary: Add voucher to case
+      description: Add voucher to case
+      operationId: add-case-voucher
+      parameters:
+        - in: path
+          name: tenantId
+          schema:
+            type: string
+            format: uuid
+          required: true
+          description: Id of the tenant
+        - in: path
+          name: caseId
+          schema:
+            type: string
+          required: true
+          description: Case id
+      requestBody:
+        description: New case vouhcer object
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/NewCaseVoucher"
+            example:
+              currency: DKK
+              amount: 100000
+              referenceId: D12412347
+              text: J.no. 1234
+              date: "2020-05-28 00:00:00.000+01"
+              source: "CREDITOR"
+        required: true
+      responses:
+        200:
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/NewCaseVoucherResponse"
+        401:
+          $ref: "#/components/responses/UnauthorizedError"
+        409:
+          $ref: "#/components/responses/ConflictError"
+        422:
+          $ref: "#/components/responses/UnprocessableContent"
+      x-codegen-request-body-name: body
+
   /collection-engine/v1/{tenantId}/links/{creditorId}/{caseReferenceId}/debtor-web:
     get:
       tags:
@@ -1141,6 +1195,46 @@ components:
         - fileName
         - contentType
         - fileId
+
+    NewCaseVoucher:
+      type: object
+      properties:
+        voucherTypeId:
+          type: string
+          format: uuid
+          description: An id for the voucher type. A list of ids can be found in the Voucher Type Ids chapter.
+        amount:
+          type: integer
+          description: Amount in base currency. For example 1€ should be sent as 100.
+        referenceId:
+          type: string
+        interest:
+          type: number
+          description: Used when the voucher is yearly interest to specify the interest rate. The number is in decimal, for example 0.1 would be an interest rate of 10%.
+        date:
+          type: string
+        interestStartDate:
+          type: string
+        interestEndDate:
+          type: string
+        dueDate:
+          type: string
+        appendix:
+          $ref: "#/components/schemas/NewVoucherFile"
+          description: The appendix is for pdf copies or similar for a voucher.
+        source:
+          type: string
+          enum: [CREDITOR, COLLECTOR]
+          description: The source of the voucher
+        referenceVouchers:
+          type: array
+          items:
+            $ref: "#/components/schemas/NewCaseVoucher"
+      required:
+        - voucherTypeId
+        - amount
+        - date
+        - source
 
     NewVoucher:
       type: object
@@ -2044,6 +2138,13 @@ components:
         caseId:
           type: string
           description: The caseId.
+        voucherId:
+          type: string
+          description: The voucherId.
+    
+    NewCaseVoucherResponse:
+      type: object
+      properties:
         voucherId:
           type: string
           description: The voucherId.
