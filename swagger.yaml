@@ -79,7 +79,7 @@ paths:
     get:
       tags:
         - Authorization
-      summary: Get scopes
+      summary: Get permissions
       description: Scopes that the bearer token has access to
       operationId: get-auth-permissions
 
