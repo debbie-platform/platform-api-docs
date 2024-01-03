@@ -98,7 +98,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/EmptyObject"
+                $ref: "#/components/schemas/Permissions"
         401:
           $ref: "#/components/responses/UnauthorizedError"
         422:
@@ -1150,6 +1150,14 @@ components:
   schemas:
     EmptyObject:
       type: object
+
+    Permissions:
+      type: object
+      properties:
+        scopes:
+          type: array
+          items:
+            type: string
 
     NewFile:
       type: object
