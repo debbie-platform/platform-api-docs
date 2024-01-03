@@ -869,57 +869,57 @@ paths:
           $ref: "#/components/responses/UnprocessableContent"
       x-codegen-request-body-name: body
 
-/v1/{tenantId}/case-vouchers/{caseId}:
-  post:
-    tags:
-      - Case vouchers
-    summary: Add voucher to case
-    description: Add voucher to case
-    operationId: add-case-voucher
-    parameters:
-      - in: path
-        name: tenantId
-        schema:
-          type: string
-          format: uuid
-        required: true
-        description: Id of the tenant
-      - in: path
-        name: caseId
-        schema:
-          type: string
-        required: true
-        description: Case id
-    requestBody:
-      description: New case vouhcer object
-      content:
-        application/json:
+  /v1/{tenantId}/case-vouchers/{caseId}:
+    post:
+      tags:
+        - Case vouchers
+      summary: Add voucher to case
+      description: Add voucher to case
+      operationId: add-case-voucher
+      parameters:
+        - in: path
+          name: tenantId
           schema:
-            $ref: "#/components/schemas/NewCaseVoucher"
-          example:
-            currency: DKK
-            amount: 100000
-            referenceId: D12412347
-            text: J.no. 1234
-            date: "2020-05-28 00:00:00.000+01"
-            source: "CREDITOR"
-      required: true
-    responses:
-      200:
-        description: Successful operation
+            type: string
+            format: uuid
+          required: true
+          description: Id of the tenant
+        - in: path
+          name: caseId
+          schema:
+            type: string
+          required: true
+          description: Case id
+      requestBody:
+        description: New case vouhcer object
         content:
           application/json:
             schema:
-              type: array
-              items:
-                $ref: "#/components/schemas/NewCaseVoucherResponse"
-      401:
-        $ref: "#/components/responses/UnauthorizedError"
-      409:
-        $ref: "#/components/responses/ConflictError"
-      422:
-        $ref: "#/components/responses/UnprocessableContent"
-    x-codegen-request-body-name: body
+              $ref: "#/components/schemas/NewCaseVoucher"
+            example:
+              currency: DKK
+              amount: 100000
+              referenceId: D12412347
+              text: J.no. 1234
+              date: "2020-05-28 00:00:00.000+01"
+              source: "CREDITOR"
+        required: true
+      responses:
+        200:
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/NewCaseVoucherResponse"
+        401:
+          $ref: "#/components/responses/UnauthorizedError"
+        409:
+          $ref: "#/components/responses/ConflictError"
+        422:
+          $ref: "#/components/responses/UnprocessableContent"
+      x-codegen-request-body-name: body
 
   /collection-engine/v1/{tenantId}/links/{creditorId}/{caseReferenceId}/debtor-web:
     get:
