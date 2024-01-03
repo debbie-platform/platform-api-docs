@@ -88,14 +88,17 @@ paths:
         content:
           application/json:
             schema:
+              $ref: "#/components/schemas/EmptyObject"
             example:
+
+        required: true
       responses:
         200:
           description: Successful operation
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/CaseCreated"
+                $ref: "#/components/schemas/EmptyObject"
         401:
           $ref: "#/components/responses/UnauthorizedError"
         422:
@@ -1145,6 +1148,9 @@ paths:
 
 components:
   schemas:
+    EmptyObject:
+      type: object
+
     NewFile:
       type: object
       properties:
