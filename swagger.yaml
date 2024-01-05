@@ -83,15 +83,6 @@ paths:
       description: Scopes that the bearer token has access to
       operationId: get-auth-permissions
 
-      requestBody:
-        description: Empty json body
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/EmptyObject"
-            example:
-
-        required: true
       responses:
         200:
           description: Successful operation
