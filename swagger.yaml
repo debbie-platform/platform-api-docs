@@ -937,9 +937,7 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/NewCaseVoucherResponse"
+                $ref: "#/components/schemas/NewCaseVoucherResponse"
         401:
           $ref: "#/components/responses/UnauthorizedError"
         409:
@@ -1246,6 +1244,9 @@ components:
           description: Amount in base currency. For example 1€ should be sent as 100.
         referenceId:
           type: string
+        currency:
+          type: string
+          enum: [DKK, SEK, NOK, USD, EUR, GBP, CHF]
         interest:
           type: number
           description: Used when the voucher is yearly interest to specify the interest rate. The number is in decimal, for example 0.1 would be an interest rate of 10%.
@@ -1273,6 +1274,7 @@ components:
         - amount
         - date
         - source
+        - currency
 
     NewVoucher:
       type: object
@@ -2182,10 +2184,6 @@ components:
 
     NewCaseVoucherResponse:
       type: object
-      properties:
-        voucherId:
-          type: string
-          description: The voucherId.
 
     LinkResponse:
       type: object
