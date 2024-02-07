@@ -281,22 +281,22 @@ paths:
               isCompany: false
               referenceId: "123"
               users:
-                contact: true
-                lang: da
-                relation: debtor
-                details:
-                  name: Hans Hansen
-                  email: example@debbie.dk
-                  phone:
-                    locale: "45"
-                    number: "12345678"
-                  address:
-                    address: Applebys Plads 7, 1.
-                    coAddress: null
-                    city: København K
-                    zipcode: "1411"
-                  cpr: "1209981919"
-                  cvr: null
+                - contact: true
+                  lang: da
+                  relation: debtor
+                  details:
+                    name: Hans Hansen
+                    email: example@debbie.dk
+                    phone:
+                      locale: "45"
+                      number: "12345678"
+                    address:
+                      address: Applebys Plads 7, 1.
+                      coAddress: null
+                      city: København K
+                      zipcode: "1411"
+                    cpr: "1209981919"
+                    cvr: null
 
         required: true
       responses:
