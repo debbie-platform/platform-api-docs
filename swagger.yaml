@@ -35,8 +35,6 @@ tags:
     description: Endpoints for interacting with updates
   - name: Files
     description: Endpoints for interacting with files
-  - name: Economy
-    description: Endpoints for interacting with economy
   - name: Case vouchers
     description: Endpoints for interacting with case vouchers
   - name: Links
@@ -126,26 +124,26 @@ paths:
               isCompany: false
               currency: EUR
               customerId: a7fcf07c-74f2-40d9-8ea6-e67b07b14ca4
-              vouchers:
+              caseVouchers:
                 - referenceId: Fakt. 123456
                   voucherTypeId: eb41e58e-fccf-419d-a771-cd5027fe6e87
                   amount: -259900
-                  imposedByCreditor: true
+                  source: "CREDITOR"
                   date: "2020-05-01 00:00:00.000+01"
                   dueDate: "2020-05-08 00:00:00.000+01"
                   referenceVouchers:
                     - interestStartDate: "2020-06-01 00:00:00.000+01"
                       amount: 0
-                      imposedByCreditor: false
+                      source: "COLLECTOR"
                       voucherTypeId: ca4af363-9925-436c-83d6-23b3db6ed5d2
                       date: "2020-06-01 00:00:00.000+01"
                     - voucherTypeId: 3e51bf87-3c8f-4dd5-abd5-69417d113c89
                       amount: -10000
-                      imposedByCreditor: true
+                      source: "CREDITOR"
                       date: "2020-05-28 00:00:00.000+01"
                     - voucherTypeId: 3e51bf87-3c8f-4dd5-abd5-69417d113c89
                       amount: -10000
-                      imposedByCreditor: true
+                      source: "CREDITOR"
                       date: "2020-06-07 00:00:00.000+01"
 
         required: true
@@ -779,123 +777,6 @@ paths:
           $ref: "#/components/responses/UnprocessableContent"
       x-codegen-request-body-name: body
 
-  /collection-engine/v1/{tenantId}/economy/deposits/direct/{creditorId}/{caseReferenceId}:
-    post:
-      tags:
-        - Economy
-      summary: Direct deposits
-      description: Register a payment paid directly to the creditor
-      operationId: direct-deposits
-      parameters:
-        - in: path
-          name: tenantId
-          schema:
-            type: string
-            format: uuid
-          required: true
-          description: Id of the tenant
-        - in: path
-          name: creditorId
-          schema:
-            type: string
-            format: uuid
-          required: true
-          description: Id of the creditor
-        - in: path
-          name: caseReferenceId
-          schema:
-            type: string
-          required: true
-          description: Reference id of the case
-      requestBody:
-        description: Direct deposit object
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/DirectDeposit"
-            example:
-              currency: DKK
-              amount: 100000
-              referenceId: D12412347
-              text: J.no. 1234
-              date: "2020-05-28 00:00:00.000+01"
-        required: true
-      responses:
-        200:
-          description: Successful operation
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/DirectDepositResponse"
-        401:
-          $ref: "#/components/responses/UnauthorizedError"
-        409:
-          $ref: "#/components/responses/ConflictError"
-        422:
-          $ref: "#/components/responses/UnprocessableContent"
-      x-codegen-request-body-name: body
-
-  /collection-engine/v1/{tenantId}/economy/vouchers/{creditorId}/{caseReferenceId}:
-    post:
-      tags:
-        - Economy
-      summary: Add voucher to case
-      description: Add a voucher to a case by caseReferenceId
-      operationId: add-voucher
-      parameters:
-        - in: path
-          name: tenantId
-          schema:
-            type: string
-            format: uuid
-          required: true
-          description: Id of the tenant
-        - in: path
-          name: creditorId
-          schema:
-            type: string
-            format: uuid
-          required: true
-          description: Id of the creditor
-        - in: path
-          name: caseReferenceId
-          schema:
-            type: string
-          required: true
-          description: Reference id of the case
-      requestBody:
-        description: Direct deposit object
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/NewVoucher"
-            example:
-              voucherTypeId: eb41e58e-fccf-419d-a771-cd5027fe6e87
-              imposedByCreditor: true
-              amount: -100000
-              referenceId: D12412347
-              text: J.no. 1234
-              date: "2020-05-28 00:00:00.000+01"
-        required: true
-      responses:
-        200:
-          description: Successful operation
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/NewVoucherResponse"
-        401:
-          $ref: "#/components/responses/UnauthorizedError"
-        409:
-          $ref: "#/components/responses/ConflictError"
-        422:
-          $ref: "#/components/responses/UnprocessableContent"
-      x-codegen-request-body-name: body
-
   /v1/{tenantId}/case-vouchers/{caseId}:
     post:
       tags:
@@ -1276,48 +1157,6 @@ components:
         - source
         - currency
 
-    NewVoucher:
-      type: object
-      properties:
-        voucherTypeId:
-          type: string
-          format: uuid
-          description: An id for the voucher type. A list of ids can be found in the Voucher Type Ids chapter.
-        amount:
-          type: integer
-          description: Amount in base currency. For example 1€ should be sent as 100.
-        referenceId:
-          type: string
-        interest:
-          type: number
-          description: Used when the voucher is yearly interest to specify the interest rate. The number is in decimal, for example 0.1 would be an interest rate of 10%.
-        date:
-          type: string
-        interestStartDate:
-          type: string
-        interestEndDate:
-          type: string
-        dueDate:
-          type: string
-        appendix:
-          $ref: "#/components/schemas/NewVoucherFile"
-          description: The appendix is for pdf copies or similar for a voucher.
-        imposedByCreditor:
-          type: boolean
-          description: Used to signify whether the voucher is imposed by the creditor (as opposed to the collector).
-        tags:
-          type: array
-          items:
-            type: string
-        referenceVouchers:
-          type: array
-          items:
-            $ref: "#/components/schemas/NewVoucher"
-      required:
-        - voucherTypeId
-        - amount
-        - date
-        - imposedByCreditor
     NewCase:
       type: object
       properties:
@@ -1338,10 +1177,10 @@ components:
         isCompany:
           type: boolean
           description: Is the case a company
-        vouchers:
+        caseVouchers:
           type: array
           items:
-            $ref: "#/components/schemas/NewVoucher"
+            $ref: "#/components/schemas/NewCaseVoucher"
         properties:
           type: array
           items:
@@ -1956,26 +1795,6 @@ components:
               type: string
               description: The users' phone locale. For example 45.
 
-    DirectDeposit:
-      type: object
-      properties:
-        currency:
-          type: string
-          enum: [DKK, SEK, NOK, USD, EUR, GBP, CHF]
-          description: Currency of the transaction. Required to match the currency on the case.
-        amount:
-          type: integer
-          description: Amount in base currency. For example 1€ should be sent as 100.
-        referenceId:
-          type: string
-          description: Your optional reference id of the deposit
-        text:
-          type: string
-          description: An optional text field. Can be information about the deposit like source, method etc.
-        date:
-          type: string
-          description: Date of the deposit.
-
     Language:
       type: string
       enum:
@@ -2152,35 +1971,6 @@ components:
           zu,
         ]
       description: Language.
-
-    DirectDepositResponse:
-      type: object
-      properties:
-        amount:
-          type: integer
-          description: Amount in base currency. For example 1€ should be sent as 100.
-        caseReferenceId:
-          type: string
-          description: Your reference to the case
-        caseId:
-          type: string
-          description: The caseId.
-        creditorId:
-          type: string
-          description: The creditorId.
-        voucherId:
-          type: string
-          description: The voucherId.
-
-    NewVoucherResponse:
-      type: object
-      properties:
-        caseId:
-          type: string
-          description: The caseId.
-        voucherId:
-          type: string
-          description: The voucherId.
 
     NewCaseVoucherResponse:
       type: object
