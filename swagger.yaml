@@ -311,6 +311,66 @@ paths:
         422:
           $ref: "#/components/responses/UnprocessableContent"
       x-codegen-request-body-name: body
+    get:
+      tags:
+        - Customers
+      summary: Get a customer
+      description: Get a customer by customer id
+      operationId: get-customer
+      parameters:
+        - in: path
+          name: tenantId
+          schema:
+            type: string
+            format: uuid
+          required: true
+          description: Id of the tenant the case belongs to
+        - in: path
+          name: id
+          schema:
+            type: string
+            format: uuid
+          required: true
+          description: Id of the customer to be retrieved
+      responses:
+        200:
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GetCustomer"
+              example:
+                id: 123456
+                customerId: 268b30d2-e895-42b9-8a38-2451a87e19b2
+                isCompany: false
+                referenceId: "123"
+                users:
+                  - contact: true
+                    lang: en
+                    relation: debtor
+                    details:
+                      name: Hans Hansen
+                      email: email@example.com
+                      phone:
+                        locale: "45"
+                        number: "12345678"
+                      address:
+                        address: Applebys Plads 7, 1.
+                        coAddress: null
+                        city: København K
+                        zipcode: "1411"
+                        country: Danmark
+                cases:
+                  - caseId: 268b30d2-e895-42b9-8a38-2451a87e19b2
+                    status: PENDING
+                    statusTime: 2022-04-19T07:30:21.070Z
+                    exitReason: null
+                    createdAt: 2022-04-19T07:30:21.070Z
+        401:
+          $ref: "#/components/responses/UnauthorizedError"
+        422:
+          $ref: "#/components/responses/UnprocessableContent"
+      x-codegen-request-body-name: body
 
   /collection-engine/v1/{tenantId}/creditors:
     post:
@@ -778,7 +838,6 @@ paths:
         422:
           $ref: "#/components/responses/UnprocessableContent"
       x-codegen-request-body-name: body
-
 
   /collection-engine/v1/{tenantId}/economy/vouchers/{creditorId}/{caseReferenceId}:
     post:
@@ -1420,14 +1479,13 @@ components:
       properties:
         status:
           type: string
-          enum: ["PENDING", "VERIFIED", "ENDED", "CANCELLED"]
+          enum: ["PENDING", "VERIFIED", "ENDED"]
           description: The case status
-        type:
-          type: string
-          enum: ["TENANT", "CLIENT"]
-          description: The case type
+        exitReason:
+          $ref: "#/components/schemas/CaseEndReason"
         id:
           type: number
+          enum: ["PENDING", "VERIFIED", "ENDED"]
           description: Case sequential id
         caseId:
           type: string
@@ -1436,26 +1494,139 @@ components:
         statusTime:
           type: string
           description: Time og last status change
-        exitReason:
-          type: string
-          description: Reason of case end or cancel
         createdAt:
           type: string
           description: Case created at
-        creditorId:
+        customerId:
           type: string
           format: uuid
-          description: Id of the case' creditor
+          description: Id of the customer related to the case
         tenantId:
           type: string
           format: uuid
           description: Id of the case' tenant
-        isCompany:
-          type: boolean
-          description: Whether the case is a company.
         migratedId:
           type: string
           description: Id from last system if the case is migrated
+
+    GetCustomer:
+      type: object
+      properties:
+        creditorId:
+          type: string
+          format: uuid
+          description: Id of creditor
+        createdAt:
+          type: string
+          description: Case created at
+        customerId:
+          type: string
+          format: uuid
+          description: Id of the customer
+        tenantId:
+          type: string
+          format: uuid
+          description: Id of the case' tenant
+        referenceId:
+          type: string
+          format: uuid
+          description: Reference id of the customer. Typically id of the customer, client, patient or similar.
+        isCompany:
+          type: boolean
+          description: Whether the customer is a company.
+        users:
+          type: array
+          description: List of users related to this customer
+          items:
+            $ref: "#/components/schemas/UserOnCustomer"
+        cases:
+          type: array
+          description: List of cases related to this customer
+          items:
+            $ref: "#/components/schemas/CaseOnCustomer"
+
+    CaseOnCustomer:
+      type: object
+      properties:
+        caseId:
+          type: string
+          format: uuid
+          description: Id of the case
+        id:
+          type: number
+          description: Sequential id of the case
+        status:
+          type: string
+          enum: ["PENDING", "VERIFIED", "ENDED"]
+          description: Status of the case
+        endReason:
+          $ref: "#/components/schemas/CaseEndReason"
+        statusTime:
+          type: string
+          description: Case status changed at
+        createdAt:
+          type: string
+          description: Case created at
+
+    UserOnCustomer:
+      type: object
+      properties:
+        userId:
+          type: string
+          format: uuid
+          description: Id of the user
+        id:
+          type: number
+          description: Sequential id of the user
+        relation:
+          type: string
+          enum: ["debtor", "alternative-contact"]
+          description: Type of relation to the customer
+        contact:
+          type: boolean
+          description: Whether the user is the contact person
+        customerId:
+          type: string
+          format: uuid
+          description: Id of the customer
+        lang:
+          $ref: "#/components/schemas/Language"
+          description: The language of the user
+        details:
+          type: object
+          properties:
+            name:
+              type: string
+              description: Name of the user
+            cpr:
+              type: string
+              description: The cpr number of a user, only used when user is a person.
+            cvr:
+              type: string
+              description: The cvr number of a user, only used when user is a company.
+            email:
+              type: string
+              description: The email of the user
+            phone:
+              type: object
+              description: The users' phone number with locale
+              properties:
+                number:
+                  type: string
+                  description: The users' phone number. For example 12345678.
+                locale:
+                  type: string
+                  description: The users' phone locale. For example 45.
+            address:
+              $ref: "#/components/schemas/Address"
+              description: The debtors address
+            geocode:
+              type: object
+              properties:
+                latitude:
+                  type: number
+                longitude:
+                  type: number
 
     NewCreditor:
       type: object
@@ -2075,6 +2246,44 @@ components:
           zu,
         ]
       description: Language.
+
+    CaseEndReason:
+      type:
+        - string
+        - "null"
+      enum:
+        [
+          "PAID",
+          "OVERPAYMENT",
+          "PARTIALLY_PAID",
+          "DEAD",
+          "BANKRUPTCY",
+          "OBJECTION",
+          "ERROR_CREDITOR",
+          "ERROR_US",
+          "WITHDRAWN",
+          "EXPIRATION",
+          "IRRECOVERABLE",
+          "TRANSFERRED",
+          "NO_COURT",
+          "UNIDENTIFIED",
+          "OFFER_FROM_US",
+          "OFFER_FROM_DEBTOR",
+          "FORCED_DISSOLVED",
+          "NEGATIVE_PAYOFF",
+          "DEPARTED",
+          "CREDITOR_UNRESPONSIVE",
+          "MERGED",
+          "FIRE_AND_FORGET",
+          "SMALL_CASE_NOT_WANTED",
+          "ADDRESS_UNKNOWN",
+          "DEBT_RELIEF",
+          "CONFLICT_OF_INTEREST",
+          "MINOR",
+          "DELETED",
+          "NO_DEBT",
+        ]
+      description: Reason why the case is ended
 
     NewVoucherResponse:
       type: object
