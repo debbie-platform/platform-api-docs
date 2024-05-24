@@ -1535,7 +1535,6 @@ components:
           description: Id of the tenant
         referenceId:
           type: string
-          format: uuid
           description: Reference id of the customer. Typically id of the customer, client, patient or similar.
         isCompany:
           type: boolean
