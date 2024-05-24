@@ -312,7 +312,7 @@ paths:
           $ref: "#/components/responses/UnprocessableContent"
       x-codegen-request-body-name: body
 
-  /collection-engine/v1/{tenantId}/customers/:id:
+  /collection-engine/v1/{tenantId}/customers/{id}:
     get:
       tags:
         - Customers
