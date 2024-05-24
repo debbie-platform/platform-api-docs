@@ -1493,6 +1493,10 @@ components:
           type: string
           format: uuid
           description: Id of case
+        creditorId:
+          type: string
+          format: uuid
+          description: Id of creditor
         statusTime:
           type: string
           description: Time og last status change
