@@ -2253,9 +2253,8 @@ components:
       description: Language.
 
     CaseEndReason:
-      type:
-        - string
-        - "null"
+      nullable: true
+      type: string
       enum:
         [
           "PAID",
