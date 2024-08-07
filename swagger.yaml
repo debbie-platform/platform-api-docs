@@ -129,22 +129,22 @@ paths:
                   voucherTypeId: eb41e58e-fccf-419d-a771-cd5027fe6e87
                   amount: -259900
                   source: "CREDITOR"
-                  date: "2020-05-01 00:00:00.000+01"
-                  dueDate: "2020-05-08 00:00:00.000+01"
+                  date: "2024-05-01 00:00:00.000+01"
+                  dueDate: "2024-05-08 00:00:00.000+01"
                   referenceVouchers:
-                    - interestStartDate: "2020-06-01 00:00:00.000+01"
+                    - interestStartDate: "2024-06-01 00:00:00.000+01"
                       amount: 0
                       source: "COLLECTOR"
                       voucherTypeId: ca4af363-9925-436c-83d6-23b3db6ed5d2
-                      date: "2020-06-01 00:00:00.000+01"
+                      date: "2024-06-01 00:00:00.000+01"
                     - voucherTypeId: 3e51bf87-3c8f-4dd5-abd5-69417d113c89
                       amount: -10000
                       source: "CREDITOR"
-                      date: "2020-05-28 00:00:00.000+01"
+                      date: "2024-05-28 00:00:00.000+01"
                     - voucherTypeId: 3e51bf87-3c8f-4dd5-abd5-69417d113c89
                       amount: -10000
                       source: "CREDITOR"
-                      date: "2020-06-07 00:00:00.000+01"
+                      date: "2024-06-07 00:00:00.000+01"
 
         required: true
       responses:
@@ -310,11 +310,64 @@ paths:
           $ref: "#/components/responses/UnprocessableContent"
       x-codegen-request-body-name: body
 
+
+  /collection-engine/v1/{tenantId}/customers/{customerId}/add-vouchers:
+    post:
+      tags:
+        - Customers
+      summary: Add case vouchers
+      description: Add new case vouchers to a customer
+      operationId: add-case-vouchers-to-customer
+      parameters:
+        - in: path
+          name: tenantId
+          schema:
+            type: string
+            format: uuid
+          required: true
+          description: Id of the tenant the customer is related to
+        - in: path
+          name: customerId
+          schema:
+            type: string
+          required: true
+          description: Customer id
+      requestBody:
+        description: List of new case vouchers
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                caseVouchers:
+                  type: array
+                  items:
+                    $ref: "#/components/schemas/NewCaseVoucher"
+            example:
+              caseVouchers:
+                - currency: DKK
+                  amount: -100000
+                  referenceId: D12412347
+                  text: J.no. 1234
+                  date: "2024-05-28 00:00:00.000+01"
+                  source: "CREDITOR"
+                  voucherTypeId: eb41e58e-fccf-419d-a771-cd5027fe6e87
+
+        required: true
+      responses:
+        200:
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CaseVoucherAddedToCustomer"
+      x-codegen-request-body-name: body
+
   /collection-engine/v1/{tenantId}/customers/{id}:
     get:
       tags:
         - Customers
-      summary: Get a customer
+      summary: Get a customer by id
       description: Get a customer by customer id
       operationId: get-customer
       parameters:
@@ -366,6 +419,75 @@ paths:
                     statusTime: 2022-04-19T07:30:21.070Z
                     exitReason: null
                     createdAt: 2022-04-19T07:30:21.070Z
+        401:
+          $ref: "#/components/responses/UnauthorizedError"
+        422:
+          $ref: "#/components/responses/UnprocessableContent"
+      x-codegen-request-body-name: body
+
+
+  /collection-engine/v1/{tenantId}/customers/by-reference-id/{referenceId}:
+    get:
+      tags:
+        - Customers
+      summary: Get customer by reference id
+      description: Get a customer by customer reference id
+      operationId: get-customer-by-reference-id
+      parameters:
+        - in: path
+          name: tenantId
+          schema:
+            type: string
+            format: uuid
+          required: true
+          description: Id of the tenant the customer is related to
+        - in: path
+          name: referenceId
+          schema:
+            type: string
+          required: true
+          description: Customer id that the customer is related to
+        - in: query
+          name: creditorId
+          schema:
+            type: string
+          required: true
+          description: Creditor id that the customer is related to
+      requestBody:
+        description: New customer object
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/NewCustomer"
+            example:
+              isCompany: false
+              referenceId: "123"
+              users:
+                - contact: true
+                  lang: da
+                  relation: debtor
+                  details:
+                    name: Hans Hansen
+                    email: example@debbie.dk
+                    phone:
+                      locale: "45"
+                      number: "12345678"
+                    address:
+                      address: Applebys Plads 7, 1.
+                      coAddress: null
+                      city: København K
+                      zipcode: "1411"
+                    cpr: "1209981919"
+                    cvr: null
+
+        required: true
+      responses:
+        200:
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CustomerCreated"
         401:
           $ref: "#/components/responses/UnauthorizedError"
         422:
@@ -574,7 +696,7 @@ paths:
               referenceId: 9409b6d8-cde5-45f1-b8e1-e756847a7077
               updateTypeId: a49c6124-fb23-4976-8400-9afd9018bc85
               update: Optional text to the users can be included here
-              remindedAt: "2020-05-01 00:00:00.000+01"
+              remindedAt: "2024-05-01 00:00:00.000+01"
         required: true
       responses:
         200:
@@ -619,7 +741,7 @@ paths:
             schema:
               $ref: "#/components/schemas/PatchUpdate"
             example:
-              continuedAt: "2020-05-01 00:00:00.000+01"
+              continuedAt: "2024-05-01 00:00:00.000+01"
         required: true
       responses:
         200:
@@ -868,11 +990,12 @@ paths:
               $ref: "#/components/schemas/NewCaseVoucher"
             example:
               currency: DKK
-              amount: 100000
+              amount: -100000
               referenceId: D12412347
               text: J.no. 1234
-              date: "2020-05-28 00:00:00.000+01"
+              date: "2024-05-28 00:00:00.000+01"
               source: "CREDITOR"
+              voucherTypeId: eb41e58e-fccf-419d-a771-cd5027fe6e87
         required: true
       responses:
         200:
@@ -1222,6 +1345,21 @@ components:
         - date
         - source
         - currency
+
+    CaseVoucherAddedToCustomer:
+      type: object
+      properties:
+        merged:
+          type: boolean
+          description: Whether the new case voucher was merged with an existing one
+        caseId:
+          type: string
+          format: uuid
+          description: Id of the case that the case voucher is added to
+        caseVoucherId:
+          type: string
+          format: uuid
+          description: Id of the case new case voucher
 
     NewCase:
       type: object
