@@ -533,7 +533,7 @@ paths:
               contactId: bb71f936-c60c-4ad7-82f6-eddca673d30f
               caseworkerContactId: 9409b6d8-cde5-45f1-b8e1-e756847a7077
 
-              defaultTenantWorkflowId: 3057ca58-d39d-48ec-9d79-c45182b92ca0
+              defaultWorkflowId: 3057ca58-d39d-48ec-9d79-c45182b92ca0
               state: ACTIVE
               vatRegistered: true
               aksEnabled: true
@@ -606,7 +606,7 @@ paths:
                 creditorId: a087de99-19aa-4f40-9883-fa4b20f3dff1
                 debtorFAQ: Frequently asked questions
                 defaultClientChainId: 3057ca58-d39d-48ec-9d79-c45182b92ca0
-                defaultConnectorId: 9860cf1a-b4d9-4d4e-a085-298c4781eca0
+                defaultBillingModelId: 9860cf1a-b4d9-4d4e-a085-298c4781eca0
         401:
           $ref: "#/components/responses/UnauthorizedError"
         422:
@@ -659,7 +659,7 @@ paths:
               creditorId: a087de99-19aa-4f40-9883-fa4b20f3dff1
               debtorFAQ: Frequently asked questions
               defaultClientChainId: 3057ca58-d39d-48ec-9d79-c45182b92ca0
-              defaultConnectorId: 9860cf1a-b4d9-4d4e-a085-298c4781eca0
+              defaultBillingModelId: 9860cf1a-b4d9-4d4e-a085-298c4781eca0
         required: true
       responses:
         200:
@@ -1708,7 +1708,7 @@ components:
           type: string
           format: uuid
           description: Id of the caseworker user who is case responsible.
-        defaultTenantWorkflowId:
+        defaultWorkflowId:
           type: string
           format: uuid
           description: Id of the default workflow.
@@ -1791,11 +1791,11 @@ components:
           type: string
           format: uuid
           description: Id of the default collector.
-        defaultTenantWorkflowId:
+        defaultWorkflowId:
           type: string
           format: uuid
           description: Id of the default workflow.
-        defaultConnectorId:
+        defaultBillingModelId:
           type: string
           format: uuid
           description: Id of the default billing model.
@@ -1854,7 +1854,7 @@ components:
         debtorFAQ:
           type: string
           description: A FAQ for the debtor web.
-        defaultTenantWorkflowId:
+        defaultWorkflowId:
           type: string
           format: uuid
           description: Id of the default workflow.
@@ -1862,10 +1862,10 @@ components:
           type: string
           format: uuid
           description: Id of the default collector.
-        defaultConnectorId:
+        defaultBillingModelId:
           type: string
           format: uuid
-          description: Id for the default connector.
+          description: Id for the default billing model.
         experianClientId:
           type: string
           description: Experian client identifier.
