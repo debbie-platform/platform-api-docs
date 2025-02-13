@@ -7,6 +7,32 @@ info:
     update, add and access your data in the platform. It provides predictable URLs
     for accessing resources, and uses built-in HTTP features to receive commands and
     return responses. This makes it easy to communicate with third party systems.
+
+    ## Idempotency
+
+    The Debbie API supports idempotency for non-idempotent requests through the optional `Idempotency-Key` header. This ensures that retrying the same request multiple times will produce the same result, preventing duplicate operations.
+    
+    ### Using Idempotency Keys
+    
+    - Include an `Idempotency-Key` header with a unique string (we recommend UUIDs)  
+    - Maximum key length is 64 characters
+    - Keys are valid for 48 hours
+    - Responses served from the idempotency cache include an `Idempotency-Cached` header
+    
+    ### Example
+    ```http
+    Idempotency-Key: 123e4567-e89b-12d3-a456-426614174000
+    ```
+    
+    ### Error Cases
+    - Invalid key format: 400 Bad Request
+    - Reusing a key for a different request: 400 Bad Request
+    
+    ### Best Practices
+    - Use a new key for each unique business transaction
+    - Use the same key when retrying a failed request 
+    - Store keys with request details for debugging
+
   contact:
     email: support@debbie.dk
   version: v0.1.0
