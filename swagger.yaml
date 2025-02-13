@@ -1358,6 +1358,9 @@ components:
           type: string
           enum: [CREDITOR, COLLECTOR]
           description: The source of the voucher
+        uniqueId:
+          type: string
+          description: A unique id, that can be used to prevent creating the same case voucher twice. This id is unique at the tenant level, meaning that no two case vouchers can have the same unique id on the same tenant.
         referenceCaseVoucherId:
           type: string
           format: uuid
