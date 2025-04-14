@@ -337,7 +337,6 @@ paths:
           $ref: "#/components/responses/UnprocessableContent"
       x-codegen-request-body-name: body
 
-
   /collection-engine/v1/{tenantId}/customers/{customerId}/add-vouchers:
     post:
       tags:
@@ -451,7 +450,6 @@ paths:
         422:
           $ref: "#/components/responses/UnprocessableContent"
       x-codegen-request-body-name: body
-
 
   /collection-engine/v1/{tenantId}/customers/by-reference-id/{referenceId}:
     get:
@@ -1039,6 +1037,41 @@ paths:
           $ref: "#/components/responses/UnprocessableContent"
       x-codegen-request-body-name: body
 
+    get:
+      tags:
+        - Case vouchers
+      summary: Get case vocuhers on a case
+      description: Get case vocuhers on a case
+      operationId: get-case-vouchers-on-a-case
+      parameters:
+        - in: path
+          name: tenantId
+          schema:
+            type: string
+            format: uuid
+          required: true
+          description: Id of the tenant
+        - in: path
+          name: caseId
+          schema:
+            type: string
+          required: true
+          description: Case id
+      responses:
+        200:
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GetCaseVouchersResponse"
+        401:
+          $ref: "#/components/responses/UnauthorizedError"
+        409:
+          $ref: "#/components/responses/ConflictError"
+        422:
+          $ref: "#/components/responses/UnprocessableContent"
+      x-codegen-request-body-name: body
+
   /collection-engine/v1/{tenantId}/links/{creditorId}/{caseReferenceId}/debtor-web:
     get:
       tags:
@@ -1402,6 +1435,10 @@ components:
           type: string
           format: uuid
           description: Id of the customer which the case belongs to
+        groupId:
+          type: string
+          format: uuid
+          description: Id of case group
         migratedId:
           type: string
         currency:
@@ -1544,6 +1581,14 @@ components:
         isCompany:
           type: boolean
           description: Used to indicate whether the entity is a company (true) or private (false)
+        customerId:
+          type: string
+          format: uuid
+          description: Id of the customer which the case belongs to
+        groupId:
+          type: string
+          format: uuid
+          description: Id of case group
 
     GetCase:
       type: object
@@ -2359,6 +2404,9 @@ components:
       description: Reason why the case is ended
 
     NewCaseVoucherResponse:
+      type: object
+
+    GetCaseVouchersResponse:
       type: object
 
     LinkResponse:
