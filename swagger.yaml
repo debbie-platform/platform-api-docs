@@ -1040,8 +1040,8 @@ paths:
     get:
       tags:
         - Case vouchers
-      summary: Get case vocuhers on a case
-      description: Get case vocuhers on a case
+      summary: Get case vouchers on a case
+      description: Get case vouchers on a case
       operationId: get-case-vouchers-on-a-case
       parameters:
         - in: path
