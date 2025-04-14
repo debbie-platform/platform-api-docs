@@ -1063,7 +1063,9 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/GetCaseVouchersResponse"
+                type: array
+                items:
+                  $ref: "#/components/schemas/GetCaseVouchersResponse"
         401:
           $ref: "#/components/responses/UnauthorizedError"
         409:
@@ -2408,6 +2410,166 @@ components:
 
     GetCaseVouchersResponse:
       type: object
+      properties:
+        caseVoucherId:
+          type: string
+          format: uuid
+          description: Id of the case voucher
+        id:
+          type: number
+          description: Sequential id of the case voucher
+        tenantId:
+          type: string
+          format: uuid
+          description: Id of the tenant
+        source:
+          type: string
+          enum: [CREDITOR, COLLECTOR]
+          description: The source of the voucher
+        currency:
+          type: string
+          enum: [DKK, SEK, NOK, USD, EUR, GBP, CHF]
+          description: Currency
+        amount:
+          type: integer
+          description: Amount in base currency. For example 1€ will be sent as 100.
+        date:
+          type: string
+          description: Date of the voucher
+        dueDate:
+          type: string
+          description: Due date of the voucher
+        interest:
+          type: number
+          description: Interest rate of the case voucher. Only on case vouchers with a voucher type of interest.
+        interestStartDate:
+          type: string
+          description: Interest start date of the case voucher. Only on case vouchers with a voucher type of interest.
+        interestEndDate:
+          type: string
+          description: Interest end date of the case voucher. Only on case vouchers with a voucher type of interest.
+        text:
+          type: string
+          description: Text on the case voucher
+        cardType:
+          type: string
+          description: Card type of the case voucher. Only on case vouchers with a voucher type of deposit.
+        paymentType:
+          type: string
+          description: Payment type of the case voucher. Only on case vouchers with a voucher type of deposit.
+        paymentMethodId:
+          type: string
+          format: uuid
+          description: Payment method id of the case voucher. Only on case vouchers with a voucher type of deposit.
+        appendix:
+          type: object
+          description: Appendix of the case voucher
+        voucherTypeId:
+          type: string
+          format: uuid
+          description: Id of the voucher type
+        caseId:
+          type: string
+          format: uuid
+          description: Id of the voucher type
+        referenceId:
+          type: string
+          description: Reference id of the case voucher. Invoice number for example.
+        tags:
+          type: array
+          description: Tags of the case voucher
+        createdAt:
+          type: string
+          description: Created at timestamp of the case voucher
+        createdBy:
+          type: object
+          description: Created by user of the case voucher
+          properties:
+            id:
+              type: string
+              format: uuid
+              description: Id of the user
+            type:
+              type: string
+              enum: [USER, KEY]
+              description: Type of the creator
+        transactionAccountId:
+          type: string
+          format: uuid
+          description: Id of the transaction account
+        referenceCaseVoucherId:
+          type: string
+          format: uuid
+          description: Id of the reference case voucher
+        details:
+          type: object
+          description: Details of the case voucher
+        lineItems:
+          type: array
+          description: Line items of the case voucher
+        state:
+          type: string
+          enum:
+            [
+              UNMAPPED,
+              UNKNOWN,
+              ARCHIVED,
+              OVERPAYMENT,
+              FULL_PAYMENT,
+              PARTIAL_PAYMENT,
+              PAYMENT_PLAN_ENTRY_PAYMENT,
+              UNKNOWN_PAYMENT_PLAN_PAYMENT,
+              ACCORD_PAYMENT,
+              PRINCIPAL_PAYMENT,
+              PENDING,
+            ]
+          description: State of the case voucher
+        category:
+          type: string
+          enum: [principal, cost, courtcost, interest, transaction]
+          description: Category of the case voucher type
+        label:
+          type: string
+          description: Label of the case voucher type
+        settings:
+          type: string
+          description: Settings of the case voucher type
+        settingDetails:
+          type: object
+          description: Setting details of the case voucher type
+        deletedAt:
+          type: string
+          description: Deleted at timestamp of the case voucher
+        deletedBy:
+          type: object
+          description: Deleted by of the case voucher
+          properties:
+            id:
+              type: string
+              format: uuid
+              description: Id of the user
+            type:
+              type: string
+              enum: [USER, KEY]
+              description: Type of the deleter
+        exported:
+          type: boolean
+          description: Whether the case voucher is exported or not
+        expirationDate:
+          type: string
+          description: Expiration date of the case voucher
+        expired:
+          type: boolean
+          description: Whether the case voucher is expired or not
+        expirationManualSet:
+          type: boolean
+          description: Whether the expiration date is manually set or not
+        expirationFromDate:
+          type: string
+          description: If the expiration should be calculated from another date than date/dueDate
+        irrecoverableDate:
+          type: string
+          description: Irrecoverable date of the case voucher
 
     LinkResponse:
       type: object
