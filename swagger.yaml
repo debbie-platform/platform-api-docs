@@ -126,6 +126,34 @@ paths:
       x-codegen-request-body-name: body
 
   /collection-engine/v1/{tenantId}/cases:
+    get:
+      tags:
+        - Cases
+      summary: Get cases
+      description: Get a list of cases paginated
+      operationId: get-cases
+      parameters:
+        - in: path
+          name: tenantId
+          schema:
+            type: string
+            format: uuid
+          required: true
+          description: Id of the tenant the case belongs to
+      responses:
+        200:
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/GetCases"
+        401:
+          $ref: "#/components/responses/UnauthorizedError"
+        422:
+          $ref: "#/components/responses/UnprocessableContent"
+      x-codegen-request-body-name: body
     post:
       tags:
         - Cases
@@ -1057,6 +1085,14 @@ paths:
             type: string
           required: true
           description: Case id
+        - in: query
+          name: pointInTime
+          schema:
+            type: string
+          required: true
+          description:
+            Date (format YYYY-MM-DD.) to get the case vouchers for. Only case vouchers with caseVoucher.date before this date will be returned. Interests will be calculated
+            based on the date.
       responses:
         200:
           description: Successful operation
@@ -1603,7 +1639,6 @@ components:
           $ref: "#/components/schemas/CaseEndReason"
         id:
           type: number
-          enum: ["PENDING", "VERIFIED", "ENDED"]
           description: Case sequential id
         caseId:
           type: string
@@ -1630,6 +1665,73 @@ components:
         migratedId:
           type: string
           description: Id from last system if the case is migrated
+
+    GetCases:
+      type: object
+      properties:
+        status:
+          type: string
+          enum: ["PENDING", "VERIFIED", "ENDED"]
+          description: The case status
+        statusLog:
+          type: array
+          description: List of status changes
+          items:
+            type: object
+            properties:
+              status:
+                type: string
+                enum: ["PENDING", "VERIFIED", "ENDED"]
+                description: The case status
+              createdAt:
+                type: string
+                description: Time of status change
+        exitReasonLabel:
+          $ref: "#/components/schemas/CaseEndReason"
+        id:
+          type: number
+          description: Case sequential id
+        caseId:
+          type: string
+          format: uuid
+          description: Id of case
+        creditorId:
+          type: string
+          format: uuid
+          description: Id of creditor
+        createdAt:
+          type: string
+          description: Case created at
+        endReasonId:
+          type: string
+          format: uuid
+          description: End reason id
+        endReasonLabel:
+          type: string
+          description: End reason label
+        customerId:
+          type: string
+          format: uuid
+          description: Id of the customer related to the case
+        customerReferenceId:
+          type: string
+          description: Reference id of the customer related to the case
+        groupId:
+          type: string
+          format: uuid
+          description: Gase group id
+        groupLable:
+          type: string
+          format: uuid
+          description: Gase group label
+        workflowId:
+          type: string
+          format: uuid
+          description: Gase workflow id
+        workflowLable:
+          type: string
+          format: uuid
+          description: Gase workflow label
 
     GetCustomer:
       type: object
