@@ -146,9 +146,21 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/GetCases"
+                type: object
+                properties:
+                  meta:
+                    type: object
+                    properties:
+                      currentPage:
+                        type: integer
+                        example: 0
+                      pageSize:
+                        type: integer
+                        example: 25
+                  items:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/GetCases"
         401:
           $ref: "#/components/responses/UnauthorizedError"
         422:
