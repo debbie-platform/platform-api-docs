@@ -1101,7 +1101,7 @@ paths:
           name: pointInTime
           schema:
             type: string
-          required: true
+          required: false
           description:
             Date (format YYYY-MM-DD.) to get the case vouchers for. Only case vouchers with caseVoucher.date before this date will be returned. Interests will be calculated
             based on the date.
